@@ -1,4 +1,4 @@
-import { Home } from "@/pages/Home";
+import { Chats } from "@/pages/Chats";
 import { Login } from "@/pages/Login";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -9,6 +9,6 @@ export const ROUTER = createBrowserRouter([
     },
     {
         path: '/chats',
-        element: <Home />
+        element: <Chats />
     }
 ])
