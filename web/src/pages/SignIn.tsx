@@ -1,5 +1,5 @@
-import { SignInForm } from "@/components/SignInForm";
-import { SignUpForm } from "@/components/SignUpForm";
+import { SignInForm } from "@/components/forms/SignInForm";
+import { SignUpForm } from "@/components/forms/SignUpForm";
 import { Button } from "@/components/ui/button";
 import { MessageSquareCode } from "lucide-react";
 import { useState } from "react";

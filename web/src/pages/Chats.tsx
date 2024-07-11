@@ -1,6 +1,6 @@
-import { Chat } from "@/components/Chat"
-import { ChatCard } from "@/components/ChatCard"
-import { Sidebar } from "@/components/Sidebar"
+import { ChatArea } from "@/components/chat/ChatArea"
+import { ChatCard } from "@/components/chat/ChatCard"
+import { Sidebar } from "@/components/global/Sidebar"
 
 const chats = [
     {
@@ -59,7 +59,7 @@ export function Chats() {
                     }
                 </div>
             </aside>
-            <Chat />
+            <ChatArea />
         </main>
     )
 }
