@@ -1,11 +1,11 @@
 import { Chats } from "@/pages/Chats";
-import { Login } from "@/pages/Login";
+import { SignIn } from "@/pages/SignIn";
 import { createBrowserRouter } from "react-router-dom";
 
 export const ROUTER = createBrowserRouter([
     {
         path: '/',
-        element: <Login />
+        element: <SignIn />
     },
     {
         path: '/chats',
