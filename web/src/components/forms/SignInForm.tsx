@@ -1,21 +1,26 @@
 import { FormEvent, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useUser } from "@/hooks/useUser";
 
 export function SignInForm() {
 
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
 
+    const { signIn } = useUser();
+
     function validFields() {
         const fields = [email, password];
         return fields.every(field => field.trim() !== '');
     }
 
-    function handleSignIn(event: FormEvent) {
+    async function handleSignIn(event: FormEvent) {
         event.preventDefault();
+
         if (!validFields()) return;
-        console.log({email, password});
+
+        await signIn(email, password);
     }
 
     return (
