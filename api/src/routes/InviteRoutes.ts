@@ -10,4 +10,14 @@ export async function InviteRoutes(app: FastifyInstance) {
         inviteController.create
     );
 
+    app.get(
+        '/invite/list/received',
+        inviteController.listReceived
+    );
+
+    app.get(
+        '/invite/list/sent',
+        inviteController.listSent
+    );
+
 }

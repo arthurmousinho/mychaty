@@ -2,6 +2,13 @@ import { FastifyRequest } from "fastify";
 import { User } from "../models/User";
 import { app } from "../app";
 
+export interface Token {
+  name: string;
+  email: string;
+  sub: string;
+  exp: number;
+}
+
 export class JwtService {
 
   async generateToken(user: User) {  
@@ -24,7 +31,7 @@ export class JwtService {
 
   public async decode(request: FastifyRequest) {
     const decoded = await request.jwtDecode();
-    return Object(decoded)
+    return Object(decoded) as Token
   }
   
 }

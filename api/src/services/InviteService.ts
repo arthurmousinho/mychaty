@@ -17,10 +17,26 @@ export class InviteService {
         if (!userFrom) throw new Error('User sender not found');
 
         const userTo = await this.userRepository.getById(invite.userToId);
-        if (!userTo) throw new Error('User recipient not found') 
+        if (!userTo) throw new Error('User recipient not found');
 
         const newInvite = await this.inviteRepository.create(invite);
         return newInvite;
+    }
+
+    public async listReceivedInvites(userId: string) {
+        const user = await this.userRepository.getById(userId);
+        if (!user) throw new Error('User not found');
+
+        const receivedInvites = await this.inviteRepository.getAllReceivedByUserId(userId);
+        return receivedInvites;
+    }
+
+    public async listSentInvites(userId: string) {
+        const user = await this.userRepository.getById(userId);
+        if (!user) throw new Error('User not found');
+
+        const sentInvites = await this.inviteRepository.getAllSentByUserId(userId);
+        return sentInvites;
     }
 
 }
