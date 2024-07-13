@@ -3,6 +3,7 @@ import fastify, { FastifyInstance } from "fastify";
 import cors from "@fastify/cors";
 import jwt from "@fastify/jwt";
 import { UserRoutes } from "./routes/UserRoutes";
+import { InviteRoutes } from "./routes/InviteRoutes";
 
 export class Server {
 
@@ -28,6 +29,7 @@ export class Server {
 
     private async setRoutes() {
         this.app.register(UserRoutes);
+        this.app.register(InviteRoutes);
     }
 
     public async run() {

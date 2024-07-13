@@ -1,3 +1,4 @@
+import { Invite } from "@prisma/client";
 import { User } from "../models/User";
 import { UserRepository } from "../repositories/UserRepository";
 import { HashService } from "./HashService";

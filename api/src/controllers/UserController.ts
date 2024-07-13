@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { Invite, User } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { UserService } from "../services/UserService";
 
@@ -25,10 +25,20 @@ export class UserController {
 
     public async signUp(request: FastifyRequest, reply: FastifyReply) {
         try {
-            const newUser = await this.userService.signUp(request.body as User);
+            const body = request.body as User;
+            const newUser = await this.userService.signUp(body);
             reply.status(200).send(newUser);
         } catch (error: any) {
             reply.status(400).send(error);
+        }
+    }
+
+    public async invite(request: FastifyRequest, reply: FastifyReply) {
+        try {
+            const body = request.body as Invite;
+
+        } catch (error) {
+            
         }
     }
 
