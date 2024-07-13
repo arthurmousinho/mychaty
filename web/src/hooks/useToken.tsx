@@ -26,10 +26,9 @@ export function useToken() {
         );
     }
 
-
     function getToken() {
         const cookies = new Cookies();
-        const token: string = cookies.get('token');
+        const token: string = cookies.get(TOKEN_KEY);
         return token;
     }
 
@@ -42,10 +41,16 @@ export function useToken() {
         removeCookie(TOKEN_KEY, { path: '/' }); 
     }
 
+    function hasToken() {
+        if (getToken()) return true;
+        return false;
+    }
+
     return { 
         saveToken,
         getToken, 
         deleteToken,  
+        hasToken
     };
 
 }
