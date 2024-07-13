@@ -32,4 +32,16 @@ export class UserRepository {
         return user;
     }
 
+    public async getByName(name: string) {
+        const user = await prisma.user.findMany({
+            where: {
+                name: {
+                    contains: name,
+                    mode: 'insensitive'
+                }
+            }
+        });
+        return user;
+    }
+
 }

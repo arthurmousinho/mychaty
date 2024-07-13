@@ -16,7 +16,7 @@ export class UserService {
         this.jwtService = new JwtService();
     }
 
-    public async signIn(email: string, password: string) {
+    public async signInUser(email: string, password: string) {
         const user = await this.userRepository.getByEmail(email);
 
         if (!user) {
@@ -34,7 +34,7 @@ export class UserService {
         return token;
     }
 
-    public async signUp(user: User) {
+    public async signUpUser(user: User) {
         const emailAlreadyInUser = await this.userRepository.getByEmail(user.email);
         if (emailAlreadyInUser) {
             throw new Error('Email already in use');
@@ -47,6 +47,11 @@ export class UserService {
         });
         
         return newUser;
+    }
+
+    public async getUserByName(name: string) {
+        const user = await this.userRepository.getByName(name);
+        return user;
     }
 
 }

@@ -15,4 +15,9 @@ export async function UserRoutes(app: FastifyInstance) {
         userController.signUp
     );
 
+    app.get(
+        '/user/:name',
+        userController.getByName
+    );
+
 }
