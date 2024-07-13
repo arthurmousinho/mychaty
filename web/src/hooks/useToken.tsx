@@ -46,11 +46,17 @@ export function useToken() {
         return false;
     }
 
+    function getTokenInfos() {
+        const token = getToken();
+        return decodeToken(token);
+    }
+
     return { 
         saveToken,
         getToken, 
         deleteToken,  
-        hasToken
+        hasToken,
+        getTokenInfos
     };
 
 }
