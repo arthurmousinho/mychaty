@@ -1,6 +1,5 @@
 import { ChatArea } from "@/components/chat/ChatArea"
 import { ChatCard } from "@/components/chat/ChatCard"
-import { Sidebar } from "@/components/global/Sidebar"
 
 const chats = [
     {
@@ -37,8 +36,7 @@ const chats = [
 
 export function Chats() {
     return (
-        <main className="flex h-screen w-screen">
-            <Sidebar />
+        <div className="flex w-full">
             <aside className="w-[350px] py-4 flex flex-col gap-4 bg-slate-50">
                 <header className="w-full px-4">
                     <h1 className="text-xl font-semibold">
@@ -60,6 +58,6 @@ export function Chats() {
                 </div>
             </aside>
             <ChatArea />
-        </main>
+        </div>
     )
 }

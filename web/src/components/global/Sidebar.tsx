@@ -31,7 +31,7 @@ export function Sidebar() {
                 {
                     sidebarLinks.map(link => (
                         <Link 
-                            to={''} 
+                            to={link.to} 
                             key={link.to}
                             className="p-4 hover:bg-slate-200 rounded text-muted-foreground"
                         >

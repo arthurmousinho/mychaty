@@ -37,7 +37,7 @@ export function useUser() {
             const response = await axios.post(`${ENDPOINT}/signin`, { email, password });
             const token = response.data.token as string;
             saveToken(token);
-            navigate('chats')
+            navigate('/chats')
         } catch (error: any) {
             const errorMessage = error.response.data.message;
             toast({
@@ -50,7 +50,7 @@ export function useUser() {
 
     async function signOut() {
         deleteToken();
-        navigate('')
+        navigate('/wellcome')
     }
     
     return {
