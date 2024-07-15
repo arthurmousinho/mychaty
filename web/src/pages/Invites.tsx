@@ -10,29 +10,26 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { useEffect, useState } from "react";
+import { Invite, useInvite } from "@/hooks/useInvite";
 
-const invites = [
-    {
-        name: 'Diego Fernandes',
-    },
-    {
-        name: 'Mayk Brito',
-    },
-    {
-        name: 'Daniel Castro',
-    },
-    {
-        name: 'Matheus Fraga',
-    },
-    {
-        name: 'Vinícius Barbosa',
-    },
-    {
-        name: 'Arthur Mousinho',
-    },
-]
 
 export function Invites() {
+
+    const [ invites, setInvites ] = useState<Invite[]>([]);
+
+    const { getReceived } = useInvite();
+
+    async function loadReceivedInvites() {
+        const invitesReceived = await getReceived();
+        if (!invitesReceived) return;
+        setInvites(invitesReceived);
+    }
+
+    useEffect(() => {
+        loadReceivedInvites()
+    }, [])
+
     return (
         <div className="m-10 w-full space-y-4">
             <header className="flex items-center justify-between">
@@ -68,7 +65,7 @@ export function Invites() {
                 </div>
             </header>
             <div className="grid grid-cols-3 gap-4">
-                { invites.map(invite => <InviteCard name={invite.name} />) }
+                { invites.map(invite => <InviteCard name={invite.from.name} />) }
             </div>
         </div>
     )
