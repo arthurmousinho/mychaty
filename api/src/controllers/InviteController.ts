@@ -55,8 +55,11 @@ export class InviteController {
 
     public async accept(request: FastifyRequest, reply: FastifyReply) {
         try {
+            const token = await this.jwtService.decode(request);
+            const userId = token.sub;
             const body = request.body as Invite;
-            await this.inviteService.acceptInvite(body);
+
+            await this.inviteService.acceptInvite({ ...body, userFromId: userId });
             reply.status(200).send();
         } catch (error) {
             reply.status(400).send(error);
@@ -65,8 +68,11 @@ export class InviteController {
 
     public async deny(request: FastifyRequest, reply: FastifyReply) {
         try {
+            const token = await this.jwtService.decode(request);
+            const userId = token.sub;
             const body = request.body as Invite;
-            await this.inviteService.denyInvite(body);
+
+            await this.inviteService.denyInvite({ ...body, userFromId: userId });
             reply.status(200).send();
         } catch (error) {
             reply.status(400).send(error);
