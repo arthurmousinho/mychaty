@@ -1,35 +1,29 @@
 import { ChatArea } from "@/components/chat/ChatArea"
-import { ChatCard } from "@/components/chat/ChatCard"
+import { UserCard } from "@/components/global/UserCard"
 
 const chats = [
     {
-        title: 'Diego Fernandes',
-        avatar: 'https://github.com/diego3g.png',
+        name: 'Diego Fernandes',
         online: true,
     },
     {
-        title: 'Mayk Brito',
-        avatar: 'https://github.com/maykbrito.png',
+        name: 'Mayk Brito',
         online: true,
     },
     {
-        title: 'Daniel Castro',
-        avatar: 'https://github.com/odanieldcs.png',
+        name: 'Daniel Castro',
         online: true,
     },
     {
-        title: 'Matheus Fraga',
-        avatar: 'https://github.com/devfraga.png',
+        name: 'Matheus Fraga',
         online: true,
     },
     {
-        title: 'Vinícius Barbosa',
-        avatar: 'https://github.com/viniciusbarbosa1344.png',
+        name: 'Vinícius Barbosa',
         online: false,
     },
     {
-        title: 'Arthur Mousinho',
-        avatar: 'https://github.com/arthurmousinho.png',
+        name: 'Arthur Mousinho',
         online: false,
     },
 ]
@@ -47,9 +41,9 @@ export function Chats() {
                     {
                         chats.map(
                             chat => (
-                                <ChatCard 
-                                    avatar={chat.avatar} 
-                                    title={chat.title} 
+                                <UserCard 
+                                    key={chat.name}
+                                    name={chat.name} 
                                     online={chat.online} 
                                 />
                             )

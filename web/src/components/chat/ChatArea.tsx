@@ -1,16 +1,15 @@
 import { Send } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { ChatCard } from "./ChatCard";
+import { UserCard } from "../global/UserCard";
 import { ChatMessage } from "./ChatMessage";
 
 export function ChatArea() {
     return (
         <div className="h-full w-full flex flex-col justify-between border rounded bg-slate-50">
             <header className="w-full border-b">
-                <ChatCard 
-                    avatar="https://github.com/diego3g.png"
-                    title="Diego Fernandes"
+                <UserCard 
+                    name="Diego Fernandes"
                     online={true}
                 />
             </header>

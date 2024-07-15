@@ -1,18 +1,19 @@
 import { Link } from "react-router-dom";
 
+import defaultAvatar from '../../../assets/default-user-avatar.png'
+
 interface ChatCardProps {
-    title: string;
-    avatar: string;
+    name: string;
     online: boolean;
 }
 
-export function ChatCard(props: ChatCardProps) {
+export function UserCard(props: ChatCardProps) {
     return (
         <Link to={''} className="flex items-center gap-4 p-4 hover:bg-slate-100 rounded">
-            <img src={props.avatar} className="w-[50px] rounded-full" />
+            <img src={defaultAvatar} className="w-[50px] rounded-full" />
             <header>
                 <h3 className="font-medium">
-                    {props.title}
+                    {props.name}
                 </h3>
                 {
                     props.online
