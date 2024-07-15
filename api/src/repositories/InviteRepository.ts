@@ -13,6 +13,15 @@ export class InviteRepository {
         return newInvite;
     }
 
+    public async getById(id: string) {
+        const invite = await prisma.invite.findUnique({
+            where: {
+                id
+            }
+        });
+        return invite;
+    }
+
     public async getAllReceivedByUserId(userId: string) {
         const invites = await prisma.invite.findMany({
             where: {
@@ -47,4 +56,30 @@ export class InviteRepository {
         return invites;
     }
  
+    public async deleteById(id: string) {
+        await prisma.invite.delete({
+            where: {
+                id
+            }
+        })
+    }
+
+    public async getByUserFromId(userFromId: string) {
+        const user = await prisma.invite.findFirst({
+            where: {
+                userFromId
+            }
+        });
+        return user;
+    }
+
+    public async getByUserToId(userToId: string) {
+        const user = await prisma.invite.findFirst({
+            where: {
+                userToId
+            }
+        });
+        return user;
+    }
+
 }

@@ -54,4 +54,13 @@ export class UserService {
         return user;
     }
 
+    public async getUserById(id: string) {
+        const user = await this.userRepository.getById(id);
+        return user;
+    }
+
+    public async addUserFriend(user: User, userFriend: User) {
+        await this.userRepository.addFriend(user, userFriend);
+    }
+
 }

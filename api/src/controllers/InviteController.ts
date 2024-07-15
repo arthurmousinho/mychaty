@@ -15,6 +15,8 @@ export class InviteController {
         this.create = this.create.bind(this);
         this.listReceived = this.listReceived.bind(this);
         this.listSent = this.listSent.bind(this);
+        this.accept = this.accept.bind(this);
+        this.deny = this.deny.bind(this);
     }
 
     public async create(request: FastifyRequest, reply: FastifyReply) {
@@ -46,6 +48,26 @@ export class InviteController {
 
             const sentInvites = await this.inviteService.listSentInvites(userId);
             reply.status(200).send(sentInvites);
+        } catch (error) {
+            reply.status(400).send(error);
+        }
+    }
+
+    public async accept(request: FastifyRequest, reply: FastifyReply) {
+        try {
+            const body = request.body as Invite;
+            await this.inviteService.acceptInvite(body);
+            reply.status(200).send();
+        } catch (error) {
+            reply.status(400).send(error);
+        }
+    }
+
+    public async deny(request: FastifyRequest, reply: FastifyReply) {
+        try {
+            const body = request.body as Invite;
+            await this.inviteService.denyInvite(body);
+            reply.status(200).send();
         } catch (error) {
             reply.status(400).send(error);
         }

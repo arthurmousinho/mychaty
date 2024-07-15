@@ -20,4 +20,14 @@ export async function InviteRoutes(app: FastifyInstance) {
         inviteController.listSent
     );
 
+    app.put(
+        '/invite/accept',
+        inviteController.accept
+    );
+
+    app.put(
+        '/invite/deny',
+        inviteController.deny
+    );
+
 }

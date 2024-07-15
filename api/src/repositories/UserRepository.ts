@@ -44,4 +44,24 @@ export class UserRepository {
         return user;
     }
 
+    public async addFriend(user: User, newUserFriend: User) {
+        await prisma.user.update({
+            where: {
+                id: user.id
+            },
+            data: {
+                friends: {
+                    connect: {
+                        id: newUserFriend.id
+                    }
+                },
+                friendOf: {
+                    connect: {
+                        id: newUserFriend.id
+                    }
+                }
+            }
+        })
+    }
+
 }
