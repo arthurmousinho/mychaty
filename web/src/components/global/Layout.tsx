@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 
 export function Layout() {
@@ -6,6 +6,7 @@ export function Layout() {
         <main className="flex h-screen w-screen">
             <Sidebar />
             <Outlet />
+            <Navigate to={'/chats'} />
         </main>
     )
 }
