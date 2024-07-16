@@ -26,12 +26,31 @@ export class InviteRepository {
     public async getAllReceivedByUserId(userId: string) {
         const invites = await prisma.invite.findMany({
             where: {
-                userToId: userId
+                userToId: userId,
+                status: 'PENDING'
             },
             include: {
                 from: {
                     select: {
-                        email: true,
+                        name: true,
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        });
+        return invites;
+    }
+
+    public async getAllSentByUserId(userId: string) {
+        const invites = await prisma.invite.findMany({
+            where: {
+                userFromId: userId
+            },
+            include: {
+                to: {
+                    select: {
                         name: true,
                     }
                 }
@@ -53,26 +72,6 @@ export class InviteRepository {
             }
         });
         return updatedInvite;
-    }
-
-    public async getAllSentByUserId(userId: string) {
-        const invites = await prisma.invite.findMany({
-            where: {
-                userFromId: userId
-            },
-            include: {
-                to: {
-                    select: {
-                        email: true,
-                        name: true,
-                    }
-                }
-            },
-            orderBy: {
-                createdAt: 'desc'
-            }
-        });
-        return invites;
     }
  
     public async deleteById(id: string) {
