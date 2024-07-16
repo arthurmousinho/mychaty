@@ -18,7 +18,13 @@ model User {
   invitesReceived Invite[] @relation("InvitesReceived")
 
   friends  User[] @relation("Friendship")
-  friendOf User[] @relation("Friendship")
+  friendOf User[] @relation("Friendship") // TODO: Find a way to remove this
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  DENIED
 }
 
 model Invite {
@@ -26,6 +32,8 @@ model Invite {
 
   from User @relation("InvitesSent", fields: [userFromId], references: [id], onDelete: Cascade)
   to   User @relation("InvitesReceived", fields: [userToId], references: [id], onDelete: Cascade)
+
+  status InviteStatus @default(PENDING)
 
   userFromId String
   userToId   String

@@ -1,3 +1,4 @@
+import { InviteStatus } from "@prisma/client";
 import { prisma } from "../../prisma";
 import { Invite } from "../models/Invite";
 
@@ -40,6 +41,18 @@ export class InviteRepository {
             }
         });
         return invites;
+    }
+
+    public async updateInviteStatus(invite: Invite, status: InviteStatus) {
+        const updatedInvite = await prisma.invite.update({
+            where: {
+                id: invite.id
+            },
+            data: {
+                status
+            }
+        });
+        return updatedInvite;
     }
 
     public async getAllSentByUserId(userId: string) {

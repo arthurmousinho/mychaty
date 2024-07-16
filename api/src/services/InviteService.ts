@@ -50,7 +50,7 @@ export class InviteService {
         if (!userFrom) throw new Error(`User ${invite.from?.name} not found`);
 
         await this.userService.startFriendship(userTo, userFrom);
-        await this.inviteRepository.deleteById(inviteExists.id);
+        await this.inviteRepository.updateInviteStatus(inviteExists, 'ACCEPTED');
     }
 
     public async denyInvite(invite: Invite) {
@@ -63,7 +63,7 @@ export class InviteService {
         const userFrom = await this.userService.getUserById(inviteExists.userFromId);
         if (!userFrom) throw new Error(`User ${invite.from?.name} not found`);
 
-        await this.inviteRepository.deleteById(inviteExists.id);
+        await this.inviteRepository.updateInviteStatus(inviteExists, 'DENIED');
     }
 
 }
