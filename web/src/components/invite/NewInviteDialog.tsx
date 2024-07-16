@@ -4,6 +4,7 @@ import { Input } from "../ui/input";
 import { ScrollArea } from "../ui/scroll-area";
 import { UserCard } from "../global/UserCard";
 import { User, useUser } from "@/hooks/useUser";
+import { useInvite } from "@/hooks/useInvite";
 
 interface NewInviteDialogProps {
     children: ReactNode;
@@ -13,6 +14,7 @@ export function NewInviteDialog(props: NewInviteDialogProps) {
 
     const [ users, setUsers ] = useState<User[]>([]);
 
+    const { createInvite } = useInvite();
     const { searchByName } = useUser();
 
     async function searchUser(name: string) {
@@ -20,6 +22,8 @@ export function NewInviteDialog(props: NewInviteDialogProps) {
         if (!usersFound) return;
         setUsers(usersFound);
     }
+
+    
 
     return (
         <Dialog>
@@ -42,10 +46,12 @@ export function NewInviteDialog(props: NewInviteDialogProps) {
                     <ScrollArea className="w-full h-[200px]">
                         {
                             users.map(user => (
-                                <UserCard 
-                                    name={user.name}
-                                    online={true}
-                                />
+                                <div onClick={() => { createInvite(user) }}>
+                                    <UserCard 
+                                        name={user.name}
+                                        online={true}
+                                    />
+                                </div>
                             ))
                         }
                     </ScrollArea>

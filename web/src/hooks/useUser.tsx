@@ -4,9 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 
 export interface User {
+    id?: string;
     email: string;
     name: string;
     password: string;
+    friends: any[]
 }
 
 export function useUser() {

@@ -21,8 +21,17 @@ export class InviteController {
 
     public async create(request: FastifyRequest, reply: FastifyReply) {
         try {
-            const body = request.body as Invite;
-            const newInvite = await this.inviteService.createInvite(body);
+            const body = request.body as { userToId: string };
+            const token = await this.jwtService.decode(request);
+            
+            const userFromId = token.sub;
+            const userToId = body.userToId;
+
+            const newInvite = await this.inviteService.createInvite({ 
+                userFromId, 
+                userToId }
+            );
+
             reply.status(201).send(newInvite);
         } catch (error) {
             reply.send(400).send(error);

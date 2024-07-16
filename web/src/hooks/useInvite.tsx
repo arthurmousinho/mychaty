@@ -76,6 +76,11 @@ export function useInvite() {
                     }
                 },
             );
+            toast({
+                title: "✅ Success",
+                variant: 'default',
+                description: `${invite.from.name}'s invite was sent`,
+            });
         } catch (error: any) {
             const errorMessage = error.response.data.message;
             toast({
@@ -86,10 +91,38 @@ export function useInvite() {
         }
     }
 
+    async function createInvite(user: User) {
+        try {
+            const token = getToken();
+            await axios.post(
+                `${ENDPOINT}/create`, 
+                { userToId: user.id },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                },
+            );
+            toast({
+                title: "✅ Success",
+                variant: 'default',
+                description: `An invite was sent to ${user.name}`,
+            });
+        } catch (error: any) {
+            const errorMessage = error.response.data.message;
+            toast({
+                title: "😥 Error",
+                variant: 'destructive',
+                description: errorMessage,
+            });
+        }
+    }
+
     return {
         getReceived,
         acceptInvite,
-        denyInvite
+        denyInvite,
+        createInvite
     }
 
 }
