@@ -15,6 +15,7 @@ export class UserController {
         this.signIn = this.signIn.bind(this);
         this.signUp = this.signUp.bind(this);
         this.getByName = this.getByName.bind(this);
+        this.getFriends = this.getFriends.bind(this);
     }
 
     public async signIn(request: FastifyRequest, reply: FastifyReply) {
@@ -45,6 +46,17 @@ export class UserController {
             
             const usersFound = await this.userService.searchUserForInvite(currentUserId, name);
             reply.status(200).send(usersFound);
+        } catch (error) {
+            reply.status(400).send(error);
+        }
+    }
+
+    public async getFriends(request: FastifyRequest, reply: FastifyReply) {
+        try {
+            const token = await this.jwtService.decode(request);
+            const userId = token.sub;
+            const userFriends = await this.userService.getUserFriendsById(userId);
+            reply.status(200).send(userFriends);
         } catch (error) {
             reply.status(400).send(error);
         }

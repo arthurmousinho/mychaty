@@ -25,7 +25,7 @@ export function InviteCard(props: InviteCardProps) {
     }
 
     function handleDenyInvite() {
-        if (props.onDenyFn && props.status === 'SENT') {
+        if (props.onDenyFn && props.status === 'RECEIVED') {
             denyInvite(props.invite);
             props.onDenyFn(props.invite.id);
         }
@@ -36,9 +36,9 @@ export function InviteCard(props: InviteCardProps) {
             <Card className="flex flex-col items-start">
                  <CardHeader className="flex flex-row items-center gap-2">
                     <img src={defaultAvatar} className="w-[50px] rounded-full"/>
-                    <span className="text-muted-foreground">
-                        <strong>{ props.invite.from.name }</strong>{' '}sent you a invite
-                    </span>
+                    <strong className="text-muted-foreground">
+                        { props.invite.from.name }
+                    </strong>
                 </CardHeader>
                 <CardContent className="flex flex-row items-center gap-4 justify-center w-full">
                     <Button 
@@ -68,9 +68,9 @@ export function InviteCard(props: InviteCardProps) {
                  <CardHeader className="w-full flex flex-row items-center justify-between">
                     <header className="flex flex-row items-center gap-2">
                         <img src={defaultAvatar} className="w-[50px] rounded-full"/>
-                        <span className="text-muted-foreground">
-                            <strong>{ props.invite.to.name }</strong>
-                        </span>
+                        <strong className="text-muted-foreground">
+                            { props.invite.to.name }
+                        </strong>
                     </header>
                     <Badge>
                         { props.invite.status }

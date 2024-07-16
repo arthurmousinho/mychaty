@@ -71,12 +71,30 @@ export function useUser() {
             console.log(error);
         }
     }
+
+    async function getFriends() {
+        try {
+            const token = getToken();
+            const response = await axios.get(`
+                ${ENDPOINT}/friends`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            return response.data as User[]
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
     return {
         signUp,
         signIn,
         signOut,
-        searchByName
+        searchByName,
+        getFriends
     }
 
 }

@@ -75,4 +75,12 @@ export class UserService {
         await this.userRepository.connectFriendWithUser(userFriend, user);
     }
 
+    public async getUserFriendsById(id: string) {
+        const userExists = await this.userRepository.getById(id);
+        if (!userExists) throw new Error(`User not found`);
+
+        const userFriends = await this.userRepository.getFriendsByUserId(id);
+        return userFriends;
+    }
+
 }

@@ -20,4 +20,9 @@ export async function UserRoutes(app: FastifyInstance) {
         userController.getByName
     );
 
+    app.get(
+        '/user/friends',
+        userController.getFriends
+    );
+
 }

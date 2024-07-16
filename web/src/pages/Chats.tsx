@@ -1,34 +1,27 @@
 import { ChatArea } from "@/components/chat/ChatArea"
 import { UserCard } from "@/components/global/UserCard"
+import { User, useUser } from "@/hooks/useUser";
+import { useEffect, useState } from "react"
 
-const chats = [
-    {
-        name: 'Diego Fernandes',
-        online: true,
-    },
-    {
-        name: 'Mayk Brito',
-        online: true,
-    },
-    {
-        name: 'Daniel Castro',
-        online: true,
-    },
-    {
-        name: 'Matheus Fraga',
-        online: true,
-    },
-    {
-        name: 'Vinícius Barbosa',
-        online: false,
-    },
-    {
-        name: 'Arthur Mousinho',
-        online: false,
-    },
-]
 
 export function Chats() {
+
+    const [ friends, setFriends ] = useState<User[]>([]);
+
+    const { getFriends } = useUser();
+
+    async function loadUserFriends() {
+        const userFriends = await getFriends();
+        if (!userFriends) return;
+
+        console.log(userFriends)
+        setFriends(userFriends);
+    }
+
+    useEffect(() => {
+        loadUserFriends()
+    }, []);
+
     return (
         <div className="flex w-full">
             <aside className="w-[350px] py-4 flex flex-col gap-4 bg-slate-50">
@@ -39,12 +32,12 @@ export function Chats() {
                 </header>
                 <div className="flex flex-col ml-2 mr-2">
                     {
-                        chats.map(
-                            chat => (
+                        friends.map(
+                            friend => (
                                 <UserCard 
-                                    key={chat.name}
-                                    name={chat.name} 
-                                    online={chat.online} 
+                                    key={friend.id}
+                                    name={friend.name} 
+                                    online={true} 
                                 />
                             )
                         )

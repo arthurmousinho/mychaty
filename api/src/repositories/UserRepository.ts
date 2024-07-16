@@ -101,4 +101,20 @@ export class UserRepository {
         });
     }
 
+    public async getFriendsByUserId(id: string) {
+        const user = await prisma.user.findUnique({
+            where: {
+                id
+            },
+            include: {
+                friends: true,
+            }
+        });
+
+        if (!user) throw new Error('User not found');
+
+        const userFriends = user.friends;
+        return userFriends;
+    }
+
 }
