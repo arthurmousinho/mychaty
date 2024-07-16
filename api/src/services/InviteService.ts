@@ -43,18 +43,13 @@ export class InviteService {
         const inviteExists = await this.inviteRepository.getById(invite.id || '');
         if (!inviteExists) throw new Error('Invite not found');
 
-        const user = await this.userService.getUserById(invite.userFromId);
-        if (!user) throw new Error('User not found');
+        const userTo = await this.userService.getUserById(inviteExists.userToId);
+        if (!userTo) throw new Error(`User ${invite.to?.name} not found`);
 
-        const userFriend = await this.userService.getUserById(invite.userToId);
-        if (!userFriend) throw new Error('User friend not found');
+        const userFrom = await this.userService.getUserById(inviteExists.userFromId);
+        if (!userFrom) throw new Error(`User ${invite.from?.name} not found`);
 
-        const userFromHasInvite = await this.inviteRepository.getByUserFromId(invite.userFromId);
-        const userToHasInvite = await this.inviteRepository.getByUserToId(invite.userToId);
-
-        if (!userFromHasInvite || !userToHasInvite) throw new Error('Invalid invite');
-
-        await this.userService.addUserFriend(user, userFriend);
+        await this.userService.startFriendship(userTo, userFrom);
         await this.inviteRepository.deleteById(inviteExists.id);
     }
 
@@ -62,16 +57,11 @@ export class InviteService {
         const inviteExists = await this.inviteRepository.getById(invite.id || '');
         if (!inviteExists) throw new Error('Invite not found');
 
-        const user = await this.userService.getUserById(invite.userFromId);
-        if (!user) throw new Error('User not found');
+        const userTo = await this.userService.getUserById(inviteExists.userToId);
+        if (!userTo) throw new Error(`User ${invite.to?.name} not found`);
 
-        const userFriend = await this.userService.getUserById(invite.userToId);
-        if (!userFriend) throw new Error('User friend not found');
-
-        const userFromHasInvite = await this.inviteRepository.getByUserFromId(invite.userFromId);
-        const userToHasInvite = await this.inviteRepository.getByUserToId(invite.userToId);
-
-        if (!userFromHasInvite || !userToHasInvite) throw new Error('Invalid invite');
+        const userFrom = await this.userService.getUserById(inviteExists.userFromId);
+        if (!userFrom) throw new Error(`User ${invite.from?.name} not found`);
 
         await this.inviteRepository.deleteById(inviteExists.id);
     }

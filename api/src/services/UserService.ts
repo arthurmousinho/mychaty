@@ -64,8 +64,15 @@ export class UserService {
         return user;
     }
 
-    public async addUserFriend(user: User, userFriend: User) {
-        await this.userRepository.addFriend(user, userFriend);
+    public async startFriendship(user: User, userFriend: User) {
+        const userExists = this.userRepository.getById(user.id || '');
+        if (!userExists) throw new Error(`User ${user.name} not found`);
+
+        const userFriendExists = this.userRepository.getById(userFriend.id || '');
+        if (!userFriendExists) throw new Error(`User ${userFriend.name} not found`);
+
+        await this.userRepository.connectUserWithFriend(user, userFriend);
+        await this.userRepository.connectFriendWithUser(userFriend, user);
     }
 
 }

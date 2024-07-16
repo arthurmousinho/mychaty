@@ -27,6 +27,10 @@ export class UserRepository {
         const user = await prisma.user.findUnique({
             where: {
                 id
+            },
+            include: {
+                invitesReceived: true,
+                invitesSent: true,
             }
         });
         return user;
@@ -67,7 +71,7 @@ export class UserRepository {
         return users;
     }
 
-    public async addFriend(user: User, newUserFriend: User) {
+    public async connectUserWithFriend(user: User, friend: User) {
         await prisma.user.update({
             where: {
                 id: user.id
@@ -75,16 +79,26 @@ export class UserRepository {
             data: {
                 friends: {
                     connect: {
-                        id: newUserFriend.id
-                    }
-                },
-                friendOf: {
-                    connect: {
-                        id: newUserFriend.id
+                        id: friend.id
                     }
                 }
             }
-        })
+        });
+    }
+
+    public async connectFriendWithUser(friend: User, user: User) {
+        await prisma.user.update({
+            where: {
+                id: friend.id
+            },
+            data: {
+                friends: {
+                    connect: {
+                        id: user.id
+                    }
+                }
+            }
+        });
     }
 
 }

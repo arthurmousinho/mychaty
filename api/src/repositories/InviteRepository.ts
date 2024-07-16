@@ -34,6 +34,9 @@ export class InviteRepository {
                         name: true,
                     }
                 }
+            },
+            orderBy: {
+                createdAt: 'desc'
             }
         });
         return invites;
@@ -51,6 +54,9 @@ export class InviteRepository {
                         name: true,
                     }
                 }
+            },
+            orderBy: {
+                createdAt: 'desc'
             }
         });
         return invites;
@@ -65,21 +71,21 @@ export class InviteRepository {
     }
 
     public async getByUserFromId(userFromId: string) {
-        const user = await prisma.invite.findFirst({
+        const invite = await prisma.invite.findFirst({
             where: {
                 userFromId
             }
         });
-        return user;
+        return invite;
     }
 
     public async getByUserToId(userToId: string) {
-        const user = await prisma.invite.findFirst({
+        const invite = await prisma.invite.findFirst({
             where: {
                 userToId
             }
         });
-        return user;
+        return invite;
     }
 
 }

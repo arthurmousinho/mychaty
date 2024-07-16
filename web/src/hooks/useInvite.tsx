@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useToken } from "./useToken";
 import { User } from "./useUser";
+import { useToast } from "@/components/ui/use-toast";
 
 export interface Invite {
     id: string;
@@ -17,6 +18,7 @@ export function useInvite() {
     const ENDPOINT = `${import.meta.env.VITE_API_BASE_URL}/invite` 
 
     const { getToken } = useToken();
+    const { toast } = useToast();
 
     async function getReceived() {
         try {
@@ -35,8 +37,59 @@ export function useInvite() {
         }
     }
 
+    async function acceptInvite(invite: Invite) {
+        try {
+            const token = getToken();
+            await axios.put(
+                `${ENDPOINT}/accept`, 
+                invite,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                },
+            );
+            toast({
+                title: "✅ Success",
+                variant: 'default',
+                description: `${invite.from.name}'s invite was accepted`,
+            });
+        } catch (error: any) {
+            const errorMessage = error.response.data.message;
+            toast({
+                title: "😥 Error",
+                variant: 'destructive',
+                description: errorMessage,
+            })
+        }
+    }
+
+    async function denyInvite(invite: Invite) {
+        try {
+            const token = getToken();
+            await axios.put(
+                `${ENDPOINT}/deny`, 
+                invite,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                },
+            );
+        } catch (error: any) {
+            const errorMessage = error.response.data.message;
+            toast({
+                title: "😥 Error",
+                variant: 'destructive',
+                description: errorMessage,
+            })
+        }
+    }
+
     return {
-        getReceived
+        getReceived,
+        acceptInvite,
+        denyInvite
     }
 
 }

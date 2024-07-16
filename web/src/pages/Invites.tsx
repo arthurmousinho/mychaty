@@ -26,6 +26,11 @@ export function Invites() {
         setInvites(invitesReceived);
     }
 
+    function removeInvite(id: string) {
+        const invitesUpdated = invites.filter(invite => invite.id !== id);
+        setInvites(invitesUpdated);
+    }
+
     useEffect(() => {
         loadReceivedInvites()
     }, [])
@@ -65,7 +70,14 @@ export function Invites() {
                 </div>
             </header>
             <div className="grid grid-cols-3 gap-4">
-                { invites.map(invite => <InviteCard name={invite.from.name} />) }
+                { invites.map(invite => (
+                    <InviteCard 
+                        key={invite.id} 
+                        invite={invite} 
+                        onAcceptFn={removeInvite}
+                        onDenyFn={removeInvite}
+                    />
+                )) }
             </div>
         </div>
     )
