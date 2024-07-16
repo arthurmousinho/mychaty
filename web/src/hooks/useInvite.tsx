@@ -7,6 +7,7 @@ export interface Invite {
     id: string;
     userFromId: string;
     userToId: string;
+    status: 'PENDING' | 'DENIED' | 'ACCEPTED';
     createdAt: string;
     from: User;
     to: User;
@@ -20,11 +21,28 @@ export function useInvite() {
     const { getToken } = useToken();
     const { toast } = useToast();
 
-    async function getReceived() {
+    async function getReceivedInvites() {
         try {
             const token = getToken();
             const response = await axios.get(
                 `${ENDPOINT}/list/received`, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            return response.data as Invite[]
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function getSentInvites() {
+        try {
+            const token = getToken();
+            const response = await axios.get(
+                `${ENDPOINT}/list/sent`, 
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -119,7 +137,8 @@ export function useInvite() {
     }
 
     return {
-        getReceived,
+        getReceivedInvites,
+        getSentInvites,
         acceptInvite,
         denyInvite,
         createInvite

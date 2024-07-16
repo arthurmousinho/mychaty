@@ -1,14 +1,16 @@
-import { Check, X } from "lucide-react";
+import { Check, Trash, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader } from "../ui/card";
 
 import defaultAvatar from '../../../assets/default-user-avatar.png'
 import { Invite, useInvite } from "@/hooks/useInvite";
+import { Badge } from "../ui/badge";
 
 interface InviteCardProps {
     invite: Invite;
-    onAcceptFn: (id: string) => void;
-    onDenyFn: (id: string) => void;
+    status: 'RECEIVED' | 'SENT';
+    onAcceptFn?: (id: string) => void;
+    onDenyFn?: (id: string) => void;
 }
 
 export function InviteCard(props: InviteCardProps) {
@@ -16,41 +18,76 @@ export function InviteCard(props: InviteCardProps) {
     const { acceptInvite, denyInvite } = useInvite();
 
     function handleAcceptInvite() {
-        acceptInvite(props.invite);
-        props.onAcceptFn(props.invite.id);
+        if (props.onAcceptFn && props.status === 'RECEIVED') {
+            acceptInvite(props.invite);
+            props.onAcceptFn(props.invite.id);
+        }
     }
 
     function handleDenyInvite() {
-        denyInvite(props.invite);
-        props.onDenyFn(props.invite.id);
+        if (props.onDenyFn && props.status === 'SENT') {
+            denyInvite(props.invite);
+            props.onDenyFn(props.invite.id);
+        }
     }
  
-    return (
-        <Card className="flex flex-col items-start">
-             <CardHeader className="flex flex-row items-center gap-2">
-                <img src={defaultAvatar} className="w-[50px] rounded-full"/>
-                <span className="text-muted-foreground">
-                    <strong>{ props.invite.from.name }</strong>{' '}sent you a invite
-                </span>
-             </CardHeader>
-             <CardContent className="flex flex-row items-center gap-4 justify-center w-full">
-                <Button 
-                    className="flex gap-2 items-center text-green-500 border-green-500 hover:bg-green-500 hover:text-slate-50 flex-1" 
-                    variant={'outline'}
-                    onClick={handleAcceptInvite}
-                >
-                    <Check size={20} />
-                    Accept
-                </Button>
-                <Button 
-                    className="flex gap-2 items-center text-red-500 border-red-500 hover:bg-red-500 hover:text-slate-50 flex-1" 
-                    variant={'outline'}
-                    onClick={handleDenyInvite}
-                >
-                    <X size={20} />
-                    Deny
-                </Button>
-             </CardContent>
-        </Card>
-    )
+    if (props.status === 'RECEIVED') {
+        return (
+            <Card className="flex flex-col items-start">
+                 <CardHeader className="flex flex-row items-center gap-2">
+                    <img src={defaultAvatar} className="w-[50px] rounded-full"/>
+                    <span className="text-muted-foreground">
+                        <strong>{ props.invite.from.name }</strong>{' '}sent you a invite
+                    </span>
+                </CardHeader>
+                <CardContent className="flex flex-row items-center gap-4 justify-center w-full">
+                    <Button 
+                        className="flex gap-2 items-center text-green-500 border-green-500 hover:bg-green-500 hover:text-slate-50 flex-1" 
+                        variant={'outline'}
+                        onClick={handleAcceptInvite}
+                    >
+                        <Check size={20} />
+                        Accept
+                    </Button>
+                    <Button 
+                        className="flex gap-2 items-center text-red-500 border-red-500 hover:bg-red-500 hover:text-slate-50 flex-1" 
+                        variant={'outline'}
+                        onClick={handleDenyInvite}
+                    >
+                        <X size={20} />
+                        Deny
+                    </Button>
+                </CardContent>
+            </Card>
+        )
+    }
+
+    if (props.status === 'SENT') {
+        return (
+            <Card className="flex flex-col items-start">
+                 <CardHeader className="w-full flex flex-row items-center justify-between">
+                    <header className="flex flex-row items-center gap-2">
+                        <img src={defaultAvatar} className="w-[50px] rounded-full"/>
+                        <span className="text-muted-foreground">
+                            <strong>{ props.invite.to.name }</strong>
+                        </span>
+                    </header>
+                    <Badge>
+                        { props.invite.status }
+                    </Badge>
+                </CardHeader>
+                <CardContent className="flex flex-row items-center gap-4 justify-center w-full">
+                    <Button 
+                        className="flex gap-2 items-center text-red-500 border-red-500 hover:bg-red-500 hover:text-slate-50 flex-1" 
+                        variant={'outline'}
+                        onClick={handleDenyInvite}
+                    >
+                        <Trash size={20} />
+                        Cancel Invite
+                    </Button>
+                </CardContent>
+            </Card>
+        )
+    }
+
 }

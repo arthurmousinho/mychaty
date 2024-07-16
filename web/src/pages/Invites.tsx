@@ -16,24 +16,35 @@ import { Invite, useInvite } from "@/hooks/useInvite";
 
 export function Invites() {
 
-    const [ invites, setInvites ] = useState<Invite[]>([]);
+    const [ inviteOption, setInviteOption ] = useState<'RECEIVED' | 'SENT'>('RECEIVED');
 
-    const { getReceived } = useInvite();
+    const [ receivedInvites, setReceivedInvites ] = useState<Invite[]>([]);
+    const [ sentInvites, setSentInvites ] = useState<Invite[]>([]);
+
+    const { getReceivedInvites, getSentInvites } = useInvite();
 
     async function loadReceivedInvites() {
-        const invitesReceived = await getReceived();
-        if (!invitesReceived) return;
-        setInvites(invitesReceived);
+        const invitesFound = await getReceivedInvites();
+        if (!invitesFound) return;
+        setReceivedInvites(invitesFound);
+    }
+
+    async function loadSentInvites() {
+        const invitesFound = await getSentInvites();
+        console.log(invitesFound)
+        if (!invitesFound) return;
+        setSentInvites(invitesFound);
     }
 
     function removeInvite(id: string) {
-        const invitesUpdated = invites.filter(invite => invite.id !== id);
-        setInvites(invitesUpdated);
+        const invitesUpdated = receivedInvites.filter(invite => invite.id !== id);
+        setReceivedInvites(invitesUpdated);
     }
 
     useEffect(() => {
-        loadReceivedInvites()
-    }, [])
+        if (inviteOption === 'RECEIVED') loadReceivedInvites();
+        if (inviteOption === 'SENT') loadSentInvites();
+    }, [inviteOption]);
 
     return (
         <div className="m-10 w-full space-y-4">
@@ -42,19 +53,22 @@ export function Invites() {
                     Manage Your Invites
                 </h1>
                 <div className="flex items-center gap-4">   
-                    <Select>
+                    <Select 
+                        defaultValue="RECEIVED" 
+                        onValueChange={value => setInviteOption(value as 'RECEIVED' | 'SENT')}
+                    >
                         <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Filter invites" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem 
-                                value="received" 
+                                value="RECEIVED" 
                                 className="cursor-pointer"
                             >
                                 Received Invites
                             </SelectItem>
                             <SelectItem 
-                                value="sent" 
+                                value="SENT" 
                                 className="cursor-pointer"
                             >
                                 Sent Invites
@@ -70,14 +84,30 @@ export function Invites() {
                 </div>
             </header>
             <div className="grid grid-cols-3 gap-4">
-                { invites.map(invite => (
-                    <InviteCard 
-                        key={invite.id} 
-                        invite={invite} 
-                        onAcceptFn={removeInvite}
-                        onDenyFn={removeInvite}
-                    />
-                )) }
+                { 
+                    inviteOption === 'RECEIVED' && 
+                    receivedInvites.map(invite => (
+                        <InviteCard 
+                            status="RECEIVED"
+                            key={invite.id} 
+                            invite={invite} 
+                            onAcceptFn={removeInvite}
+                            onDenyFn={removeInvite}
+                        />
+                    )) 
+                }
+                { 
+                    inviteOption === 'SENT' && 
+                    sentInvites.map(invite => (
+                        <InviteCard 
+                            status="SENT"
+                            key={invite.id} 
+                            invite={invite} 
+                            onAcceptFn={removeInvite}
+                            onDenyFn={removeInvite}
+                        />
+                    )) 
+                }
             </div>
         </div>
     )
