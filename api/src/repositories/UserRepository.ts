@@ -33,7 +33,7 @@ export class UserRepository {
     }
 
     public async getByName(name: string) {
-        const user = await prisma.user.findMany({
+        const users = await prisma.user.findMany({
             where: {
                 name: {
                     contains: name,
@@ -41,7 +41,30 @@ export class UserRepository {
                 }
             }
         });
-        return user;
+        return users;
+    }
+
+    public async getUsersForInvite(currentUserId: string, searchedUser: string) {
+        const currentUserFriends = await prisma.user.findUnique({
+            where: { id: currentUserId },
+            select: { friends: { select: { id: true } } }
+        });
+
+        const friendIds = currentUserFriends?.friends.map(friend => friend.id) || [];
+        const users = await prisma.user.findMany({
+            where: {
+                id: {
+                    not: currentUserId,
+                    notIn: friendIds
+                },
+                name: {
+                    contains: searchedUser,
+                    mode: 'insensitive'
+                }
+            }
+        });
+        
+        return users;
     }
 
     public async addFriend(user: User, newUserFriend: User) {

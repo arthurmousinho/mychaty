@@ -1,35 +1,26 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { ScrollArea } from "../ui/scroll-area";
 import { UserCard } from "../global/UserCard";
-
-const invites = [
-    {
-        name: 'Diego Fernandes'
-    },
-    {
-        name: 'Mayk Brito'
-    },
-    {
-        name: 'Daniel Castro'
-    },
-    {
-        name: 'Matheus Fraga'
-    },
-    {
-        name: 'Vinícius Barbosa'
-    },
-    {
-        name: 'Arthur Mousinho'
-    },
-]
+import { User, useUser } from "@/hooks/useUser";
 
 interface NewInviteDialogProps {
     children: ReactNode;
 }
 
 export function NewInviteDialog(props: NewInviteDialogProps) {
+
+    const [ users, setUsers ] = useState<User[]>([]);
+
+    const { searchByName } = useUser();
+
+    async function searchUser(name: string) {
+        const usersFound = await searchByName(name);
+        if (!usersFound) return;
+        setUsers(usersFound);
+    }
+
     return (
         <Dialog>
             <DialogTrigger>
@@ -46,12 +37,13 @@ export function NewInviteDialog(props: NewInviteDialogProps) {
                     <Input 
                         type="text" 
                         placeholder="Search name..."
+                        onChange={event => searchUser(event.target.value)}
                     />
                     <ScrollArea className="w-full h-[200px]">
                         {
-                            invites.map(invite => (
+                            users.map(user => (
                                 <UserCard 
-                                    name={invite.name}
+                                    name={user.name}
                                     online={true}
                                 />
                             ))

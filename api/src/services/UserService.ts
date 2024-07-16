@@ -50,8 +50,13 @@ export class UserService {
     }
 
     public async getUserByName(name: string) {
-        const user = await this.userRepository.getByName(name);
-        return user;
+        const users = await this.userRepository.getByName(name);
+        return users;
+    }
+
+    public async searchUserForInvite(currentUserId: string, searchedName: string) {
+        const users = await this.userRepository.getUsersForInvite(currentUserId, searchedName);
+        return users;
     }
 
     public async getUserById(id: string) {

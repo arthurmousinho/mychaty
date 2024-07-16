@@ -13,7 +13,7 @@ export function useUser() {
 
     const ENDPOINT = `${import.meta.env.VITE_API_BASE_URL}/user`
 
-    const { saveToken, deleteToken } = useToken();
+    const { saveToken, deleteToken, getToken } = useToken();
     const { toast } = useToast()
 
     const navigate = useNavigate();
@@ -52,11 +52,29 @@ export function useUser() {
         deleteToken();
         navigate('/wellcome')
     }
+
+    async function searchByName(name: string) {
+        try {
+            const token = getToken();
+            const response = await axios.get(`
+                ${ENDPOINT}/${name}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            return response.data as User[]
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
     return {
         signUp,
         signIn,
-        signOut
+        signOut,
+        searchByName
     }
 
 }

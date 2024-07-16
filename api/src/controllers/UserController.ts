@@ -1,13 +1,16 @@
 import { Invite, User } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { UserService } from "../services/UserService";
+import { JwtService } from "../services/JwtService";
 
 export class UserController {
 
-    private userService: UserService
+    private userService: UserService;
+    private jwtService: JwtService;
 
     constructor(){
-        this.userService = new UserService;
+        this.userService = new UserService();
+        this.jwtService = new JwtService();
 
         this.signIn = this.signIn.bind(this);
         this.signUp = this.signUp.bind(this);
@@ -37,8 +40,11 @@ export class UserController {
     public async getByName(request: FastifyRequest, reply: FastifyReply) {
         try {
             const { name } = request.params as { name: string };
-            const userFound = await this.userService.getUserByName(name);
-            reply.status(200).send(userFound);
+            const token = await this.jwtService.decode(request);
+            const currentUserId = token.sub;
+            
+            const usersFound = await this.userService.searchUserForInvite(currentUserId, name);
+            reply.status(200).send(usersFound);
         } catch (error) {
             reply.status(400).send(error);
         }
