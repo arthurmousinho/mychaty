@@ -13,9 +13,9 @@ Chating web application (in development)
   - [ ]  Create and manage group chats
   - [ ]  Add or remove members from group chats
 
-- [ ]  **User Invites**
-  - [ ]  Send chating invites for others users
-  - [ ]  Accept or deny invites sent for you
+- [x]  **User Invites**
+  - [x]  Send chating invites for others users
+  - [x]  Accept or deny invites sent for you
 
 ## Architecture
 ![system-architecture](./docs/system-architecture.jpeg)
@@ -30,6 +30,7 @@ Chating web application (in development)
 ## Running Guide
 
 - **Web**
+
 ```bash
 npm install
 npm run dev
@@ -37,10 +38,12 @@ npm run dev
 
 - **API**
   - PostgreSQL (Docker)
+
   ```bash
     docker compose up -d
   ```
   - NodeJs Application
+
   ```bash
   npm install
   npm run dev
