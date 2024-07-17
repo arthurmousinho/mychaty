@@ -53,8 +53,8 @@ export function Invites() {
     }, [inviteOption]);
 
     return (
-        <div className="m-10 w-full space-y-4">
-            <header className="flex items-center justify-between">
+        <div className="w-full space-y-4">
+            <header className="flex items-center justify-between border-b p-4">
                 <h1 className="text-2xl font-semibold">
                     Manage Your Invites
                 </h1>
@@ -89,7 +89,7 @@ export function Invites() {
                     </NewInviteDialog>
                 </div>
             </header>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-4 p-4">
                 { 
                     inviteOption === 'RECEIVED' && 
                     receivedInvites.map(invite => (
