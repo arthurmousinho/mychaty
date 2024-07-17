@@ -10,7 +10,7 @@ interface ServerToClientEvents {
 interface ClientToServerEvents {
   hello: () => void;
   joinChat: (chatId: string) => void;
-  sendMessage: (messageData: { chatId: string, message: string }) => void;
+  sendMessage: (messageData: { chatId: string, content: string }) => void;
 };
 
 interface InterServerEvents {

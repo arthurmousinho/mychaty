@@ -7,13 +7,13 @@ export function SocketRoutes(socketIoServer: SocketIoServer) {
 
         socket.on('joinChat', (chatId) => {
             socket.join(chatId);
-            console.log(`User joined chat: ${chatId}`);
+            console.log(`Joined chat with: ${chatId}`);
         });
 
         socket.on('sendMessage', (messageData) => {
-            const { chatId, message } = messageData;
-            socketIoServer.to(chatId).emit('receive_message', message);
-            console.log(`Message sent to chat ${chatId}: ${message}`);
+            const { chatId, content } = messageData;
+            console.log(`Message received: ${content}`);
+            socketIoServer.to(chatId).emit('receive_message', content);
         });
 
         socket.on('disconnect', () => {
