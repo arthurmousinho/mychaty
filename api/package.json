@@ -15,7 +15,9 @@
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "fastify": "^4.28.1",
-    "prisma": "^5.16.2"
+    "prisma": "^5.16.2",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

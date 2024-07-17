@@ -34,6 +34,7 @@ Chating web application (in development)
   - Fastify
   - PostgreSQL 
   - Docker
+  - Socket.io
 
 ## Running Guide
 

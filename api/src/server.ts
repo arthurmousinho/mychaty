@@ -5,19 +5,32 @@ import jwt from "@fastify/jwt";
 import { UserRoutes } from "./routes/UserRoutes";
 import { InviteRoutes } from "./routes/InviteRoutes";
 
-export class Server {
+import { Server } from "socket.io";
+import { SocketIoServer } from "./models/SocketIoServer";
+import { SocketRoutes } from "./routes/SocketRoutes";
+
+
+export class MyChatyServer {
 
     public app: FastifyInstance;
+    private socketIoSever: SocketIoServer;
+
+    private origins = ['http://localhost:5173']
 
     private PORT = 3000;
     private HOST = '0.0.0.0';
 
     constructor() {
         this.app = fastify();
-        this.app.get('/', () => ('Hello World'));
+        this.socketIoSever = new Server(this.app.server, {
+            cors: {
+                origin: this.origins,
+                methods: ['GET', 'POST'],
+            }
+        });
 
         this.app.register(cors, {
-            origin: ['http://localhost:5173'],
+            origin: this.origins,
         });
         
         this.app.register(jwt, {
@@ -30,6 +43,7 @@ export class Server {
     private async setRoutes() {
         this.app.register(UserRoutes);
         this.app.register(InviteRoutes);
+        SocketRoutes(this.socketIoSever);
     }
 
     public async run() {
