@@ -1,19 +1,21 @@
-import { Invite } from "@prisma/client";
 import { User } from "../models/User";
 import { UserRepository } from "../repositories/UserRepository";
 import { HashService } from "./HashService";
 import { JwtService } from "./JwtService";
+import { ChatService } from "./ChatService";
 
 export class UserService {
 
     private userRepository: UserRepository;
     private hashService: HashService;
     private jwtService: JwtService;
+    private chatService: ChatService;
 
     constructor() {
         this.userRepository = new UserRepository();
         this.hashService = new HashService();
         this.jwtService = new JwtService();
+        this.chatService = new ChatService();
     }
 
     public async signInUser(email: string, password: string) {
@@ -65,25 +67,37 @@ export class UserService {
     }
 
     public async startFriendship(user: User, userFriend: User) {
-        const userExists = this.userRepository.getById(user.id || '');
-        if (!userExists) throw new Error(`User ${user.name} not found`);
+        const [ userExists, userFriendExists ] = await Promise.all([
+            this.userRepository.getById(user.id || ''),
+            this.userRepository.getById(userFriend.id || '')
+        ]);
 
-        const userFriendExists = this.userRepository.getById(userFriend.id || '');
+        if (!userExists) throw new Error(`User ${user.name} not found`);
         if (!userFriendExists) throw new Error(`User ${userFriend.name} not found`);
 
-        await this.userRepository.connectUserWithFriend(user, userFriend);
-        await this.userRepository.connectFriendWithUser(userFriend, user);
+        const newChat = await this.chatService.createChat();
+
+        await Promise.all([
+            this.userRepository.connectUserWithFriend(user, userFriend),
+            this.userRepository.connectFriendWithUser(userFriend, user),
+            this.chatService.addUserToChat(newChat.id, userExists.id),
+            this.chatService.addUserToChat(newChat.id, userFriendExists.id)
+        ]);
     }
 
     public async finishFriendship(user: User, userFriend: User) {
-        const userExists = this.userRepository.getById(user.id || '');
-        if (!userExists) throw new Error(`User ${user.name} not found`);
+        const [ userExists, userFriendExists ] = await Promise.all([
+            this.userRepository.getById(user.id || ''),
+            this.userRepository.getById(userFriend.id || '')
+        ]);
 
-        const userFriendExists = this.userRepository.getById(userFriend.id || '');
+        if (!userExists) throw new Error(`User ${user.name} not found`);
         if (!userFriendExists) throw new Error(`User ${userFriend.name} not found`);
 
-        await this.userRepository.disconnectUserWithFriend(user, userFriend);
-        await this.userRepository.disconnectFriendWithUser(userFriend, user);
+        await Promise.all([
+            this.userRepository.disconnectUserWithFriend(user, userFriend),
+            this.userRepository.disconnectFriendWithUser(userFriend, user),
+        ]);
     }
 
     public async getUserFriendsById(id: string) {

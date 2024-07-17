@@ -21,14 +21,15 @@ model User {
   friendOf User[] @relation("Friendship") // TODO: Find a way to remove this
 
   Message Message[]
-  Chat    Chat?     @relation(fields: [chatId], references: [id])
+  Chat    Chat[]    
   chatId  String?
 }
 
 model Chat {
-  id       String    @id @unique @default(uuid())
-  users    User[]
-  messages Message[]
+  id        String    @id @unique @default(uuid())
+  createdAt DateTime  @default(now())
+  users     User[]
+  messages  Message[]
 }
 
 model Message {
@@ -38,7 +39,7 @@ model Message {
   content   String
 
   senderId String
-  Chat     Chat?   @relation(fields: [chatId], references: [id])
+  Chat     Chat?   @relation(fields: [chatId], references: [id], onDelete: Cascade)
   chatId   String?
 }
 
