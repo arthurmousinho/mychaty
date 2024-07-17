@@ -1,6 +1,7 @@
 import { ChatArea } from "@/components/chat/ChatArea"
 import { UserCard } from "@/components/global/UserCard"
 import { WellcomeOptions } from "@/components/global/WellcomeOptions";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { User, useUser } from "@/hooks/useUser";
 import { useEffect, useState } from "react"
 
@@ -29,7 +30,7 @@ export function Chats() {
                         Chats
                     </h1>
                 </header>
-                <div className="flex flex-col ml-2 mr-2">
+                <div className="flex flex-col ml-2 mr-2 h-full">
                     {
                         friends.map(
                             friend => (
@@ -44,6 +45,21 @@ export function Chats() {
                         )
                     }
                 </div>
+                <footer className="px-4">
+                    <Select>
+                        <SelectTrigger defaultValue="ONLINE">
+                            <SelectValue placeholder="Current status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="ONLINE" className="cursor-pointer">
+                                Online
+                            </SelectItem>
+                            <SelectItem value="OFFLINE" className="cursor-pointer">
+                                Offline
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
+                </footer>
             </aside>
             {
                 selectedFriend 
