@@ -1,12 +1,13 @@
 import { ChatArea } from "@/components/chat/ChatArea"
 import { UserCard } from "@/components/global/UserCard"
+import { WellcomeOptions } from "@/components/global/WellcomeOptions";
 import { User, useUser } from "@/hooks/useUser";
 import { useEffect, useState } from "react"
-
 
 export function Chats() {
 
     const [ friends, setFriends ] = useState<User[]>([]);
+    const [ selectedFriend, setSelectedFriend ] = useState<User>();
 
     const { getFriends } = useUser();
 
@@ -22,7 +23,7 @@ export function Chats() {
 
     return (
         <div className="flex w-full">
-            <aside className="w-[350px] py-4 flex flex-col gap-4 bg-slate-50">
+            <aside className="w-[350px] py-4 flex flex-col gap-4 bg-slate-50 border-r">
                 <header className="w-full px-4">
                     <h1 className="text-xl font-semibold">
                         Chats
@@ -32,17 +33,23 @@ export function Chats() {
                     {
                         friends.map(
                             friend => (
-                                <UserCard 
-                                    key={friend.id}
-                                    name={friend.name} 
-                                    online={true} 
-                                />
+                                <div onClick={() => setSelectedFriend(friend)} >
+                                    <UserCard 
+                                        key={friend.id}
+                                        name={friend.name} 
+                                        online={true} 
+                                    />
+                                </div>
                             )
                         )
                     }
                 </div>
             </aside>
-            <ChatArea />
+            {
+                selectedFriend 
+                ? <ChatArea user={selectedFriend} />
+                : <WellcomeOptions />
+            }
         </div>
     )
 }

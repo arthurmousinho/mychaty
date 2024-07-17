@@ -1,5 +1,5 @@
 import { useUser } from "@/hooks/useUser";
-import { Cog, LogOut, MessageSquare, UserRoundPlus, Users } from "lucide-react";
+import { Cog, LogOut, MessageSquare, UserRoundPlus, UsersRound } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const sidebarLinks = [
@@ -8,7 +8,7 @@ const sidebarLinks = [
         to: '/chats'
     },
     {
-        icon: <Users />,
+        icon: <UsersRound />,
         to: '/groups'
     },
     {

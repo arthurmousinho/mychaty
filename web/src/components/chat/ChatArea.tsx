@@ -3,13 +3,18 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { UserCard } from "../global/UserCard";
 import { ChatMessage } from "./ChatMessage";
+import { User } from "@/hooks/useUser";
 
-export function ChatArea() {
+interface ChatAreaProps {
+    user: User;
+}
+
+export function ChatArea(props: ChatAreaProps) {
     return (
-        <div className="h-full w-full flex flex-col justify-between border rounded bg-slate-50">
+        <div className="h-full w-full flex flex-col justify-between rounded bg-slate-50">
             <header className="w-full border-b">
                 <UserCard 
-                    name="Diego Fernandes"
+                    name={props.user.name}
                     online={true}
                 />
             </header>
