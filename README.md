@@ -15,17 +15,25 @@ Chating web application (in development)
 
 - [x]  **User Invites**
   - [x]  Send chating invites for others users
-  - [x]  Accept or deny invites sent for you
+  - [x]  Accept invites sent for you
+  - [x]  Deny invites sent for you
+  - [x]  Delete invites sent from you
 
 ## Architecture
 ![system-architecture](./docs/system-architecture.jpeg)
 
 ## Techs
-- React
-- Shadcn/UI
-- NodeJs
-- Fastify
-- Docker
+
+- **Web**
+  - React
+  - Shadcn/UI
+  - TailwindCSS
+
+- **API**
+  - NodeJs
+  - Fastify
+  - PostgreSQL 
+  - Docker
 
 ## Running Guide
 
