@@ -75,6 +75,17 @@ export class UserService {
         await this.userRepository.connectFriendWithUser(userFriend, user);
     }
 
+    public async finishFriendship(user: User, userFriend: User) {
+        const userExists = this.userRepository.getById(user.id || '');
+        if (!userExists) throw new Error(`User ${user.name} not found`);
+
+        const userFriendExists = this.userRepository.getById(userFriend.id || '');
+        if (!userFriendExists) throw new Error(`User ${userFriend.name} not found`);
+
+        await this.userRepository.disconnectUserWithFriend(user, userFriend);
+        await this.userRepository.disconnectFriendWithUser(userFriend, user);
+    }
+
     public async getUserFriendsById(id: string) {
         const userExists = await this.userRepository.getById(id);
         if (!userExists) throw new Error(`User not found`);

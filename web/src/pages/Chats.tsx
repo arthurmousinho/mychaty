@@ -13,8 +13,6 @@ export function Chats() {
     async function loadUserFriends() {
         const userFriends = await getFriends();
         if (!userFriends) return;
-
-        console.log(userFriends)
         setFriends(userFriends);
     }
 

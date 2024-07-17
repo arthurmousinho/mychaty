@@ -11,11 +11,12 @@ interface InviteCardProps {
     status: 'RECEIVED' | 'SENT';
     onAcceptFn?: (id: string) => void;
     onDenyFn?: (id: string) => void;
+    onDeleteFn?: (id: string) => void;
 }
 
 export function InviteCard(props: InviteCardProps) {
 
-    const { acceptInvite, denyInvite } = useInvite();
+    const { acceptInvite, denyInvite, deleteInvite } = useInvite();
 
     function handleAcceptInvite() {
         if (props.onAcceptFn && props.status === 'RECEIVED') {
@@ -31,6 +32,13 @@ export function InviteCard(props: InviteCardProps) {
         }
     }
  
+    function handleDeleteInvite() {
+        if (props.onDeleteFn && props.status === 'SENT') {
+            deleteInvite(props.invite);
+            props.onDeleteFn(props.invite.id);
+        }
+    }
+
     if (props.status === 'RECEIVED') {
         return (
             <Card className="flex flex-col items-start">
@@ -61,7 +69,7 @@ export function InviteCard(props: InviteCardProps) {
             </Card>
         )
     }
-
+    
     if (props.status === 'SENT') {
         return (
             <Card className="flex flex-col items-start">
@@ -80,7 +88,7 @@ export function InviteCard(props: InviteCardProps) {
                     <Button 
                         className="flex gap-2 items-center text-red-500 border-red-500 hover:bg-red-500 hover:text-slate-50 flex-1" 
                         variant={'outline'}
-                        onClick={handleDenyInvite}
+                        onClick={handleDeleteInvite}
                     >
                         <Trash size={20} />
                         Cancel Invite

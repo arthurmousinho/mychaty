@@ -18,6 +18,10 @@ export class InviteRepository {
         const invite = await prisma.invite.findUnique({
             where: {
                 id
+            },
+            include: {
+                to: true,
+                from: true
             }
         });
         return invite;

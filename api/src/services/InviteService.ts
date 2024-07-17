@@ -66,4 +66,17 @@ export class InviteService {
         await this.inviteRepository.updateInviteStatus(inviteExists, 'DENIED');
     }
 
+    public async deleteInvite(inviteId: string, userId: string) {
+        const inviteExists = await this.inviteRepository.getById(inviteId);
+        
+        if (!inviteExists) throw new Error('Invite not found');
+        if (inviteExists.userFromId !== userId) throw new Error('Invalid invite');
+
+        const user = inviteExists.from;
+        const userFriend = inviteExists.to;
+        
+        await this.userService.finishFriendship(user, userFriend);
+        await this.inviteRepository.deleteById(inviteExists.id);
+    }
+
 }

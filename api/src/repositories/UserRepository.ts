@@ -101,6 +101,36 @@ export class UserRepository {
         });
     }
 
+    public async disconnectUserWithFriend(user: User, friend: User) {
+        await prisma.user.update({
+            where: {
+                id: user.id
+            },
+            data: {
+                friends: {
+                    disconnect: {
+                        id: friend.id
+                    }
+                }
+            }
+        });
+    }
+    
+    public async disconnectFriendWithUser(friend: User, user: User) {
+        await prisma.user.update({
+            where: {
+                id: friend.id
+            },
+            data: {
+                friends: {
+                    disconnect: {
+                        id: user.id
+                    }
+                }
+            }
+        });
+    }
+
     public async getFriendsByUserId(id: string) {
         const user = await prisma.user.findUnique({
             where: {

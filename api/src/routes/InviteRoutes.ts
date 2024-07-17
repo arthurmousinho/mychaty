@@ -30,4 +30,9 @@ export async function InviteRoutes(app: FastifyInstance) {
         inviteController.deny
     );
 
+    app.delete(
+        '/invite/delete/:inviteId',
+        inviteController.delete
+    );
+
 }

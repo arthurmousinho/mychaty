@@ -37,8 +37,14 @@ export function Invites() {
     }
 
     function removeInvite(id: string) {
-        const invitesUpdated = receivedInvites.filter(invite => invite.id !== id);
-        setReceivedInvites(invitesUpdated);
+        if (inviteOption === 'RECEIVED') {
+            const invitesUpdated = receivedInvites.filter(invite => invite.id !== id);
+            setReceivedInvites(invitesUpdated);
+        }
+        if (inviteOption === 'SENT') {
+            const invitesUpdated = sentInvites.filter(invite => invite.id !== id);
+            setSentInvites(invitesUpdated);
+        }
     }
 
     useEffect(() => {
@@ -103,8 +109,7 @@ export function Invites() {
                             status="SENT"
                             key={invite.id} 
                             invite={invite} 
-                            onAcceptFn={removeInvite}
-                            onDenyFn={removeInvite}
+                            onDeleteFn={removeInvite}
                         />
                     )) 
                 }
