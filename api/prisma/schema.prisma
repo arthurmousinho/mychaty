@@ -19,6 +19,27 @@ model User {
 
   friends  User[] @relation("Friendship")
   friendOf User[] @relation("Friendship") // TODO: Find a way to remove this
+
+  Message Message[]
+  Chat    Chat?     @relation(fields: [chatId], references: [id])
+  chatId  String?
+}
+
+model Chat {
+  id       String    @id @unique @default(uuid())
+  users    User[]
+  messages Message[]
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  sender    User     @relation(fields: [senderId], references: [id])
+  content   String
+
+  senderId String
+  Chat     Chat?   @relation(fields: [chatId], references: [id])
+  chatId   String?
 }
 
 enum InviteStatus {
