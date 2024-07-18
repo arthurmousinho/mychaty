@@ -10,4 +10,9 @@ export async function ChatRoutes(app: FastifyInstance) {
         chatController.getChats
     );
 
+    app.get(
+        '/chat/:chatId',
+        chatController.getChatById
+    );
+
 }

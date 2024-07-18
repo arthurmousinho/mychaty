@@ -25,6 +25,9 @@ export class ChatService {
     }
 
     public async addUserToChat(chatId: string, userId: string) {
+        const chatExists = await this.chatRepostitory.getById(chatId);
+        if (!chatExists) throw new Error('Chat not found');
+
         await this.chatRepostitory.addUserToChat(chatId, userId);
     }
 
@@ -34,5 +37,13 @@ export class ChatService {
 
         await this.chatRepostitory.deleteById(chatId);
     } 
+
+    public async getChatById(chatId: string) {
+        const chatExists = await this.chatRepostitory.getById(chatId);
+        if (!chatExists) throw new Error('Chat not found');
+
+        const chat = await this.chatRepostitory.getById(chatId);
+        return chat;
+    }
 
 }

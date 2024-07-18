@@ -13,6 +13,9 @@ export class ChatRepository {
         const chat = await prisma.chat.findUnique({
             where: {
                 id
+            },
+            include: {
+                messages: true
             }
         });
         return chat;

@@ -2,13 +2,13 @@ import axios from "axios";
 import { useToken } from "./useToken";
 import { User } from "./useUser";
 
-interface Message {
-    id: string;
-    createdAt: string;
-    sender: User;
+export interface Message {
+    id?: string;
+    createdAt?: string;
+    sender?: User;
     content: string;
     senderId: string;
-    Chat: Chat;
+    Chat?: Chat;
     chatId: string;
 }
 
@@ -35,14 +35,32 @@ export function useChat() {
                     }
                 }
             );
-            return response.data
+            return response.data as Chat[]
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function getChatInfos(id: string) {
+        try {
+            const token = getToken();
+            const response = await axios.get(
+                `${ENDPOINT}/${id}`, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            return response.data as Chat
         } catch (error) {
             console.error(error);
         }
     }
 
     return {
-        getUserChats
+        getUserChats,
+        getChatInfos
     }
 
 }

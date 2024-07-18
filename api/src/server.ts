@@ -24,7 +24,7 @@ export class MyChatyServer {
         this.app = fastify();
         this.socketIoSever = new Server(this.app.server, {
             cors: {
-                origin: this.origins,
+                origin: '*',
                 methods: ['GET', 'POST'],
             }
         });

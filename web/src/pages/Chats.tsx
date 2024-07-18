@@ -14,6 +14,7 @@ export function Chats() {
 
     async function loadUserChats() {
         const userChats = await getUserChats();
+        console.log(userChats)
         if (!userChats) return;
         setChats(userChats);
     }
