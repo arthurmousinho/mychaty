@@ -3,14 +3,14 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { UserCard } from "../global/UserCard";
 import { ChatMessage } from "./ChatMessage";
-import { User } from "@/hooks/useUser";
 import { io } from "socket.io-client";
 import { FormEvent, useEffect, useState } from "react";
+import { Chat } from "@/hooks/useChat";
 
 const socket = io(import.meta.env.VITE_API_BASE_URL);
 
 interface ChatAreaProps {
-    user: User;
+    chat: Chat;
 }
 
 export function ChatArea(props: ChatAreaProps) {
@@ -18,9 +18,9 @@ export function ChatArea(props: ChatAreaProps) {
     const [ message, setMessage ] = useState('');
 
     useEffect(() => {
-        const userFriendId = props.user.id;
-        socket.emit('joinChat', userFriendId);
-    }, [props.user.id]);
+        const chatId = props.chat.id;
+        socket.emit('joinChat', chatId);
+    }, [props.chat.id]);
 
     function handleSendMessage(event: FormEvent) {
         event.preventDefault();
@@ -33,7 +33,7 @@ export function ChatArea(props: ChatAreaProps) {
         <div className="h-full w-full flex flex-col justify-between rounded bg-slate-50">
             <header className="w-full border-b">
                 <UserCard 
-                    name={props.user.name}
+                    name={ props.chat.users[0].name}
                     online={true}
                 />
             </header>
@@ -49,7 +49,7 @@ export function ChatArea(props: ChatAreaProps) {
                     />
                 </div>
             </div>
-            <form className="flex items-center gap-2 p-4 border-t" onSubmit={handleSendMessage}>
+            <form className="flex items-center gap-4 p-4 border-t" onSubmit={handleSendMessage}>
                 <Input 
                     placeholder="Enter your message..." 
                     onChange={event => setMessage(event.target.value)}
