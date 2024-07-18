@@ -8,7 +8,7 @@ import { InviteRoutes } from "./routes/InviteRoutes";
 import { Server } from "socket.io";
 import { SocketIoServer } from "./models/SocketIoServer";
 import { SocketRoutes } from "./routes/SocketRoutes";
-
+import { ChatRoutes } from "./routes/ChatRoutes";
 
 export class MyChatyServer {
 
@@ -43,6 +43,7 @@ export class MyChatyServer {
     private async setRoutes() {
         this.app.register(UserRoutes);
         this.app.register(InviteRoutes);
+        this.app.register(ChatRoutes);
         SocketRoutes(this.socketIoSever);
     }
 

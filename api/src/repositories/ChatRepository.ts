@@ -42,4 +42,25 @@ export class ChatRepository {
         });
     }
 
+    public async getAllByUserId(userId: string) {
+        const userChats = await prisma.chat.findMany({
+            where: {
+                users: {
+                    some: {
+                        id: userId
+                    }
+                }
+            },
+            include: {
+                users: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
+            }
+        });
+        return userChats;
+    }
+
 }
