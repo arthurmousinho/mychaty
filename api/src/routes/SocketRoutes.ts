@@ -1,24 +1,21 @@
+import { SocketController } from "../controllers/SocketController";
+import { Message } from "../models/Message";
 import { SocketIoServer } from "../models/SocketIoServer";
 
+const socketController = new SocketController();
+
 export function SocketRoutes(socketIoServer: SocketIoServer) {
-
     socketIoServer.on('connection', (socket) => {
-        console.log('a user connected');
+          
+        socket.on(
+            'joinChat', 
+            (chatId: string) => socketController.joinChat(socket, chatId)
+        );
 
-        socket.on('joinChat', (chatId) => {
-            socket.join(chatId);
-            console.log(`Joined chat with: ${chatId}`);
-        });
+        socket.on(
+            'sendMessage', 
+           (messageData: Message) => socketController.sendMessage(socket, messageData)
+        );
 
-        socket.on('sendMessage', (messageData) => {
-            const { chatId, content } = messageData;
-            console.log(`Message received: ${content}`);
-            socketIoServer.to(chatId).emit('receive_message', content);
-        });
-
-        socket.on('disconnect', () => {
-            console.log('a user disconnected');
-        });
     });
-
 }

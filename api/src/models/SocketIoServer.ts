@@ -1,4 +1,5 @@
 import { Server } from "socket.io";
+import { Message } from "./Message";
 
 interface ServerToClientEvents {
   noArg: () => void;
@@ -10,7 +11,7 @@ interface ServerToClientEvents {
 interface ClientToServerEvents {
   hello: () => void;
   joinChat: (chatId: string) => void;
-  sendMessage: (messageData: { chatId: string, content: string }) => void;
+  sendMessage: (messageData: Message) => void;
 };
 
 interface InterServerEvents {
