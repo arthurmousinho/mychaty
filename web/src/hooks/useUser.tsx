@@ -109,13 +109,56 @@ export function useUser() {
         }
     }
 
+    async function updateUser(name: string, email: string) {
+        try {
+            const token = getToken();
+            const response = await axios.put(
+                ENDPOINT,
+                { name, email },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            toast({
+                title: "✅ Success",
+                variant: 'default',
+                description: 'Your informations was saved',
+            });
+            const userUpdated = response.data as User;
+            return userUpdated;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function deleteUser() {
+        try {
+            const token = getToken();
+            await axios.delete(
+                ENDPOINT,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            navigate('/wellcome', { replace: true });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return {
         signUp,
         signIn,
         signOut,
         searchByName,
         getFriends,
-        getLoggedUser
+        getLoggedUser,
+        deleteUser,
+        updateUser
     }
 
 }

@@ -117,4 +117,20 @@ export class UserService {
         return userUpdated;
     }
 
+    public async updateUser(params: { id: string, name: string, email: string }) {
+        const userExists = await this.userRepository.getById(params.id);
+        if (!userExists) throw new Error(`User not found`);
+        
+        const userUpdated = await this.userRepository.updateUser(params);
+        return userUpdated;
+    }
+
+    public async deleteUser(id: string) {
+        const userExists = await this.userRepository.getById(id);
+        if (!userExists) throw new Error(`User not found`);
+        
+        await this.chatService.deleteChatByUserId(id);
+        await this.userRepository.deleteUser(id);
+    }
+
 }

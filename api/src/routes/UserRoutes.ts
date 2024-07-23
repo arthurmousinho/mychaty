@@ -30,4 +30,14 @@ export async function UserRoutes(app: FastifyInstance) {
         userController.getUser
     );
 
+    app.put(
+        '/user',
+        userController.updateUser
+    );
+
+    app.delete(
+        '/user',
+        userController.deleteUser
+    );
+
 }

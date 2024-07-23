@@ -1,5 +1,5 @@
 import { useUser } from "@/hooks/useUser";
-import { Cog, LogOut, MessageSquare, UserRoundPlus, UsersRound } from "lucide-react";
+import { LogOut, MessageSquare, UserRound, UserRoundPlus, UsersRound } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const sidebarLinks = [
@@ -16,8 +16,8 @@ const sidebarLinks = [
         to: '/invites'
     },
     {
-        icon: <Cog />,
-        to: '/settings'
+        icon: <UserRound />,
+        to: '/account'
     },
 ]
 

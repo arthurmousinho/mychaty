@@ -3,7 +3,7 @@ import { ChatRepository } from "../repositories/ChatRepository";
 export class ChatService {
 
     private chatRepostitory: ChatRepository;
-
+    
     constructor() {
         this.chatRepostitory = new ChatRepository();
     }
@@ -44,6 +44,10 @@ export class ChatService {
 
         const chat = await this.chatRepostitory.getById(chatId);
         return chat;
+    }
+
+    public async deleteChatByUserId(userId: string) {
+        await this.chatRepostitory.deleteByUserId(userId);
     }
 
 }

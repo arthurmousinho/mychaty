@@ -45,6 +45,18 @@ export class ChatRepository {
         });
     }
 
+    public async deleteByUserId(userId: string) {
+        await prisma.chat.deleteMany({
+            where: {
+                users: {
+                    some: {
+                        id: userId
+                    }
+                }
+            }
+        });
+    }
+
     public async getAllByUserId(userId: string) {
         const userChats = await prisma.chat.findMany({
             where: {

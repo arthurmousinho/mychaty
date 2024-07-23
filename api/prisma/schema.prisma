@@ -23,7 +23,7 @@ model User {
   friendOf User[] @relation("Friendship") // TODO: Find a way to remove this
 
   Message Message[]
-  Chat    Chat[]    
+  Chat    Chat[]
   chatId  String?
 }
 
@@ -37,7 +37,7 @@ model Chat {
 model Message {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
-  sender    User     @relation(fields: [senderId], references: [id])
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
   content   String
 
   senderId String
@@ -59,7 +59,6 @@ model Invite {
 
   @@unique([userFromId, userToId])
 }
-
 
 enum InviteStatus {
   PENDING

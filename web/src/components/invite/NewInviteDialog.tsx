@@ -49,7 +49,7 @@ export function NewInviteDialog(props: NewInviteDialogProps) {
                                 <div onClick={() => { createInvite(user) }}>
                                     <UserCard 
                                         name={user.name}
-                                        online={true}
+                                        online={user.status === 'ONLINE'}
                                     />
                                 </div>
                             ))

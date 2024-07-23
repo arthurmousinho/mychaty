@@ -42,7 +42,7 @@ export function WellcomeOptions() {
                              </CardHeader>
                          </Card>
                      </Link>
-                     <Link to={'/groups'}>
+                     <Link to={'/account'}>
                          <Card>
                              <CardHeader className="flex flex-row items-center justify-center gap-4 text-muted-foreground hover:bg-slate-50 w-[300px] font-semibold">
                                 <UserRound size={25} />

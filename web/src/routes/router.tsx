@@ -4,6 +4,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import { Guard } from "./authGuard";
 import { Invites } from "@/pages/Invites";
 import { Layout } from "@/components/global/Layout";
+import { Account } from "@/pages/Account";
 
 export const ROUTER = createBrowserRouter([
     { 
@@ -16,7 +17,8 @@ export const ROUTER = createBrowserRouter([
         children: [
             { path: '/', element: <Navigate to={'/wellcome'} /> },
             { path: '/chats', element: <Chats /> },
-            { path: '/invites', element: <Invites /> }
+            { path: '/invites', element: <Invites /> },
+            { path: '/account', element: <Account /> }
         ]
     }
 ])
