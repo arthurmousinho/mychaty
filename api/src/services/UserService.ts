@@ -3,6 +3,7 @@ import { UserRepository } from "../repositories/UserRepository";
 import { HashService } from "./HashService";
 import { JwtService } from "./JwtService";
 import { ChatService } from "./ChatService";
+import { UserStatus } from "../models/UserStatus";
 
 export class UserService {
 
@@ -106,6 +107,14 @@ export class UserService {
 
         const userFriends = await this.userRepository.getFriendsByUserId(id);
         return userFriends;
+    }
+
+    public async updateUserStatus(status: UserStatus, id: string) {
+        const userExists = await this.userRepository.getById(id);
+        if (!userExists) throw new Error(`User not found`);
+
+        const userUpdated = await this.userRepository.updateStatusById(status, id);
+        return userUpdated;
     }
 
 }

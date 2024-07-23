@@ -8,7 +8,7 @@ export class ChatService {
         this.chatRepostitory = new ChatRepository();
     }
 
-    public async getUserChats(userId: string) {
+    public async getUserChats(userId: string, includeUser = false) {
         const userChats = await this.chatRepostitory.getAllByUserId(userId);
 
         const filteredUserChats = userChats.map(chat => ({
@@ -16,7 +16,7 @@ export class ChatService {
             users: chat.users.filter(user => user.id !== userId)
         }));
 
-        return filteredUserChats;
+        return includeUser ? userChats : filteredUserChats;
     }
 
     public async createChat() {

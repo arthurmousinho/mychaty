@@ -76,7 +76,7 @@ export function ChatArea(props: ChatAreaProps) {
             <header className="w-full border-b">
                 <UserCard 
                     name={props.chat.users[0].name}
-                    online={true}
+                    online={props.chat.users[0].status === 'ONLINE'}
                 />
             </header>
             <div className="p-4 flex-1 overflow-y-auto">

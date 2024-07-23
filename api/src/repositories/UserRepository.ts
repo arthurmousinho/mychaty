@@ -1,5 +1,6 @@
 import { prisma } from "../../prisma";
 import { User } from "../models/User";
+import { UserStatus } from "../models/UserStatus";
 
 export class UserRepository {
 
@@ -145,6 +146,21 @@ export class UserRepository {
 
         const userFriends = user.friends;
         return userFriends;
+    }
+
+    public async updateStatusById(status: UserStatus, id: string) {
+        const userUpdated = await prisma.user.update({
+            where: {
+                id
+            },
+            include: {
+                friends: true
+            },
+            data: {
+                status
+            }
+        });
+        return userUpdated;
     }
 
 }

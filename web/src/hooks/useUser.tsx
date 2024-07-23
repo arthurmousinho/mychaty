@@ -3,11 +3,14 @@ import { useToken } from "./useToken";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 
+
+export type UserStatus = 'ONLINE' | 'OFFLINE';
 export interface User {
     id?: string;
     email: string;
     name: string;
     password: string;
+    status: UserStatus; 
     friends: any[]
 }
 
@@ -89,12 +92,30 @@ export function useUser() {
         }
     }
     
+    async function getLoggedUser() {
+        try {
+            const token = getToken();
+            const response = await axios.get(
+                ENDPOINT,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            return response.data as User
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return {
         signUp,
         signIn,
         signOut,
         searchByName,
-        getFriends
+        getFriends,
+        getLoggedUser
     }
 
 }

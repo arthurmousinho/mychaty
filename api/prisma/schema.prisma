@@ -14,6 +14,8 @@ model User {
   password  String
   createdAt DateTime @default(now())
 
+  status UserStatus @default(ONLINE)
+
   invitesSent     Invite[] @relation("InvitesSent")
   invitesReceived Invite[] @relation("InvitesReceived")
 
@@ -43,12 +45,6 @@ model Message {
   chatId   String?
 }
 
-enum InviteStatus {
-  PENDING
-  ACCEPTED
-  DENIED
-}
-
 model Invite {
   id String @id @default(uuid())
 
@@ -62,4 +58,16 @@ model Invite {
   createdAt  DateTime @default(now())
 
   @@unique([userFromId, userToId])
+}
+
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  DENIED
+}
+
+enum UserStatus {
+  ONLINE
+  OFFLINE
 }
