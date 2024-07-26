@@ -42,16 +42,16 @@ export function Sidebar() {
                 {
                     sidebarLinks.map(link => (
                         <TooltipProvider key={link.to}>
-                            <Tooltip>
-                                <TooltipTrigger className="p-4 hover:bg-slate-200 rounded text-muted-foreground"> 
-                                    <Link to={link.to}>
+                            <Link to={link.to}>
+                                <Tooltip>
+                                    <TooltipTrigger className="p-4 hover:bg-slate-200 rounded text-muted-foreground"> 
                                         { link.icon }
-                                    </Link>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <span>{ link.title }</span>
-                                </TooltipContent>
-                            </Tooltip>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <span>{ link.title }</span>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </Link>
                         </TooltipProvider>
                     ))
                 }

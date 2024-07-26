@@ -10,6 +10,9 @@ export class MessageRepository {
                 senderId: message.senderId,
                 chatId: message.chatId,
                 content: message.content
+            },
+            include: {
+                sender: true
             }
         });
         return newMessage;

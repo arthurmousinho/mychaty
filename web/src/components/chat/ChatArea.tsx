@@ -7,6 +7,7 @@ import { io } from "socket.io-client";
 import { FormEvent, useEffect, useState } from "react";
 import { Chat, Message, useChat } from "@/hooks/useChat";
 import { useToken } from "@/hooks/useToken";
+import { User } from "@/hooks/useUser";
 
 const socket = io(import.meta.env.VITE_API_BASE_URL, {
     transports: ['websocket']
@@ -49,9 +50,14 @@ export function ChatArea(props: ChatAreaProps) {
             if (message.chatId !== props.chat.id) return;
             setMessages((prevMessages) => [...prevMessages, message]);
         });
+
+        socket.on('changeUserStatus', (userUpdated: User) => {
+            props.chat.users[0] = userUpdated
+        });
       
         return () => {
             socket.off('sendMessage');
+            socket.off('changeUserStatus');
         };
 
     }, [ props.chat.id ]);

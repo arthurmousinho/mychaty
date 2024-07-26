@@ -2,9 +2,10 @@ import { ChatArea } from "@/components/chat/ChatArea";
 import { UserCard } from "@/components/global/UserCard";
 import { WellcomeOptions } from "@/components/global/WellcomeOptions";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Chat, useChat } from "@/hooks/useChat";
+import { useToast } from "@/components/ui/use-toast";
+import { Chat, Message, useChat } from "@/hooks/useChat";
 import { User, UserStatus, useUser } from "@/hooks/useUser";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
 const socket = io(import.meta.env.VITE_API_BASE_URL, {
@@ -15,70 +16,85 @@ export function Chats() {
 
     const [ chats, setChats ] = useState<Chat[]>([]);
     const [ selectedChat, setSelectedChat ] = useState<Chat>();
-    
-    const [ currentUserId, setCurrentUserId ] = useState<string>()
+    const [ currentUserId, setCurrentUserId ] = useState<string>();
     const [ status, setStatus ] = useState<UserStatus>();
 
     const { getUserChats } = useChat();
     const { getLoggedUser } = useUser();
+    const { toast } = useToast();
 
-    async function loadUserChats() {
+    const loadUserChats = useCallback(async () => {
         const userChats = await getUserChats();
         if (!userChats) return;
 
-        userChats.map(chat => socket.emit('joinChat', chat.id));
+        userChats.forEach(chat => socket.emit('joinChat', chat.id));
         setChats(userChats);
-    }
+    }, [ getUserChats ]);
 
-    async function loadUser() {
+    const loadUser = useCallback(async () => {
         const userInfos = await getLoggedUser();
-
         if (!userInfos) return;
 
         setCurrentUserId(userInfos.id);
         setStatus(userInfos.status);
-    }
+    }, [ getLoggedUser ]);
 
-    function handleChangeStatus(newStatus: UserStatus) {
-        const status = newStatus;
+    const handleChangeStatus = useCallback((newStatus: UserStatus) => {
         const userId = currentUserId;
-        
-        socket.emit('changeUserStatus', status, userId);
-        setStatus(newStatus);
-    }
 
-    function handleUserStatusChange(userUpdated: User) {
+        if (userId) {
+            socket.emit('changeUserStatus', newStatus, userId);
+            setStatus(newStatus);
+        }
+    }, [ currentUserId ]);
+
+    const handleUserStatusChange = useCallback((userUpdated: User) => {
         setChats((prevChats: Chat[]) => {
-            const chatsUpdated = prevChats.map(chat => {
+            return prevChats.map(chat => {
                 if (chat.users[0].id === userUpdated.id) {
-                    const chatUpdated =  { ...chat, users: [ userUpdated ] }
-                    return chatUpdated;
+                    return { ...chat, users: [userUpdated] };
                 }
                 return chat;
             });
-            return chatsUpdated;
         });
-    };
-
-    useEffect(() => {
-        loadUser();
-        loadUserChats();
-    
-        socket.on('changeUserStatus', handleUserStatusChange);
-    
-        return () => {
-            socket.off('changeUserStatus', handleUserStatusChange);
-        };
     }, []);
 
-    useEffect(() => {
-        if (selectedChat) {
-            const updatedChat = chats.find(chat => chat.id === selectedChat.id);
-            if (updatedChat) {
-                setSelectedChat(updatedChat);
-            }
+    const handleNewMessageReceived = useCallback(async (message: Message) => {
+        if (!currentUserId) {
+            await loadUser();
         }
-    }, [chats]);
+
+        const notCurrentUserWhoSent = message.sender !== currentUserId;
+        const notSelectedChat = message.chatId !== selectedChat?.id;
+
+        console.log(notCurrentUserWhoSent)
+        console.log(notSelectedChat)
+
+        if (notCurrentUserWhoSent && notSelectedChat) {
+            toast({
+                title: `📩 ${message.sender?.name}`,
+                variant: 'default',
+                description: `${message.content}`
+            })
+        }
+
+    }, [ currentUserId, selectedChat, loadUser ]);
+
+    useEffect(() => {
+        const initialize = async () => {
+            await loadUser();
+            await loadUserChats();
+        };
+        initialize();
+
+        socket.on('changeUserStatus', handleUserStatusChange);
+        socket.on('sendMessage', handleNewMessageReceived);
+
+        return () => {
+            socket.off('changeUserStatus', handleUserStatusChange);
+            socket.off('sendMessage', handleNewMessageReceived);
+        };
+    }, [loadUser, loadUserChats, handleUserStatusChange, handleNewMessageReceived]);
 
     return (
         <div className="flex w-full">
