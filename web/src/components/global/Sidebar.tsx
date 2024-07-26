@@ -2,22 +2,33 @@ import { useUser } from "@/hooks/useUser";
 import { LogOut, MessageSquare, UserRound, UserRoundPlus, UsersRound } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
+
 const sidebarLinks = [
     {
         icon: <MessageSquare />,
-        to: '/chats'
+        to: '/chats',
+        title: 'Chats'
     },
     {
         icon: <UsersRound />,
-        to: '/groups'
+        to: '/friends',
+        title: 'Friends'
     },
     {
         icon: <UserRoundPlus />,
-        to: '/invites'
+        to: '/invites',
+        title: 'Invites'
     },
     {
         icon: <UserRound />,
-        to: '/account'
+        to: '/account',
+        title: 'Account'
     },
 ]
 
@@ -30,13 +41,18 @@ export function Sidebar() {
             <nav className="flex flex-col gap-4 px-2">
                 {
                     sidebarLinks.map(link => (
-                        <Link 
-                            to={link.to} 
-                            key={link.to}
-                            className="p-4 hover:bg-slate-200 rounded text-muted-foreground"
-                        >
-                            { link.icon }
-                        </Link>
+                        <TooltipProvider key={link.to}>
+                            <Tooltip>
+                                <TooltipTrigger className="p-4 hover:bg-slate-200 rounded text-muted-foreground"> 
+                                    <Link to={link.to}>
+                                        { link.icon }
+                                    </Link>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <span>{ link.title }</span>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
                     ))
                 }
             </nav>
