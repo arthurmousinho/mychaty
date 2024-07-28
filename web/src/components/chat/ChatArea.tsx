@@ -4,7 +4,7 @@ import { Input } from "../ui/input";
 import { UserCard } from "../global/UserCard";
 import { ChatMessage } from "./ChatMessage";
 import { io } from "socket.io-client";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Chat, Message, useChat } from "@/hooks/useChat";
 import { useToken } from "@/hooks/useToken";
 import { User } from "@/hooks/useUser";
@@ -19,10 +19,10 @@ interface ChatAreaProps {
 
 export function ChatArea(props: ChatAreaProps) {
 
-    const [ currentUserId, setCurrentUserId ] = useState('');
-
-    const [ message, setMessage ] = useState('');
-    const [ messages, setMessages ] = useState<Message[]>([]);
+    const [currentUserId, setCurrentUserId] = useState('');
+    const [message, setMessage] = useState('');
+    const [messages, setMessages] = useState<Message[]>([]);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const { getTokenInfos } = useToken();
     const { getChatInfos } = useChat();
@@ -38,8 +38,7 @@ export function ChatArea(props: ChatAreaProps) {
     }
 
     useEffect(() => {
-
-        const currentUserId = getTokenInfos().sub
+        const currentUserId = getTokenInfos().sub;
         setCurrentUserId(currentUserId);
 
         loadChatInfos();
@@ -53,15 +52,20 @@ export function ChatArea(props: ChatAreaProps) {
         });
 
         socket.on('changeUserStatus', (userUpdated: User) => {
-            props.chat.users[0] = userUpdated
+            props.chat.users[0] = userUpdated;
         });
       
         return () => {
             socket.off('sendMessage');
             socket.off('changeUserStatus');
         };
+    }, [props.chat.id]);
 
-    }, [ props.chat.id ]);
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messages]);
 
     function handleSendMessage(event: FormEvent) {
         event.preventDefault();
@@ -71,7 +75,7 @@ export function ChatArea(props: ChatAreaProps) {
             content: message, 
             senderId: currentUserId, 
             chatId: props.chat.id 
-        }
+        };
 
         socket.emit('sendMessage', newMessage);
         setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -87,7 +91,7 @@ export function ChatArea(props: ChatAreaProps) {
                 />
             </header>
             <div className="p-4 flex-1 overflow-y-auto">
-                <div className="flex flex-col space-y-4">
+                <div className="flex flex-col space-y-4" style={{ overflowY: 'auto', maxHeight: '100%' }}>
                     {
                         messages?.map(msg => (
                             <ChatMessage 
@@ -97,6 +101,7 @@ export function ChatArea(props: ChatAreaProps) {
                             />
                         ))
                     }
+                    <div ref={messagesEndRef} />
                 </div>
             </div>
             <form className="flex items-center gap-4 p-4 border-t" onSubmit={handleSendMessage}>

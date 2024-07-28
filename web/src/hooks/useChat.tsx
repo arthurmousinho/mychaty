@@ -67,11 +67,8 @@ export function useChat() {
     }
 
     function onReceiveMessage(message: Message) {
-        console.log(currentChat)
-
-        if (currentChat?.id === message.chatId) return
+        if (currentChat?.id === message.chatId) return;
         if (getTokenInfos().sub === message.senderId) return;
-
         toast({
             title: `📩 ${message.sender?.name}`,
             variant: 'default',
