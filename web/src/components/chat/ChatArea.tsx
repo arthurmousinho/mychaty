@@ -38,6 +38,7 @@ export function ChatArea(props: ChatAreaProps) {
     }
 
     useEffect(() => {
+
         const currentUserId = getTokenInfos().sub
         setCurrentUserId(currentUserId);
 

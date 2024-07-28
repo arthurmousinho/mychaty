@@ -2,10 +2,9 @@ import { ChatArea } from "@/components/chat/ChatArea";
 import { UserCard } from "@/components/global/UserCard";
 import { WellcomeOptions } from "@/components/global/WellcomeOptions";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
-import { Chat, Message, useChat } from "@/hooks/useChat";
+import { Chat, useChat } from "@/hooks/useChat";
 import { User, UserStatus, useUser } from "@/hooks/useUser";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
 const socket = io(import.meta.env.VITE_API_BASE_URL, {
@@ -19,36 +18,35 @@ export function Chats() {
     const [ currentUserId, setCurrentUserId ] = useState<string>();
     const [ status, setStatus ] = useState<UserStatus>();
 
-    const { getUserChats } = useChat();
+    const { getUserChats, setCurrentChat } = useChat();
     const { getLoggedUser } = useUser();
-    const { toast } = useToast();
 
-    const loadUserChats = useCallback(async () => {
+    async function loadUserChats()  {
         const userChats = await getUserChats();
         if (!userChats) return;
 
         userChats.forEach(chat => socket.emit('joinChat', chat.id));
         setChats(userChats);
-    }, [ getUserChats ]);
+    };
 
-    const loadUser = useCallback(async () => {
+    async function loadUser() {
         const userInfos = await getLoggedUser();
         if (!userInfos) return;
 
         setCurrentUserId(userInfos.id);
         setStatus(userInfos.status);
-    }, [ getLoggedUser ]);
+    };
 
-    const handleChangeStatus = useCallback((newStatus: UserStatus) => {
+    function handleChangeStatus(newStatus: UserStatus) {
         const userId = currentUserId;
 
         if (userId) {
             socket.emit('changeUserStatus', newStatus, userId);
             setStatus(newStatus);
         }
-    }, [ currentUserId ]);
+    };
 
-    const handleUserStatusChange = useCallback((userUpdated: User) => {
+    function handleUserStatusChange(userUpdated: User)  {
         setChats((prevChats: Chat[]) => {
             return prevChats.map(chat => {
                 if (chat.users[0].id === userUpdated.id) {
@@ -57,28 +55,12 @@ export function Chats() {
                 return chat;
             });
         });
-    }, []);
+    };
 
-    const handleNewMessageReceived = useCallback(async (message: Message) => {
-        if (!currentUserId) {
-            await loadUser();
-        }
-
-        const notCurrentUserWhoSent = message.sender !== currentUserId;
-        const notSelectedChat = message.chatId !== selectedChat?.id;
-
-        console.log(notCurrentUserWhoSent)
-        console.log(notSelectedChat)
-
-        if (notCurrentUserWhoSent && notSelectedChat) {
-            toast({
-                title: `📩 ${message.sender?.name}`,
-                variant: 'default',
-                description: `${message.content}`
-            })
-        }
-
-    }, [ currentUserId, selectedChat, loadUser ]);
+    function handleSelectChat(chat: Chat) {
+        setSelectedChat(chat);
+        setCurrentChat(chat);
+    }
 
     useEffect(() => {
         const initialize = async () => {
@@ -88,13 +70,11 @@ export function Chats() {
         initialize();
 
         socket.on('changeUserStatus', handleUserStatusChange);
-        socket.on('sendMessage', handleNewMessageReceived);
 
         return () => {
             socket.off('changeUserStatus', handleUserStatusChange);
-            socket.off('sendMessage', handleNewMessageReceived);
         };
-    }, [loadUser, loadUserChats, handleUserStatusChange, handleNewMessageReceived]);
+    }, []);
 
     return (
         <div className="flex w-full">
@@ -109,7 +89,7 @@ export function Chats() {
                         chats.map(
                             chat => (
                                 <div 
-                                    onClick={() => setSelectedChat(chat)} 
+                                    onClick={() => handleSelectChat(chat)} 
                                     key={chat.id}
                                 >
                                     <UserCard 
