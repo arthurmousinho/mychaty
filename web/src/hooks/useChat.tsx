@@ -67,15 +67,9 @@ export function useChat() {
         const currentUserWhoSentIt = getTokenInfos().sub === message.senderId;
         if (currentUserWhoSentIt) return;
 
-        console.log('currentUserWhoSentIt: ' + currentUserWhoSentIt)
-    
         const isTheCurrentChat = window.location.pathname === `/chats/${message.chatId}`;
-
-        console.log('isTheCurrentChat: ' + isTheCurrentChat)
-        console.log('route: ' + location.pathname)
-
         if (isTheCurrentChat) return;
-
+        
         toast({
             title: `📩 ${message.sender?.name}`,
             variant: 'default',
