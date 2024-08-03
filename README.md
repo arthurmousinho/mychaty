@@ -1,8 +1,7 @@
 # MyChaty
+![banner](./docs/banner.png)
 
-Chating web application (in development)
-
-## Features 
+## 🚀 Features 
 ### User Authentication**
 - [x]  Secure user login and registration (Email and Password)
 
@@ -23,10 +22,10 @@ Chating web application (in development)
 - [ ] Receive invite notification
 - [ ] Invite accepte notification
 
-## Architecture
+## 🏛️ Architecture
 ![system-architecture](./docs/system-architecture.jpeg)
 
-## Tech Stack
+## 🛠️ Tech Stack
 ### Web
 - [React](https://reactjs.org/)
 - [Shadcn/UI](https://github.com/shadcn/ui)
@@ -39,11 +38,11 @@ Chating web application (in development)
 - [Docker](https://www.docker.com/)
 - [Socket.io](https://socket.io/)
 
-## Dependencies
+## 📦 Dependencies
 - [Node/NPM](https://nodejs.org/)
 - [Docker](https://www.docker.com/)
 
-## Running Guide
+## 🏃‍♂️ Running Guide
 ### Web
 1. Change to web directory
 ```bash
