@@ -17,7 +17,7 @@
 - [x]  Accept invites sent for you
 - [x]  Deny invites sent for you
 
-### *Real-Time Notications
+### Real-Time Notications
 - [ ] Message notification
 - [ ] Receive invite notification
 - [ ] Invite accepte notification
@@ -74,3 +74,14 @@ docker compose up -d
 ```bash
 npm run dev
 ```
+
+## 💬 Contribution
+We welcome contributions to MyChaty! Please follow these steps:
+1. Fork the repository.
+2. Create a feature branch (`git checkout -b feature/your-feature-name`).
+3. Commit your changes (`git commit -am 'Add new feature'`).
+4. Push to the branch (`git push origin feature/your-feature-name`).
+5. Open a pull request.
+
+## 📜 License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
