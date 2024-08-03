@@ -2,7 +2,7 @@
 ![banner](./docs/banner.png)
 
 ## 🚀 Features 
-### User Authentication**
+### User Authentication
 - [x]  Secure user login and registration (Email and Password)
 
 ### Real-Time Messaging
