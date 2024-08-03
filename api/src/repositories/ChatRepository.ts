@@ -15,7 +15,8 @@ export class ChatRepository {
                 id
             },
             include: {
-                messages: true
+                messages: true,
+                users: true,
             }
         });
         return chat;

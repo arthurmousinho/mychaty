@@ -2,6 +2,7 @@ import axios from "axios";
 import { useToken } from "./useToken";
 import { User } from "./useUser";
 import { useToast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 export interface Message {
     id?: string;
@@ -19,14 +20,14 @@ export interface Chat {
     messages: Message[]
 }
 
-let currentChat: Chat | undefined = undefined;
 
 export function useChat() {
-
+    
     const ENDPOINT = `${import.meta.env.VITE_API_BASE_URL}/chat`;
-
+    
     const { getToken, getTokenInfos } = useToken();
     const { toast } = useToast();
+    const navigate = useNavigate();
 
     async function getUserChats() {
         try {
@@ -62,25 +63,32 @@ export function useChat() {
         }
     }
 
-    function setCurrentChat(chat: Chat) {
-        currentChat = chat;
-    }
-
     function onReceiveMessage(message: Message) {
-        if (currentChat?.id === message.chatId) return;
-        if (getTokenInfos().sub === message.senderId) return;
+        const currentUserWhoSentIt = getTokenInfos().sub === message.senderId;
+        if (currentUserWhoSentIt) return;
+
+        console.log('currentUserWhoSentIt: ' + currentUserWhoSentIt)
+    
+        const isTheCurrentChat = window.location.pathname === `/chats/${message.chatId}`;
+
+        console.log('isTheCurrentChat: ' + isTheCurrentChat)
+        console.log('route: ' + location.pathname)
+
+        if (isTheCurrentChat) return;
+
         toast({
             title: `📩 ${message.sender?.name}`,
             variant: 'default',
-            description: `${message.content}`
+            description: `${message.content}`,
+            onClick: () => navigate(`chats/${message.chatId}`),
+            className: 'cursor-pointer'
         });
     }
 
     return {
         getUserChats,
         getChatInfos,
-        onReceiveMessage,
-        setCurrentChat
+        onReceiveMessage
     }
 
 }

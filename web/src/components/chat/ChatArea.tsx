@@ -8,58 +8,65 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { Chat, Message, useChat } from "@/hooks/useChat";
 import { useToken } from "@/hooks/useToken";
 import { User } from "@/hooks/useUser";
+import { useParams } from "react-router-dom";
 
 const socket = io(import.meta.env.VITE_API_BASE_URL, {
     transports: ['websocket']
 });
 
-interface ChatAreaProps {
-    chat: Chat;
-}
+export function ChatArea() {
 
-export function ChatArea(props: ChatAreaProps) {
-
-    const [currentUserId, setCurrentUserId] = useState('');
-    const [message, setMessage] = useState('');
-    const [messages, setMessages] = useState<Message[]>([]);
+    const [ chat, setChat ] = useState<Chat>();
+    const [ currentUserId, setCurrentUserId ] = useState('');
+    const [ friend, setFriend ] = useState<User>();
+    const [ message, setMessage ] = useState('');
+    const [ messages, setMessages ] = useState<Message[]>([]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const { getTokenInfos } = useToken();
     const { getChatInfos } = useChat();
 
+    const { id } = useParams();
+
     async function loadChatInfos() {
         setMessages([]);
-        const chatInfos = await getChatInfos(props.chat.id);
+        const chatInfos = await getChatInfos(id || '');
 
         if (!chatInfos) return;
 
-        const chatMessages = chatInfos.messages;
-        setMessages(chatMessages);
+        console.log(chatInfos)
+
+        setChat(chatInfos);
+        setFriend(chatInfos.users.filter(user => user.id !== currentUserId)[0])
+        setMessages(chatInfos.messages);
     }
 
     useEffect(() => {
         const currentUserId = getTokenInfos().sub;
         setCurrentUserId(currentUserId);
 
-        loadChatInfos();
+        loadChatInfos()
+            .then(() => {
+                if (!chat) return;
 
-        const chatId = props.chat.id;
-        socket.emit('joinChat', chatId);
+                socket.emit('joinChat', id);
 
-        socket.on('sendMessage', (message: Message) => {
-            if (message.chatId !== props.chat.id) return;
-            setMessages((prevMessages) => [...prevMessages, message]);
-        });
+                socket.on('sendMessage', (message: Message) => {
+                    if (message.chatId !== id) return;
+                    setMessages((prevMessages) => [...prevMessages, message]);
+                });
 
-        socket.on('changeUserStatus', (userUpdated: User) => {
-            props.chat.users[0] = userUpdated;
-        });
+                socket.on('changeUserStatus', (userUpdated: User) => {
+                    chat.users[1] = userUpdated;
+                });
+            });
+
       
         return () => {
             socket.off('sendMessage');
             socket.off('changeUserStatus');
         };
-    }, [props.chat.id]);
+    }, [id]);
 
     useEffect(() => {
         if (messagesEndRef.current) {
@@ -70,11 +77,12 @@ export function ChatArea(props: ChatAreaProps) {
     function handleSendMessage(event: FormEvent) {
         event.preventDefault();
         if (message.trim() === '') return;
+        if (!id) return;
 
         const newMessage = { 
             content: message, 
             senderId: currentUserId, 
-            chatId: props.chat.id 
+            chatId: id
         };
 
         socket.emit('sendMessage', newMessage);
@@ -86,8 +94,8 @@ export function ChatArea(props: ChatAreaProps) {
         <div className="h-full w-full flex flex-col justify-between rounded bg-slate-50">
             <header className="w-full border-b">
                 <UserCard 
-                    name={props.chat.users[0].name}
-                    online={props.chat.users[0].status === 'ONLINE'}
+                    name={friend?.name || ''}
+                    online={friend?.status === 'ONLINE'}
                 />
             </header>
             <div className="p-4 flex-1 overflow-y-auto">

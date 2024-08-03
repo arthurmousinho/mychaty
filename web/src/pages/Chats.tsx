@@ -1,10 +1,9 @@
-import { ChatArea } from "@/components/chat/ChatArea";
 import { UserCard } from "@/components/global/UserCard";
-import { WellcomeOptions } from "@/components/global/WellcomeOptions";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Chat, useChat } from "@/hooks/useChat";
 import { User, UserStatus, useUser } from "@/hooks/useUser";
 import { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 
 const socket = io(import.meta.env.VITE_API_BASE_URL, {
@@ -14,12 +13,13 @@ const socket = io(import.meta.env.VITE_API_BASE_URL, {
 export function Chats() {
 
     const [ chats, setChats ] = useState<Chat[]>([]);
-    const [ selectedChat, setSelectedChat ] = useState<Chat>();
     const [ currentUserId, setCurrentUserId ] = useState<string>();
     const [ status, setStatus ] = useState<UserStatus>();
 
-    const { getUserChats, setCurrentChat } = useChat();
+    const { getUserChats } = useChat();
     const { getLoggedUser } = useUser();
+
+    const navigate = useNavigate();
 
     async function loadUserChats()  {
         const userChats = await getUserChats();
@@ -58,8 +58,7 @@ export function Chats() {
     };
 
     function handleSelectChat(chat: Chat) {
-        setSelectedChat(chat);
-        setCurrentChat(chat);
+        navigate(chat.id)
     }
 
     useEffect(() => {
@@ -123,11 +122,7 @@ export function Chats() {
                     }
                 </footer>
             </aside>
-            {
-                selectedChat 
-                ? <ChatArea chat={selectedChat} />
-                : <WellcomeOptions />
-            }
+            <Outlet />
         </div>
     )
 }

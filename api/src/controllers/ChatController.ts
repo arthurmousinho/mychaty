@@ -28,7 +28,7 @@ export class ChatController {
 
     public async getChatById(request: FastifyRequest, reply: FastifyReply) {
         try {
-            const { chatId } = request.params as { chatId: string }
+            const { chatId } = request.params as { chatId: string };
             const chat = await this.chatService.getChatById(chatId);
             reply.status(200).send(chat);
         } catch (error) {
