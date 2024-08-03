@@ -3,57 +3,75 @@
 Chating web application (in development)
 
 ## Features 
-- [x]  **User Authentication**
-  - [x]  Secure user login and registration (Email and Password)
+### User Authentication**
+- [x]  Secure user login and registration (Email and Password)
 
-- [ ]  **Real-Time Messaging**
-  - [ ]  Instant messaging with real-time updates
+### Real-Time Messaging
+- [x]  Instant messaging with real-time updates
 
-- [ ]  **Group Chats**
-  - [ ]  Create and manage group chats
-  - [ ]  Add or remove members from group chats
+### Manage User Friends
+- [ ]  List user friends
+- [ ]  Remove user friends
 
-- [x]  **User Invites**
-  - [x]  Send chating invites for others users
-  - [x]  Accept invites sent for you
-  - [x]  Deny invites sent for you
-  - [x]  Delete invites sent from you
+### User Invites
+- [x]  Send chating invites for others users
+- [x]  Accept invites sent for you
+- [x]  Deny invites sent for you
+
+### *Real-Time Notications
+- [ ] Message notification
+- [ ] Receive invite notification
+- [ ] Invite accepte notification
 
 ## Architecture
 ![system-architecture](./docs/system-architecture.jpeg)
 
-## Techs
+## Tech Stack
+### Web
+- [React](https://reactjs.org/)
+- [Shadcn/UI](https://github.com/shadcn/ui)
+- [TailwindCSS](https://tailwindcss.com/)
 
-- **Web**
-  - React
-  - Shadcn/UI
-  - TailwindCSS
+### API
+- [NodeJs](https://nodejs.org/)
+- [Fastify](https://www.fastify.io/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Docker](https://www.docker.com/)
+- [Socket.io](https://socket.io/)
 
-- **API**
-  - NodeJs
-  - Fastify
-  - PostgreSQL 
-  - Docker
-  - Socket.io
+## Dependencies
+- [Node/NPM](https://nodejs.org/)
+- [Docker](https://www.docker.com/)
 
 ## Running Guide
-
-- **Web**
-
+### Web
+1. Change to web directory
+```bash
+cd web
+```
+2. Installing Packages
 ```bash
 npm install
+```
+3. Run project
+```bash
 npm run dev
 ```
 
-- **API**
-  - PostgreSQL (Docker)
-
-  ```bash
-    docker compose up -d
-  ```
-  - NodeJs Application
-
-  ```bash
-  npm install
-  npm run dev
-  ```
+### API
+1. Change to api directory
+```bash
+cd api
+```
+2. Installing Packages
+```bash
+npm install
+```
+3. Start PSQL using docker
+```bash
+docker compose up -d
+```
+4. Run project
+```bash
+npm run dev
+```
