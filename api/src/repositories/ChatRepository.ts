@@ -46,7 +46,7 @@ export class ChatRepository {
         });
     }
 
-    public async deleteByUserId(userId: string) {
+    public async deleteAllByUserId(userId: string) {
         await prisma.chat.deleteMany({
             where: {
                 users: {
@@ -78,6 +78,22 @@ export class ChatRepository {
             }
         });
         return userChats;
+    }
+
+    public async getChatByUsersIds(usersIds: string[]) {
+        const chat = await prisma.chat.findFirst({
+            where: {
+                users: {
+                    every: {
+                        id: {
+                            in: usersIds
+                        }
+                    }
+                }
+            }
+        });
+    
+        return chat;
     }
 
 }

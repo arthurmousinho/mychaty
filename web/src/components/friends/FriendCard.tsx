@@ -7,6 +7,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 
 interface FriendCardProps {
     user: User;
+    onDeleteFn: (id: string) => void;
 }
 
 export function FriendCard(props: FriendCardProps) {
@@ -15,6 +16,7 @@ export function FriendCard(props: FriendCardProps) {
 
     async function handleDeleteUserFriend(id: string) {
         await deleteFriendById(id);
+        props.onDeleteFn(id);
     }
 
     return (

@@ -96,10 +96,13 @@ export class UserService {
         if (!userExists) throw new Error(`User ${user.name} not found`);
         if (!userFriendExists) throw new Error(`User ${userFriend.name} not found`);
 
+        const chatBetweenUsers = await this.chatService.getChatByUsersId([userExists.id, userFriendExists.id])
+        if (!chatBetweenUsers) throw new Error('Has no chat between these users');
+
         await Promise.all([
             this.userRepository.disconnectUserWithFriend(user, userFriend),
             this.userRepository.disconnectFriendWithUser(userFriend, user),
-            this.chatService.deleteChatByUserId(userExists.id)
+            this.chatService.deleteChat(chatBetweenUsers.id),
         ]);
     }
 
@@ -131,7 +134,7 @@ export class UserService {
         const userExists = await this.userRepository.getById(id);
         if (!userExists) throw new Error(`User not found`);
         
-        await this.chatService.deleteChatByUserId(id);
+        await this.chatService.deleteAllUserChats(id);
         await this.userRepository.deleteUser(id);
     }
 

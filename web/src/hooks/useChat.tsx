@@ -40,7 +40,12 @@ export function useChat() {
                     }
                 }
             );
-            return response.data as Chat[]
+            return response.data.map((chat: Chat) => {
+                const { users } = chat;
+                const currentUserId = getTokenInfos().sub;
+                const filteredUsers = users.filter(user => user.id !== currentUserId);
+                return { ...chat, users: filteredUsers };
+            }) as Chat[];
         } catch (error) {
             console.error(error);
         }
@@ -57,7 +62,15 @@ export function useChat() {
                     }
                 }
             );
-            return response.data as Chat
+
+            const currentUserId = getTokenInfos().sub
+
+            const filteredChat: Chat = {
+                ...response.data,
+                users: response.data.users.filter((user: User) => user.id !== currentUserId)
+            };
+            
+            return filteredChat;
         } catch (error) {
             console.error(error);
         }

@@ -16,6 +16,11 @@ export function Friends() {
         setFriends(userFriends || []);
     }
 
+    function onDeleteFriend(id: string) {
+        const friendsUpdated = friends.filter(friend => friend.id !== id);
+        setFriends(friendsUpdated);
+    }
+
     useEffect(() => {
         loadUserFriends();
     }, []);
@@ -35,7 +40,8 @@ export function Friends() {
                 {
                     friends.map(friend => (
                         <FriendCard 
-                            user={friend} 
+                            user={friend}
+                            onDeleteFn={onDeleteFriend} 
                         />
                     ))
                 }

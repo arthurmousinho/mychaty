@@ -46,8 +46,13 @@ export class ChatService {
         return chat;
     }
 
-    public async deleteChatByUserId(userId: string) {
-        await this.chatRepostitory.deleteByUserId(userId);
+    public async deleteAllUserChats(userId: string) {
+        await this.chatRepostitory.deleteAllByUserId(userId);
+    }
+
+    public async getChatByUsersId(usersIds: string[]) {
+        const usersChat = await this.chatRepostitory.getChatByUsersIds(usersIds);
+        return usersChat;
     }
 
 }
