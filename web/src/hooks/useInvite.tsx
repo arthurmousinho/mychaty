@@ -136,39 +136,12 @@ export function useInvite() {
         }
     }
 
-    async function deleteInvite(invite: Invite) {
-        try {
-            const token = getToken();
-            await axios.delete(
-                `${ENDPOINT}/delete/${invite.id}`, 
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
-            toast({
-                title: "✅ Success",
-                variant: 'default',
-                description: `Invite sent to ${invite.to.name} was deleted`,
-            });
-        } catch (error: any) {
-            const errorMessage = error.response.data.message;
-            toast({
-                title: "😥 Error",
-                variant: 'destructive',
-                description: errorMessage,
-            });
-        }
-    }
-
     return {
         getReceivedInvites,
         getSentInvites,
         acceptInvite,
         denyInvite,
-        createInvite,
-        deleteInvite
+        createInvite
     }
 
 }

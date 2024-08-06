@@ -17,7 +17,6 @@ export class InviteController {
         this.listSent = this.listSent.bind(this);
         this.accept = this.accept.bind(this);
         this.deny = this.deny.bind(this);
-        this.delete = this.delete.bind(this);
     }
 
     public async create(request: FastifyRequest, reply: FastifyReply) {
@@ -83,19 +82,6 @@ export class InviteController {
             const body = request.body as Invite;
 
             await this.inviteService.denyInvite({ ...body, userFromId: userId });
-            reply.status(200).send();
-        } catch (error) {
-            reply.status(400).send(error);
-        }
-    }
-
-    public async delete(request: FastifyRequest, reply: FastifyReply) {
-        try {
-            const token = await this.jwtService.decode(request);
-            const userId = token.sub;
-            const { inviteId } = request.params as { inviteId: string };
-
-            await this.inviteService.deleteInvite(inviteId, userId);
             reply.status(200).send();
         } catch (error) {
             reply.status(400).send(error);

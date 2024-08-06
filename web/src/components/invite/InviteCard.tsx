@@ -1,4 +1,4 @@
-import { Check, Trash, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader } from "../ui/card";
 
@@ -16,7 +16,7 @@ interface InviteCardProps {
 
 export function InviteCard(props: InviteCardProps) {
 
-    const { acceptInvite, denyInvite, deleteInvite } = useInvite();
+    const { acceptInvite, denyInvite } = useInvite();
 
     function handleAcceptInvite() {
         if (props.onAcceptFn && props.status === 'RECEIVED') {
@@ -31,13 +31,6 @@ export function InviteCard(props: InviteCardProps) {
             props.onDenyFn(props.invite.id);
         }
     }
- 
-    function handleDeleteInvite() {
-        if (props.onDeleteFn && props.status === 'SENT') {
-            deleteInvite(props.invite);
-            props.onDeleteFn(props.invite.id);
-        }
-    }
 
     if (props.status === 'RECEIVED') {
         return (
@@ -48,24 +41,28 @@ export function InviteCard(props: InviteCardProps) {
                         { props.invite.from.name }
                     </strong>
                 </CardHeader>
-                <CardContent className="flex flex-row items-center gap-4 justify-center w-full">
-                    <Button 
-                        className="flex gap-2 items-center text-green-500 border-green-500 hover:bg-green-500 hover:text-slate-50 flex-1" 
-                        variant={'outline'}
-                        onClick={handleAcceptInvite}
-                    >
-                        <Check size={20} />
-                        Accept
-                    </Button>
-                    <Button 
-                        className="flex gap-2 items-center text-red-500 border-red-500 hover:bg-red-500 hover:text-slate-50 flex-1" 
-                        variant={'outline'}
-                        onClick={handleDenyInvite}
-                    >
-                        <X size={20} />
-                        Deny
-                    </Button>
-                </CardContent>
+                {
+                    props.status === 'RECEIVED' && (
+                        <CardContent className="flex flex-row items-center gap-4 justify-center w-full">
+                            <Button 
+                                className="flex gap-2 items-center text-green-500 border-green-500 hover:bg-green-500 hover:text-slate-50 flex-1" 
+                                variant={'outline'}
+                                onClick={handleAcceptInvite}
+                            >
+                                <Check size={20} />
+                                Accept
+                            </Button>
+                            <Button 
+                                className="flex gap-2 items-center text-red-500 border-red-500 hover:bg-red-500 hover:text-slate-50 flex-1" 
+                                variant={'outline'}
+                                onClick={handleDenyInvite}
+                            >
+                                <X size={20} />
+                                Deny
+                            </Button>
+                        </CardContent>
+                    )
+                }
             </Card>
         )
     }
@@ -84,17 +81,6 @@ export function InviteCard(props: InviteCardProps) {
                         { props.invite.status }
                     </Badge>
                 </CardHeader>
-                <CardContent className="flex flex-row items-center gap-4 justify-center w-full">
-                    <Button 
-                        className="flex gap-2 items-center text-red-500 border-red-500 hover:bg-red-500 hover:text-slate-50 flex-1 "
-                        variant={'outline'}
-                        onClick={handleDeleteInvite}
-                        disabled={props.invite.status === 'ACCEPTED'}
-                    >
-                        <Trash size={20} />
-                        Cancel Invite
-                    </Button>
-                </CardContent>
             </Card>
         )
     }
