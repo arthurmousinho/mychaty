@@ -9,31 +9,25 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import { useEffect, useState } from "react";
 import { Invite, useInvite } from "@/hooks/useInvite";
 
-
 export function Invites() {
-
-    const [ inviteOption, setInviteOption ] = useState<'RECEIVED' | 'SENT'>('RECEIVED');
-
-    const [ receivedInvites, setReceivedInvites ] = useState<Invite[]>([]);
-    const [ sentInvites, setSentInvites ] = useState<Invite[]>([]);
+    const [inviteOption, setInviteOption] = useState<'RECEIVED' | 'SENT'>('RECEIVED');
+    const [receivedInvites, setReceivedInvites] = useState<Invite[]>([]);
+    const [sentInvites, setSentInvites] = useState<Invite[]>([]);
 
     const { getReceivedInvites, getSentInvites } = useInvite();
 
     async function loadReceivedInvites() {
         const invitesFound = await getReceivedInvites();
-        if (!invitesFound) return;
-        setReceivedInvites(invitesFound);
+        setReceivedInvites(Array.isArray(invitesFound) ? invitesFound : []);
     }
 
     async function loadSentInvites() {
         const invitesFound = await getSentInvites();
-        console.log(invitesFound)
-        if (!invitesFound) return;
-        setSentInvites(invitesFound);
+        setSentInvites(Array.isArray(invitesFound) ? invitesFound : []);
     }
 
     function removeInvite(id: string) {
@@ -55,28 +49,20 @@ export function Invites() {
     return (
         <div className="w-full space-y-4">
             <header className="flex items-center justify-between border-b p-4">
-                <h1 className="text-2xl font-semibold">
-                    Manage Your Invites
-                </h1>
-                <div className="flex items-center gap-4">   
-                    <Select 
-                        defaultValue="RECEIVED" 
+                <h1 className="text-2xl font-semibold">Manage Your Invites</h1>
+                <div className="flex items-center gap-4">
+                    <Select
+                        defaultValue="RECEIVED"
                         onValueChange={value => setInviteOption(value as 'RECEIVED' | 'SENT')}
                     >
                         <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Filter invites" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem 
-                                value="RECEIVED" 
-                                className="cursor-pointer"
-                            >
+                            <SelectItem value="RECEIVED" className="cursor-pointer">
                                 Received Invites
                             </SelectItem>
-                            <SelectItem 
-                                value="SENT" 
-                                className="cursor-pointer"
-                            >
+                            <SelectItem value="SENT" className="cursor-pointer">
                                 Sent Invites
                             </SelectItem>
                         </SelectContent>
@@ -90,30 +76,26 @@ export function Invites() {
                 </div>
             </header>
             <div className="grid grid-cols-3 gap-4 p-4">
-                { 
-                    inviteOption === 'RECEIVED' && 
+                {inviteOption === 'RECEIVED' &&
                     receivedInvites.map(invite => (
-                        <InviteCard 
+                        <InviteCard
                             status="RECEIVED"
-                            key={invite.id} 
-                            invite={invite} 
+                            key={invite.id}
+                            invite={invite}
                             onAcceptFn={removeInvite}
                             onDenyFn={removeInvite}
                         />
-                    )) 
-                }
-                { 
-                    inviteOption === 'SENT' && 
+                    ))}
+                {inviteOption === 'SENT' &&
                     sentInvites.map(invite => (
-                        <InviteCard 
+                        <InviteCard
                             status="SENT"
-                            key={invite.id} 
-                            invite={invite} 
+                            key={invite.id}
+                            invite={invite}
                             onDeleteFn={removeInvite}
                         />
-                    )) 
-                }
+                    ))}
             </div>
         </div>
-    )
+    );
 }

@@ -1,5 +1,6 @@
 import { Invite } from "../models/Invite";
 import { InviteRepository } from "../repositories/InviteRepository";
+import { ChatService } from "./ChatService";
 import { UserService } from "./UserService";
 
 export class InviteService {
@@ -71,11 +72,8 @@ export class InviteService {
         
         if (!inviteExists) throw new Error('Invite not found');
         if (inviteExists.userFromId !== userId) throw new Error('Invalid invite');
+        if (inviteExists.status === 'ACCEPTED') throw new Error("An accepted invite can't be deleted")
 
-        const user = inviteExists.from;
-        const userFriend = inviteExists.to;
-        
-        await this.userService.finishFriendship(user, userFriend);
         await this.inviteRepository.deleteById(inviteExists.id);
     }
 

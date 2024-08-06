@@ -86,9 +86,10 @@ export function InviteCard(props: InviteCardProps) {
                 </CardHeader>
                 <CardContent className="flex flex-row items-center gap-4 justify-center w-full">
                     <Button 
-                        className="flex gap-2 items-center text-red-500 border-red-500 hover:bg-red-500 hover:text-slate-50 flex-1" 
+                        className="flex gap-2 items-center text-red-500 border-red-500 hover:bg-red-500 hover:text-slate-50 flex-1 "
                         variant={'outline'}
                         onClick={handleDeleteInvite}
+                        disabled={props.invite.status === 'ACCEPTED'}
                     >
                         <Trash size={20} />
                         Cancel Invite

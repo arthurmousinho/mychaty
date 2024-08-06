@@ -7,6 +7,7 @@ import { Layout } from "@/components/global/Layout";
 import { Account } from "@/pages/Account";
 import { ChatArea } from "@/components/chat/ChatArea";
 import { WellcomeOptions } from "@/components/global/WellcomeOptions";
+import { Friends } from "@/pages/Friends";
 
 export const ROUTER = createBrowserRouter([
     { 
@@ -27,7 +28,8 @@ export const ROUTER = createBrowserRouter([
                 ]
             },
             { path: '/invites', element: <Invites /> },
-            { path: '/account', element: <Account /> }
+            { path: '/account', element: <Account /> },
+            { path: '/friends', element: <Friends /> },
         ]
     }
 ])

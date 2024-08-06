@@ -4,6 +4,7 @@ import { HashService } from "./HashService";
 import { JwtService } from "./JwtService";
 import { ChatService } from "./ChatService";
 import { UserStatus } from "../models/UserStatus";
+import { InviteService } from "./InviteService";
 
 export class UserService {
 
@@ -11,12 +12,14 @@ export class UserService {
     private hashService: HashService;
     private jwtService: JwtService;
     private chatService: ChatService;
+    private inviteService: InviteService;
 
     constructor() {
         this.userRepository = new UserRepository();
         this.hashService = new HashService();
         this.jwtService = new JwtService();
         this.chatService = new ChatService();
+        this.inviteService = new InviteService();
     }
 
     public async signInUser(email: string, password: string) {
@@ -86,7 +89,7 @@ export class UserService {
         ]);
     }
 
-    public async finishFriendship(user: User, userFriend: User) {
+    private async finishFriendship(user: User, userFriend: User) {
         const [ userExists, userFriendExists ] = await Promise.all([
             this.userRepository.getById(user.id || ''),
             this.userRepository.getById(userFriend.id || '')
@@ -98,6 +101,7 @@ export class UserService {
         await Promise.all([
             this.userRepository.disconnectUserWithFriend(user, userFriend),
             this.userRepository.disconnectFriendWithUser(userFriend, user),
+            this.chatService.deleteChatByUserId(userExists.id)
         ]);
     }
 
@@ -131,6 +135,19 @@ export class UserService {
         
         await this.chatService.deleteChatByUserId(id);
         await this.userRepository.deleteUser(id);
+    }
+
+    public async deleteUserFriend(userId: string, friendId: string) {
+        const userExists = await this.userRepository.getById(userId, true);
+        if (!userExists) throw new Error(`User not found`);
+
+        const friendExists = await this.userRepository.getById(friendId);
+        if (!friendExists) throw new Error(`User friend not found`);
+
+        const areFriends = userExists.friends.some(friend => friend.id === friendId);
+        if (!areFriends) throw new Error(`Users aren't friends`);
+
+        await this.finishFriendship(userExists, friendExists);
     }
 
 }

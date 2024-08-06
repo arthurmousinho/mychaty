@@ -19,6 +19,7 @@ export class UserController {
         this.getUser = this.getUser.bind(this);
         this.updateUser = this.updateUser.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
+        this.deleteUserFriend = this.deleteUserFriend.bind(this);
     }
 
     public async signIn(request: FastifyRequest, reply: FastifyReply) {
@@ -95,6 +96,19 @@ export class UserController {
             const userId = token.sub;
             
             await this.userService.deleteUser(userId);
+            reply.status(200).send();
+        } catch (error) {
+            reply.status(400).send(error);
+        }
+    }
+
+    public async deleteUserFriend(request: FastifyRequest, reply: FastifyReply) {
+        try {
+            const token = await this.jwtService.decode(request);
+            const userId = token.sub;
+            const { id }  = request.params as { id: string }
+
+            await this.userService.deleteUserFriend(userId, id);
             reply.status(200).send();
         } catch (error) {
             reply.status(400).send(error);

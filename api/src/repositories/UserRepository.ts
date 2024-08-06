@@ -24,7 +24,7 @@ export class UserRepository {
         return newUser;
     }
 
-    public async getById(id: string) {
+    public async getById(id: string, includeFriends = false) {
         const user = await prisma.user.findUnique({
             where: {
                 id
@@ -32,6 +32,7 @@ export class UserRepository {
             include: {
                 invitesReceived: true,
                 invitesSent: true,
+                friends: includeFriends,
             }
         });
         return user;

@@ -40,4 +40,9 @@ export async function UserRoutes(app: FastifyInstance) {
         userController.deleteUser
     );
 
+    app.delete(
+        '/user/friend/:id',
+        userController.deleteUserFriend
+    );
+
 }

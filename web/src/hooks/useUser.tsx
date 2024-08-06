@@ -150,6 +150,27 @@ export function useUser() {
         }
     }
 
+    async function deleteFriendById(friendId: string) {
+        try {
+            const token = getToken();
+            await axios.delete(
+                `${ENDPOINT}/friend/${friendId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+        } catch (error: any) {
+            const errorMessage = error.response.data.message;
+            toast({
+                title: "😥 Error",
+                variant: 'destructive',
+                description: errorMessage,
+            })
+        }
+    }
+
     return {
         signUp,
         signIn,
@@ -158,7 +179,8 @@ export function useUser() {
         getFriends,
         getLoggedUser,
         deleteUser,
-        updateUser
+        updateUser,
+        deleteFriendById
     }
 
 }
