@@ -32,7 +32,7 @@ export class ChatController {
             const chat = await this.chatService.getChatById(chatId);
             reply.status(200).send(chat);
         } catch (error) {
-            reply.send(400).send(error);
+            reply.status(400).send(error);
         }
     }
 

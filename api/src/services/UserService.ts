@@ -12,14 +12,12 @@ export class UserService {
     private hashService: HashService;
     private jwtService: JwtService;
     private chatService: ChatService;
-    private inviteService: InviteService;
 
     constructor() {
         this.userRepository = new UserRepository();
         this.hashService = new HashService();
         this.jwtService = new JwtService();
         this.chatService = new ChatService();
-        this.inviteService = new InviteService();
     }
 
     public async signInUser(email: string, password: string) {

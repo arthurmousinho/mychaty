@@ -1,6 +1,5 @@
 import { Invite } from "../models/Invite";
 import { InviteRepository } from "../repositories/InviteRepository";
-import { ChatService } from "./ChatService";
 import { UserService } from "./UserService";
 
 export class InviteService {

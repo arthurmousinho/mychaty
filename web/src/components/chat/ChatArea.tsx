@@ -8,7 +8,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { Chat, Message, useChat } from "@/hooks/useChat";
 import { useToken } from "@/hooks/useToken";
 import { User } from "@/hooks/useUser";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const socket = io(import.meta.env.VITE_API_BASE_URL, {
     transports: ['websocket']
@@ -16,7 +16,7 @@ const socket = io(import.meta.env.VITE_API_BASE_URL, {
 
 export function ChatArea() {
 
-    const [ chat, setChat ] = useState<Chat>();
+    const [ _, setChat ] = useState<Chat>();
     const [ currentUserId, setCurrentUserId ] = useState('');
     const [ friend, setFriend ] = useState<User>();
     const [ message, setMessage ] = useState('');
@@ -25,14 +25,17 @@ export function ChatArea() {
 
     const { getTokenInfos } = useToken();
     const { getChatInfos } = useChat();
-
-    const { id } = useParams();
+    const { id } = useParams(); 
+    const navigate = useNavigate();
 
     async function loadChatInfos() {
         setMessages([]);
         const chatInfos = await getChatInfos(id || '');
 
-        if (!chatInfos) return;
+        if (!chatInfos) {
+            navigate('/chats', { replace: true });
+            return
+        };
 
         console.log(chatInfos)
 
@@ -46,21 +49,22 @@ export function ChatArea() {
         setCurrentUserId(currentUserId);
 
         loadChatInfos()
-            .then(() => {
-                if (!chat) return;
 
-                socket.emit('joinChat', id);
+        socket.emit('joinChat', id);
 
-                socket.on('sendMessage', (message: Message) => {
-                    if (message.chatId !== id) return;
-                    setMessages((prevMessages) => [...prevMessages, message]);
-                });
+        socket.on('sendMessage', (message: Message) => {
+            if (message.chatId !== id) return;
+            setMessages((prevMessages) => [...prevMessages, message]);
+        });
 
-                socket.on('changeUserStatus', (userUpdated: User) => {
-                    chat.users[1] = userUpdated;
-                });
+        socket.on('changeUserStatus', (userUpdated: User) => {
+            setFriend(prevFriend => {
+                if (prevFriend && prevFriend.id === userUpdated.id) {
+                    return { ...prevFriend, status: userUpdated.status };
+                }
+                return prevFriend;
             });
-
+        });
       
         return () => {
             socket.off('sendMessage');
