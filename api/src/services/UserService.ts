@@ -4,7 +4,7 @@ import { HashService } from "./HashService";
 import { JwtService } from "./JwtService";
 import { ChatService } from "./ChatService";
 import { UserStatus } from "../models/UserStatus";
-import { InviteService } from "./InviteService";
+import { InviteRepository } from "../repositories/InviteRepository";
 
 export class UserService {
 
@@ -13,11 +13,16 @@ export class UserService {
     private jwtService: JwtService;
     private chatService: ChatService;
 
+    // TODO: Find a way to remove this, 
+    // I tried to use inviteService, but I got a circular dependency issue
+    private inviteRepository: InviteRepository;
+
     constructor() {
         this.userRepository = new UserRepository();
         this.hashService = new HashService();
         this.jwtService = new JwtService();
         this.chatService = new ChatService();
+        this.inviteRepository = new InviteRepository();
     }
 
     public async signInUser(email: string, password: string) {
@@ -103,6 +108,7 @@ export class UserService {
             this.userRepository.disconnectUserWithFriend(user, userFriend),
             this.userRepository.disconnectFriendWithUser(userFriend, user),
             this.chatService.deleteChat(chatBetweenUsers.id),
+            this.inviteRepository.deleteInvitesBetweenUsers(userExists.id, userFriendExists.id)
         ]);
     }
 

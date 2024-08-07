@@ -104,4 +104,15 @@ export class InviteRepository {
         return invite;
     }
 
+    public async deleteInvitesBetweenUsers(userId1: string, userId2: string) {
+        await prisma.invite.deleteMany({
+            where: {
+                OR: [
+                    { userFromId: userId1, userToId: userId2 },
+                    { userFromId: userId2, userToId: userId1 }
+                ]
+            }
+        });
+    }
+
 }

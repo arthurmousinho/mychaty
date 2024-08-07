@@ -34,7 +34,7 @@ export class InviteController {
 
             reply.status(201).send(newInvite);
         } catch (error) {
-            reply.send(400).send(error);
+            reply.status(400).send(error);
         }
     }
 
