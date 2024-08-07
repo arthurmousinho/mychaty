@@ -1,5 +1,7 @@
 import { FriendCard } from "@/components/friends/FriendCard";
 import { NewInviteDialog } from "@/components/invite/NewInviteDialog";
+import { EmptyListMessage } from "@/components/text/EmptyListMessage";
+import { Heading } from "@/components/text/Heading";
 import { Button } from "@/components/ui/button";
 import { User, useUser } from "@/hooks/useUser";
 import { Plus } from "lucide-react";
@@ -28,7 +30,9 @@ export function Friends() {
     return (
         <div className="w-full space-y-4">
             <header className="flex items-center justify-between border-b p-4">
-                <h1 className="text-2xl font-semibold">Manage Your Friends</h1>
+                <Heading variant="primary">
+                    Manage Friends
+                </Heading>
                 <NewInviteDialog>
                     <Button className="flex items-center gap-2">
                         <Plus size={20} />
@@ -46,6 +50,10 @@ export function Friends() {
                     ))
                 }
             </div>
+            {
+                friends.length === 0
+                ? <EmptyListMessage /> : <></>
+            }
         </div>
     )
 

@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/select";
 import { useEffect, useState } from "react";
 import { Invite, useInvite } from "@/hooks/useInvite";
+import { EmptyListMessage } from "@/components/text/EmptyListMessage";
+import { Heading } from "@/components/text/Heading";
 
 export function Invites() {
     const [inviteOption, setInviteOption] = useState<'RECEIVED' | 'SENT'>('RECEIVED');
@@ -49,7 +51,9 @@ export function Invites() {
     return (
         <div className="w-full space-y-4">
             <header className="flex items-center justify-between border-b p-4">
-                <h1 className="text-2xl font-semibold">Manage Your Invites</h1>
+                <Heading variant="primary">
+                    Manage Invites
+                </Heading>
                 <div className="flex items-center gap-4">
                     <Select
                         defaultValue="RECEIVED"
@@ -76,7 +80,8 @@ export function Invites() {
                 </div>
             </header>
             <div className="grid grid-cols-3 gap-4 p-4">
-                {inviteOption === 'RECEIVED' &&
+                {
+                    inviteOption === 'RECEIVED' &&
                     receivedInvites.map(invite => (
                         <InviteCard
                             status="RECEIVED"
@@ -85,8 +90,10 @@ export function Invites() {
                             onAcceptFn={removeInvite}
                             onDenyFn={removeInvite}
                         />
-                    ))}
-                {inviteOption === 'SENT' &&
+                    ))
+                }
+                {
+                    inviteOption === 'SENT' &&
                     sentInvites.map(invite => (
                         <InviteCard
                             status="SENT"
@@ -94,8 +101,17 @@ export function Invites() {
                             invite={invite}
                             onDeleteFn={removeInvite}
                         />
-                    ))}
+                    ))
+                } 
             </div>
+            {
+                inviteOption === 'RECEIVED' && receivedInvites.length === 0
+                ? <EmptyListMessage /> : <></>
+            }
+            {
+                inviteOption === 'SENT' && sentInvites.length === 0
+                ? <EmptyListMessage /> : <></>
+            }
         </div>
     );
 }

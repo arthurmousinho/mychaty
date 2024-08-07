@@ -32,12 +32,12 @@ export function WellcomeOptions() {
                             </CardHeader>
                         </Card>
                      </Link>
-                     <Link to={'/groups'}>
+                     <Link to={'/friends'}>
                          <Card>
                              <CardHeader className="flex flex-row items-center justify-center gap-4 text-muted-foreground hover:bg-slate-50 w-[300px] font-semibold">
                                 <UsersRound size={25} />
                                 <h2 className="text-lg">
-                                    Create a Group
+                                    Manage Friends
                                 </h2>
                              </CardHeader>
                          </Card>

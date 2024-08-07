@@ -14,6 +14,7 @@ import {
     AlertDialogTrigger 
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/components/ui/use-toast";
+import { Heading } from "@/components/text/Heading";
 
 export function Account() {
 
@@ -59,9 +60,9 @@ export function Account() {
     return (
         <div className="w-full space-y-4">
             <header className="border-b p-4">
-                <h1 className="text-2xl font-semibold">
+                <Heading variant="primary">
                     My Account
-                </h1>
+                </Heading>
             </header>
             <main className="flex flex-col gap-4 items-center">
                 <form className="space-y-2 w-[500px]" onSubmit={handleEditUser}>

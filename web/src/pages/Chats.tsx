@@ -1,4 +1,5 @@
 import { UserCard } from "@/components/global/UserCard";
+import { Heading } from "@/components/text/Heading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Chat, useChat } from "@/hooks/useChat";
 import { User, UserStatus, useUser } from "@/hooks/useUser";
@@ -79,9 +80,9 @@ export function Chats() {
         <div className="flex w-full">
             <aside className="w-[350px] pt-4 flex flex-col gap-4 bg-slate-50 border-r">
                 <header className="w-full px-4">
-                    <h1 className="text-xl font-semibold">
+                    <Heading variant="secondary">
                         Chats
-                    </h1>
+                    </Heading>
                 </header>
                 <div className="flex flex-col ml-2 mr-2 h-full">
                     {

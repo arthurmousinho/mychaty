@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useUser } from "@/hooks/useUser";
+import { Heading } from "../text/Heading";
 
 export function SignInForm() {
 
@@ -26,9 +27,11 @@ export function SignInForm() {
     return (
         <form className="md:w-[400px] w-[90vw] flex flex-col gap-6" onSubmit={handleSignIn}>
             <header className="flex flex-col gap-2">
-                <h1 className="text-2xl font-semibold text-center">
-                    Welcome Back
-                </h1>
+                <div className="text-center">
+                    <Heading variant="primary">
+                        Wellcome Back
+                    </Heading>
+                </div>
                 <p className="text-muted-foreground text-sm text-center">
                     Enter your credentials below to access your account
                 </p>

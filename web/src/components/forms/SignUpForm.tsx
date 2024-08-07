@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useUser } from "@/hooks/useUser";
+import { Heading } from "../text/Heading";
 
 export function SignUpForm() {
 
@@ -28,15 +29,17 @@ export function SignUpForm() {
             password
         }
 
-        await signUp(user);
+        await signUp(user as any);
     }
 
     return (
         <form className="md:w-[400px] w-[90vw] flex flex-col gap-6" onSubmit={handleSignUp}>
             <header className="flex flex-col gap-2">
-                <h1 className="text-2xl font-semibold text-center">
-                    Let's start chating
-                </h1>
+                <div className="text-center">
+                    <Heading variant="primary">
+                        Let's start chating
+                    </Heading>
+                </div>
                 <p className="text-muted-foreground text-sm text-center">
                     Enter your informations below to create your account
                 </p>
