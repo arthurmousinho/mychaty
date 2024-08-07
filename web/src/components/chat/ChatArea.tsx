@@ -37,8 +37,6 @@ export function ChatArea() {
             return
         };
 
-        console.log(chatInfos)
-
         setChat(chatInfos);
         setFriend(chatInfos.users.filter(user => user.id !== currentUserId)[0])
         setMessages(chatInfos.messages);

@@ -96,7 +96,7 @@ export class UserService {
         if (!userExists) throw new Error(`User ${user.name} not found`);
         if (!userFriendExists) throw new Error(`User ${userFriend.name} not found`);
 
-        const chatBetweenUsers = await this.chatService.getChatByUsersId([userExists.id, userFriendExists.id])
+        const chatBetweenUsers = await this.chatService.getChatByUsersId([userExists.id, userFriendExists.id]);
         if (!chatBetweenUsers) throw new Error('Has no chat between these users');
 
         await Promise.all([

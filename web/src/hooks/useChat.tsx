@@ -77,6 +77,8 @@ export function useChat() {
     }
 
     function onReceiveMessage(message: Message) {
+        console.log('opa')
+
         const currentUserWhoSentIt = getTokenInfos().sub === message.senderId;
         if (currentUserWhoSentIt) return;
 
