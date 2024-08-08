@@ -95,6 +95,40 @@ const logos = [
     }
 ];
 
+
+const features = [
+    {
+        icon: <MessageSquareDot className="text-primary"/>,
+        title: 'Real-Time Messaging',
+        description: 'Instantly connect and communicate with your friends through real-time messaging. Whether you\'re coordinating plans or just catching up.'
+    },
+    {
+        icon: <UserRoundPlus className="text-primary"/>,
+        title: 'Invite your Friends',
+        description: 'Easily expand your network by inviting friends to join the platform. Share unique invite links and get your friends onboard quickly to start chatting and connecting.'
+    },
+    {
+        icon: <UsersRound className="text-primary"/>,
+        title: 'Manage Your Friends',
+        description: 'Take control of your social circle with our comprehensive friend management tools. Organize, categorize.'
+    },
+    {
+        icon: <UserRoundCheck className="text-primary"/>,
+        title: 'Manage Your Invites',
+        description: 'Keep track of the invitations you’ve sent and received. Accept or decline invites, and manage your pending connections easily.'
+    },
+    {
+        icon: <UserRound className="text-primary"/>,
+        title: 'Manage Your Account',
+        description: 'Customize and manage your account settings. Update your profile, change your password, and control your privacy preferences all in one place.'
+    },
+    {
+        icon: <BellRing className="text-primary"/>,
+        title: 'Messages Notifications',
+        description: 'Stay informed with real-time notifications for new messages. Never miss an important conversation or update with customizable alerts.'
+    }
+];
+
 export function Home() {
     return (
         <main className="w-full overflow-x-hidden overflow-y-hidden flex flex-col justify-center items-center space-y-10">
@@ -155,84 +189,23 @@ export function Home() {
                         </h2>
                     </header>
                     <div className="grid grid-cols-3 gap-4">
-                        <Card className="user-select-none hover:bg-slate-50">
-                            <CardHeader className="flex items-center gap-2 flex-row font-semibold">
-                                <MessageSquareDot className="text-primary"/>
-                                <h3 style={{marginTop: 0}}>
-                                    Real-Time Messaging
-                                </h3>
-                            </CardHeader>
-                            <CardFooter>
-                                <span className="text-sm text-muted-foreground leading-relaxed">
-                                    Instantly connect and communicate with your friends through real-time messaging. Whether you're coordinating plans or just catching up.
-                                </span>
-                            </CardFooter>
-                        </Card>
-                        <Card className="user-select-none hover:bg-slate-50">
-                            <CardHeader className="flex items-center gap-2 flex-row font-semibold">
-                                <UserRoundPlus className="text-primary"/>
-                                <h3 style={{marginTop: 0}}>
-                                    Invite your Friends
-                                </h3>
-                            </CardHeader>
-                            <CardFooter>
-                                <span className="text-sm text-muted-foreground leading-relaxed">
-                                    Easily expand your network by inviting friends to join the platform. Share unique invite links and get your friends onboard quickly to start chatting and connecting.
-                                </span>
-                            </CardFooter>
-                        </Card>
-                        <Card className="user-select-none hover:bg-slate-50">
-                            <CardHeader className="flex items-center gap-2 flex-row font-semibold leading-relaxed">
-                                <UsersRound className="text-primary"/>
-                                <h3 style={{marginTop: 0}}>
-                                    Manage Your Friends
-                                </h3>
-                            </CardHeader>
-                            <CardFooter>
-                                <span className="text-sm text-muted-foreground leading-relaxed">
-                                    Take control of your social circle with our comprehensive friend management tools. Organize, categorize.
-                                </span>
-                            </CardFooter>
-                        </Card>
-                        <Card className="user-select-none hover:bg-slate-50">
-                            <CardHeader className="flex items-center gap-2 flex-row font-semibold">
-                                <UserRoundCheck className="text-primary"/>
-                                <h3 style={{marginTop: 0}}>
-                                    Manage Your Invites
-                                </h3>
-                            </CardHeader>
-                            <CardFooter>
-                                <span className="text-sm text-muted-foreground leading-relaxed">
-                                    Keep track of the invitations you’ve sent and received. Accept or decline invites, and manage your pending connections easily.
-                                </span>
-                            </CardFooter>
-                        </Card>
-                        <Card className="user-select-none hover:bg-slate-50">
-                            <CardHeader className="flex items-center gap-2 flex-row font-semibold">
-                                <UserRound className="text-primary"/>
-                                <h3 style={{marginTop: 0}}>
-                                    Manage Your Account
-                                </h3>
-                            </CardHeader>
-                            <CardFooter>
-                                <span className="text-sm text-muted-foreground leading-relaxed">
-                                    Customize and manage your account settings. Update your profile, change your password, and control your privacy preferences all in one place.
-                                </span>
-                            </CardFooter>
-                        </Card>
-                        <Card className="user-select-none hover:bg-slate-50">
-                            <CardHeader className="flex items-center gap-2 flex-row font-semibold">
-                                <BellRing className="text-primary"/>
-                                <h3 style={{marginTop: 0}}>
-                                    Messages Notifications
-                                </h3>
-                            </CardHeader>
-                            <CardFooter>
-                                <span className="text-sm text-muted-foreground leading-relaxed">
-                                    Stay informed with real-time notifications for new messages. Never miss an important conversation or update with customizable alerts.
-                                </span>
-                            </CardFooter>
-                        </Card>
+                        {
+                            features.map((feature, index) => (
+                                <Card key={index} className="user-select-none hover:bg-slate-50">
+                                    <CardHeader className="flex items-center gap-2 flex-row font-semibold">
+                                        {feature.icon}
+                                        <h3 style={{marginTop: 0}}>
+                                            {feature.title}
+                                        </h3>
+                                    </CardHeader>
+                                    <CardFooter>
+                                        <span className="text-sm text-muted-foreground leading-relaxed">
+                                            {feature.description}
+                                        </span>
+                                    </CardFooter>
+                                </Card>
+                            ))
+                        }
                     </div>
                 </section>
 
@@ -256,8 +229,8 @@ export function Home() {
                         >
                             <CarouselContent>
                                {
-                                    logos.map(item => (
-                                        <CarouselItem className="basis-1/3">
+                                    logos.map((item, index) => (
+                                        <CarouselItem className="basis-1/3" key={index}>
                                             <Card className="h-full select-none hover:bg-slate-50">
                                                 <CardHeader className="flex flex-row gap-6 items-center">
                                                     <img 
