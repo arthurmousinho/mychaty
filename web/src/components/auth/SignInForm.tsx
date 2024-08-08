@@ -25,7 +25,7 @@ export function SignInForm() {
     }
 
     return (
-        <form className="md:w-[400px] w-[90vw] flex flex-col gap-6" onSubmit={handleSignIn}>
+        <form className="flex flex-col gap-6" onSubmit={handleSignIn}>
             <header className="flex flex-col gap-2">
                 <div className="text-center">
                     <Heading variant="primary">

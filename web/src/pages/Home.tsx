@@ -30,6 +30,7 @@ import socketIoLogo from '../../assets/techs/socket-io-1.svg';
 import viteLogo from '../../assets/techs/vitejs.svg';
 import tailwindLogo from '../../assets/techs/tailwind-css-2.svg';
 import shadcnLogo from '../../assets/techs/shadcn-ui.png';
+import { AuthDialog } from "@/components/auth/AuthDialog";
 
 const logos = [
     { 
@@ -121,9 +122,11 @@ export function Home() {
                         Github
                     </Button>
                 </Card>
-                <Button>
-                    Sign In
-                </Button>
+                <AuthDialog>
+                    <Button>
+                        Sign In
+                    </Button>
+                </AuthDialog>
             </header>
             <section className="max-w-[1200px] w-full flex flex-row justify-between items-center">
                 <header className="flex flex-col gap-4">
@@ -134,10 +137,12 @@ export function Home() {
                         Connect and communicate seamlessly with our easy-to-use chat platform. Whether you're sharing ideas or just catching up, we make communication effortless and efficient.
                     </span>
                     <footer>
-                        <Button className="flex items-center gap-2">
-                            Start chatting
-                            <MessageSquare size={20} />
-                        </Button>
+                        <AuthDialog>
+                            <Button className="flex items-center gap-2">
+                                Start chatting
+                                <MessageSquare size={20} />
+                            </Button>
+                        </AuthDialog>
                     </footer>
                 </header>
                 <img src={heroImage} className="w-[50%]" alt="Hero Image" />
@@ -318,9 +323,6 @@ export function Home() {
                     </div>
                 </section>
             </div>
-            <footer>
-
-            </footer>
         </main>
     )
 }

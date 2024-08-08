@@ -1,5 +1,4 @@
 import { Chats } from "@/pages/Chats";
-import { Auth } from "@/pages/Auth";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { Guard } from "./authGuard";
 import { Invites } from "@/pages/Invites";
@@ -14,10 +13,6 @@ export const ROUTER = createBrowserRouter([
     { 
         path: '', 
         element: <Home /> 
-    },
-    { 
-        path: '/wellcome', 
-        element: <Auth /> 
     },
     {
         path: '/',

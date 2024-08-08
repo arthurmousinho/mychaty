@@ -6,15 +6,14 @@ import { Heading } from "../text/Heading";
 
 export function SignUpForm() {
 
-    const [ firstName, setFirstName ] = useState('');
-    const [ lastName, setLastName ] = useState('');
+    const [ name, setName ] = useState('');
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
 
     const { signUp } = useUser();
 
     function validFields() {
-        const fields = [email, password, firstName, lastName];
+        const fields = [email, password, name];
         return fields.every(field => field.trim() !== '');
     }
 
@@ -24,7 +23,7 @@ export function SignUpForm() {
         if (!validFields()) return;
 
         const user = {
-            name: `${firstName} ${lastName}`,
+            name,
             email, 
             password
         }
@@ -33,7 +32,7 @@ export function SignUpForm() {
     }
 
     return (
-        <form className="md:w-[400px] w-[90vw] flex flex-col gap-6" onSubmit={handleSignUp}>
+        <form className="flex flex-col gap-6" onSubmit={handleSignUp}>
             <header className="flex flex-col gap-2">
                 <div className="text-center">
                     <Heading variant="primary">
@@ -47,14 +46,8 @@ export function SignUpForm() {
             <div className="flex flex-col gap-2">
                 <Input 
                     type="text" 
-                    placeholder="your first Name" 
-                    onChange={event => setFirstName(event.target.value)}
-                    required
-                />
-                <Input 
-                    type="text" 
-                    placeholder="your last Name" 
-                    onChange={event => setLastName(event.target.value)}
+                    placeholder="your name" 
+                    onChange={event => setName(event.target.value)}
                     required
                 />
                 <Input 
