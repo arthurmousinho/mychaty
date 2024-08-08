@@ -99,28 +99,31 @@ export function Home() {
         <main className="w-full overflow-x-hidden overflow-y-hidden flex flex-col justify-center items-center space-y-10">
             <header className="max-w-[1200px] w-full flex flex-row items-center justify-between pt-4">
                 <Logo />
-                <nav className="flex items-center gap-4">
-                    <Button variant={'link'} className="flex items-center gap-2">
+                <Card className="flex flex-row items-center gap-4 p-1">
+                    <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
                         <HomeIcon size={20} />
                         Home
                     </Button>
-                    <Button variant={'link'} className="flex items-center gap-2">
+                    <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
                         <Rocket size={20} />
                         Features
                     </Button>
-                    <Button variant={'link'} className="flex items-center gap-2">
+                    <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
                         <Code size={20} />
                         Tech Stack
                     </Button>
-                    <Button variant={'link'} className="flex items-center gap-2">
+                    <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
                         <UsersRound size={20} />
                         Developers
                     </Button>
-                    <Button variant={'link'} className="flex items-center gap-2">
+                    <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
                         <Github size={20} />
                         Github
                     </Button>
-                </nav>
+                </Card>
+                <Button>
+                    Sign In
+                </Button>
             </header>
             <section className="max-w-[1200px] w-full flex flex-row justify-between items-center">
                 <header className="flex flex-col gap-4">
