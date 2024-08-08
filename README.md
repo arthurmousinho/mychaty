@@ -1,4 +1,4 @@
-# MyChaty
+# 💬 MyChaty
 ![banner](./docs/banner.png)
 
 ## 🚀 Features 
@@ -9,8 +9,8 @@
 - [x]  Instant messaging with real-time updates
 
 ### Manage User Friends
-- [ ]  List user friends
-- [ ]  Remove user friends
+- [x]  List user friends
+- [x]  Remove user friends
 
 ### User Invites
 - [x]  Send chating invites for others users
@@ -18,12 +18,13 @@
 - [x]  Deny invites sent for you
 
 ### Real-Time Notications
-- [ ] Message notification
+- [x] Message notification
 - [ ] Receive invite notification
-- [ ] Invite accepte notification
+- [ ] Invite accepted notification
 
 ## 🏛️ Architecture
 ![system-architecture](./docs/system-architecture.jpeg)
+![system-architecture-2](./docs/system-architecture-2.jpeg)
 
 ## 🛠️ Tech Stack
 ### Web
@@ -42,7 +43,7 @@
 - [Node/NPM](https://nodejs.org/)
 - [Docker](https://www.docker.com/)
 
-## 🏃‍♂️ Running Guide
+## 🏃‍♂️ Running Guide (development environment)
 ### Web
 1. Change to web directory
 ```bash
@@ -56,6 +57,7 @@ npm install
 ```bash
 npm run dev
 ```
+✅ It will be available at: [http://localhost:5173](http://localhost:5173)
 
 ### API
 1. Change to api directory
@@ -74,6 +76,8 @@ docker compose up -d
 ```bash
 npm run dev
 ```
+
+✅ It will be available at: [http://localhost:3000](http://localhost:3000)
 
 ## 💬 Contribution
 We welcome contributions to MyChaty! Please follow these steps:
