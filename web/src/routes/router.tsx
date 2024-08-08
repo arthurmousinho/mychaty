@@ -8,8 +8,13 @@ import { Account } from "@/pages/Account";
 import { ChatArea } from "@/components/chat/ChatArea";
 import { WellcomeOptions } from "@/components/global/WellcomeOptions";
 import { Friends } from "@/pages/Friends";
+import { Home } from "@/pages/Home";
 
 export const ROUTER = createBrowserRouter([
+    { 
+        path: '', 
+        element: <Home /> 
+    },
     { 
         path: '/wellcome', 
         element: <Auth /> 
