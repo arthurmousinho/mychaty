@@ -4,7 +4,7 @@ import { BellRing, Code, Github, GithubIcon, HomeIcon, Linkedin, MessageSquare, 
 
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { Logo } from "@/components/global/Logo";
-import { Link } from "react-router-dom";
+import { Link } from "react-scroll";
 
 import heroImage from "../../assets/login-hero.svg";
 
@@ -131,30 +131,40 @@ const features = [
 
 export function Home() {
     return (
-        <main className="w-full overflow-x-hidden overflow-y-hidden flex flex-col justify-center items-center space-y-10">
-            <header className="max-w-[1200px] w-full flex flex-row items-center justify-between pt-4">
+        <main className="Home w-full overflow-x-hidden overflow-y-hidden flex flex-col justify-center items-center space-y-10 mb-10">
+            <header className="max-w-[1200px] w-full flex flex-row items-center justify-between pt-4 fixed top-0 bg-white py-2">
                 <Logo />
                 <Card className="flex flex-row items-center gap-4 p-1">
-                    <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
-                        <HomeIcon size={20} />
-                        Home
-                    </Button>
-                    <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
-                        <Rocket size={20} />
-                        Features
-                    </Button>
-                    <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
-                        <Code size={20} />
-                        Tech Stack
-                    </Button>
-                    <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
-                        <UsersRound size={20} />
-                        Developers
-                    </Button>
-                    <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
-                        <Github size={20} />
-                        Github
-                    </Button>
+                    <Link to="Home" smooth={true} duration={500}>
+                        <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
+                            <HomeIcon size={20} />
+                            Home
+                        </Button>
+                    </Link>
+                    <Link to="Features" smooth={true} duration={500}>
+                        <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
+                            <Rocket size={20} />
+                            Features
+                        </Button>
+                    </Link>
+                    <Link to="Tech Stack" smooth={true} duration={500}>
+                        <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
+                            <Code size={20} />
+                            Tech Stack
+                        </Button>
+                    </Link>
+                    <Link to="Developers" target="_blank" smooth={true} duration={500}>
+                        <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
+                            <UsersRound size={20} />
+                            Developers
+                        </Button>
+                    </Link>
+                    <a href="https://github.com/arthurmousinho/mychaty" target="_blank">
+                        <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
+                            <Github size={20} />
+                            Github
+                        </Button>
+                    </a>
                 </Card>
                 <AuthDialog>
                     <Button>
@@ -182,7 +192,7 @@ export function Home() {
                 <img src={heroImage} className="w-[50%]" alt="Hero Image" />
             </section>
             <div className="space-y-16">
-                <section className="max-w-[1200px] w-full flex flex-col gap-4">
+                <section className="Features max-w-[1200px] w-full flex flex-col gap-4">
                     <header>
                         <h2 className="text-4xl font-bold text-slate-900">
                             Features
@@ -208,10 +218,9 @@ export function Home() {
                         }
                     </div>
                 </section>
-
                 <section className="max-w-[1200px] w-full flex flex-col gap-4">
                     <header>
-                        <h2 className="text-4xl font-bold text-slate-900">
+                        <h2 className="Tech Stack text-4xl font-bold text-slate-900">
                             Tech Stack
                         </h2>
                     </header>
@@ -257,7 +266,7 @@ export function Home() {
                         </Carousel>
                 </section>
 
-                <section className="max-w-[1200px] w-full flex flex-col gap-4">
+                <section className="Developers max-w-[1200px] w-full flex flex-col gap-4">
                     <header>
                         <h2 className="text-4xl font-bold text-slate-900">
                             Developers
