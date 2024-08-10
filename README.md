@@ -4,6 +4,15 @@ A simple web chat application
 
 ![banner](./docs/banner.png)
 
+## 🔗 Links
+- [🚀 Features](#-features)
+- [🏛️ Architecture](#️-architecture)
+- [🛠️ Tech Stack](#️-tech-stack)
+- [📦 Dependencies](#-dependencies)
+- [🏃‍♂️ Running Guide](#️-running-guide-development-environment)
+- [👀 Environment Variables Settings](#-environment-variables-settings)
+- [💬 Contribution](#-contribution)
+
 ## 🚀 Features 
 ### User Authentication
 - [x]  Secure user login and registration (Email and Password)
@@ -92,6 +101,22 @@ npx prisma studio
 
 ✅ API will be available at: [http://localhost:3000](http://localhost:3000)
 
+## 👀 Environment Variables Settings
+
+### WEB
+- Create a file ***.env.local*** file inside web folder
+- ```VITE_API_BASE_URL```
+    - You can use ***http://localhost:3000*** in development environment
+- If you need to add more variables, it will need to start with **VITE**
+    - Ex: **VITE**_FIREBASE_STORAGE_BUCKET
+
+
+### API
+- Create a file named ***.env*** inside api folder
+- ```DATABASE_URL``` 
+    - You can set as ***postgresql://admin:admin@localhost:6332/mychaty?schema=public*** in development environment
+- ```JWT_SECRET```
+
 ## 🐛 Reporting Issues or Suggesting Enhancements
 
 If you’ve found a bug or have a suggestion to improve MyChaty, we’d love to hear from you! Please follow the steps below to create a new issue:
@@ -120,6 +145,3 @@ We welcome contributions to MyChaty! Please follow these steps:
 3. Commit your changes (`git commit -am 'Add new feature'`).
 4. Push to the branch (`git push origin feature/your-feature-name`).
 5. Open a pull request.
-
-## 📜 License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
