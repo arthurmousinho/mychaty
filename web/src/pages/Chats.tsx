@@ -1,5 +1,6 @@
 import { UserCard } from "@/components/global/UserCard";
 import { Heading } from "@/components/text/Heading";
+import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Chat, useChat } from "@/hooks/useChat";
 import { useSocket } from "@/hooks/useSocket";
@@ -84,19 +85,20 @@ export function Chats() {
                         Chats
                     </Heading>
                 </header>
-                <div className="flex flex-col ml-2 mr-2 h-full">
+                <div className="flex flex-col ml-2 mr-2 h-full gap-2">
                     {
                         chats.map(
                             chat => (
-                                <div 
+                                <Card 
                                     onClick={() => handleSelectChat(chat)} 
                                     key={chat.id}
+                                    className="bg-white hover:bg-white"
                                 >
                                     <UserCard 
                                         name={chat.users[0].name} 
                                         online={chat.users[0].status === 'ONLINE'} 
                                     />
-                                </div>
+                                </Card>
                             )
                         )
                     }
