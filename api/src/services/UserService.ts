@@ -1,7 +1,7 @@
 import { User } from "../models/User";
 import { UserRepository } from "../repositories/UserRepository";
-import { HashService } from "./HashService";
-import { JwtService } from "./JwtService";
+import { HashService } from "../utils/security/HashService";
+import { JwtService } from "../utils/security/JwtService";
 import { ChatService } from "./ChatService";
 import { UserStatus } from "../models/UserStatus";
 import { InviteRepository } from "../repositories/InviteRepository";

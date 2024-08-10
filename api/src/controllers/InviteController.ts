@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { Invite } from "../models/Invite";
 import { InviteService } from "../services/InviteService";
-import { JwtService } from "../services/JwtService";
+import { JwtService } from "../utils/security/JwtService";
 
 export class InviteController {
 

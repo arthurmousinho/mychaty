@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { InviteController } from "../controllers/InviteController";
-import { validateJwt } from "../middlewares/jwtValidationMiddleware";
+import { validateJwt } from "../utils/middlewares/jwtValidationMiddleware";
 
 const inviteController = new InviteController();
 

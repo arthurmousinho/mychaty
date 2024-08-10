@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { ChatController } from "../controllers/ChatController";
-import { validateJwt } from "../middlewares/jwtValidationMiddleware";
+import { validateJwt } from "../utils/middlewares/jwtValidationMiddleware";
 
 const chatController = new ChatController();
 

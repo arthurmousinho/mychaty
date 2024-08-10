@@ -1,7 +1,7 @@
-import { Invite, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { UserService } from "../services/UserService";
-import { JwtService } from "../services/JwtService";
+import { JwtService } from "../utils/security/JwtService";
 
 export class UserController {
 

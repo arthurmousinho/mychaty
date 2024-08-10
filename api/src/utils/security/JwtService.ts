@@ -1,6 +1,6 @@
 import { FastifyRequest } from "fastify";
-import { User } from "../models/User";
-import { app } from "../app";
+import { User } from "../../models/User";
+import { app } from "../../app";
 
 export interface Token {
   name: string;

@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
-import { Message } from "./Message";
-import { UserStatus } from "./UserStatus";
+import { Message } from "../../models/Message";
+import { UserStatus } from "../../models/UserStatus";
 
 interface ServerToClientEvents {
   noArg: () => void;

@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { UserController } from "../controllers/UserController";
-import { validateJwt } from "../middlewares/jwtValidationMiddleware";
+import { validateJwt } from "../utils/middlewares/jwtValidationMiddleware";
 
 const userController = new UserController();
 

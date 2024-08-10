@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { JwtService } from "../services/JwtService";
+import { JwtService } from "../utils/security/JwtService"; 
 import { ChatService } from "../services/ChatService";
 
 export class ChatController {

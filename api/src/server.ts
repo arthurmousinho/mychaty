@@ -6,7 +6,7 @@ import { UserRoutes } from "./routes/UserRoutes";
 import { InviteRoutes } from "./routes/InviteRoutes";
 
 import { Server } from "socket.io";
-import { SocketIoServer } from "./models/SocketIoServer";
+import { SocketIoServer } from "./utils/types/SocketIoServer";
 import { SocketRoutes } from "./routes/SocketRoutes";
 import { ChatRoutes } from "./routes/ChatRoutes";
 

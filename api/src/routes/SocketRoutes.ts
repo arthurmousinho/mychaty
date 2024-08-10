@@ -1,7 +1,7 @@
 import { SocketController } from "../controllers/SocketController";
 import { Message } from "../models/Message";
-import { SocketIoServer } from "../models/SocketIoServer";
 import { UserStatus } from "../models/UserStatus";
+import { SocketIoServer } from "../utils/types/SocketIoServer";
 
 
 export function SocketRoutes(socketIoServer: SocketIoServer) {
