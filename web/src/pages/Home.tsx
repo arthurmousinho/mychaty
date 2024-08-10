@@ -173,7 +173,7 @@ export function Home() {
                 </AuthDialog>
             </header>
             <section className="max-w-[1200px] w-full flex flex-row justify-between items-center">
-                <header className="flex flex-col gap-4">
+                <header className="flex flex-col gap-4 max-w-[587px]">
                     <h1 className="text-5xl font-bold text-slate-900">
                         Your easiest real-time chatting app
                     </h1>

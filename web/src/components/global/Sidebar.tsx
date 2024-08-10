@@ -8,6 +8,8 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { Card } from "../ui/card";
+import { Button } from "../ui/button";
 
 const sidebarLinks = [
     {
@@ -37,15 +39,20 @@ export function Sidebar() {
     const { signOut } = useUser();
 
     return (
-        <aside className="h-full bg-slate-100 flex flex-col justify-between items-center py-4 border">
-            <nav className="flex flex-col gap-4 px-2">
+        <Card className="h-full flex flex-col justify-between items-center py-4 border rounded-none">
+            <nav className="flex flex-col gap-6 px-2">
                 {
                     sidebarLinks.map(link => (
                         <TooltipProvider key={link.to}>
                             <Link to={link.to}>
                                 <Tooltip>
-                                    <TooltipTrigger className="p-4 hover:bg-slate-200 rounded text-muted-foreground"> 
-                                        { link.icon }
+                                    <TooltipTrigger> 
+                                        <Button 
+                                            className="p-4 py-6 hover:bg-primary hover:text-white    text-muted-foreground" 
+                                            variant={'ghost'}
+                                        >
+                                            { link.icon }
+                                        </Button>
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <span>{ link.title }</span>
@@ -56,12 +63,9 @@ export function Sidebar() {
                     ))
                 }
             </nav>
-            <Link to={'/'}>
-                <LogOut 
-                    className="text-red-400" 
-                    onClick={signOut} 
-                />
+            <Link to={'/'} onClick={signOut}>
+                <LogOut className="text-red-400" />
             </Link>
-        </aside>
+        </Card>
     )
 }
