@@ -1,30 +1,29 @@
 import { Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { useEffect } from "react";
-import { io } from "socket.io-client";
 import { useChat } from "@/hooks/useChat";
-
-const socket = io(import.meta.env.VITE_API_BASE_URL, {
-    transports: ['websocket']
-});
+import { useSocket } from "@/hooks/useSocket";
 
 export function Layout() {
 
     const { getUserChats, onReceiveMessage } = useChat();
+    const { 
+        emitJoinChatEvent, 
+        turnOnSendMessageListener, 
+        turnOffSendMessageListener 
+    } = useSocket();
 
     async function joinInChats() {
         const userChats = await getUserChats();
         if (!userChats) return;
-        userChats.forEach(chat => socket.emit('joinChat', chat.id));
+        userChats.forEach(chat => emitJoinChatEvent(chat.id));
     }
 
     useEffect(() => {
         joinInChats();
-        socket.on('sendMessage', onReceiveMessage);
+        turnOnSendMessageListener(onReceiveMessage);
 
-        return () => {
-            socket.off('sendMessage', onReceiveMessage)
-        }
+        return () => { turnOffSendMessageListener() }
     }, []);
 
     return (

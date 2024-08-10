@@ -2,14 +2,10 @@ import { UserCard } from "@/components/global/UserCard";
 import { Heading } from "@/components/text/Heading";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Chat, useChat } from "@/hooks/useChat";
+import { useSocket } from "@/hooks/useSocket";
 import { User, UserStatus, useUser } from "@/hooks/useUser";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
-
-const socket = io(import.meta.env.VITE_API_BASE_URL, {
-    transports: ['websocket']
-});
 
 export function Chats() {
 
@@ -20,13 +16,18 @@ export function Chats() {
     const { getUserChats } = useChat();
     const { getLoggedUser } = useUser();
 
+    const {
+        emitChangeUserStatusEvent,
+        turnOnChangeUserStatusListener,
+        turnOffChangeUserStatusListener
+    } = useSocket();
+
     const navigate = useNavigate();
 
     async function loadUserChats()  {
         const userChats = await getUserChats();
         if (!userChats) return;
 
-        userChats.forEach(chat => socket.emit('joinChat', chat.id));
         setChats(userChats);
     };
 
@@ -42,7 +43,7 @@ export function Chats() {
         const userId = currentUserId;
 
         if (userId) {
-            socket.emit('changeUserStatus', newStatus, userId);
+            emitChangeUserStatusEvent(newStatus, userId);
             setStatus(newStatus);
         }
     };
@@ -67,13 +68,12 @@ export function Chats() {
             await loadUser();
             await loadUserChats();
         };
+        
         initialize();
 
-        socket.on('changeUserStatus', handleUserStatusChange);
+        turnOnChangeUserStatusListener(handleUserStatusChange);
 
-        return () => {
-            socket.off('changeUserStatus', handleUserStatusChange);
-        };
+        return () => { turnOffChangeUserStatusListener() };
     }, []);
 
     return (

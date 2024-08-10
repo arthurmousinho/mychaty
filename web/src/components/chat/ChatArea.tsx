@@ -3,16 +3,13 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { UserCard } from "../global/UserCard";
 import { ChatMessage } from "./ChatMessage";
-import { io } from "socket.io-client";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Chat, Message, useChat } from "@/hooks/useChat";
 import { useToken } from "@/hooks/useToken";
 import { User } from "@/hooks/useUser";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSocket } from "@/hooks/useSocket";
 
-const socket = io(import.meta.env.VITE_API_BASE_URL, {
-    transports: ['websocket']
-});
 
 export function ChatArea() {
 
@@ -26,6 +23,13 @@ export function ChatArea() {
     const { getTokenInfos } = useToken();
     const { getChatInfos } = useChat();
     const { id } = useParams(); 
+    const {
+        emitSendMessageEvent,
+        turnOnSendMessageListener,
+        turnOffSendMessageListener,
+        turnOnChangeUserStatusListener
+    } = useSocket();
+
     const navigate = useNavigate();
 
     async function loadChatInfos() {
@@ -48,26 +52,24 @@ export function ChatArea() {
 
         loadChatInfos()
 
-        socket.emit('joinChat', id);
-
-        socket.on('sendMessage', (message: Message) => {
+        turnOnSendMessageListener((message: Message) => {
             if (message.chatId !== id) return;
             setMessages((prevMessages) => [...prevMessages, message]);
-        });
+        })
 
-        socket.on('changeUserStatus', (userUpdated: User) => {
+        turnOnChangeUserStatusListener((userUpdated: User) => {
             setFriend(prevFriend => {
                 if (prevFriend && prevFriend.id === userUpdated.id) {
                     return { ...prevFriend, status: userUpdated.status };
                 }
                 return prevFriend;
             });
-        });
+        })
       
         return () => {
-            socket.off('sendMessage');
-            socket.off('changeUserStatus');
+            turnOffSendMessageListener();
         };
+
     }, [id]);
 
     useEffect(() => {
@@ -87,7 +89,7 @@ export function ChatArea() {
             chatId: id
         };
 
-        socket.emit('sendMessage', newMessage);
+        emitSendMessageEvent(newMessage);
         setMessages((prevMessages) => [...prevMessages, newMessage]);
         setMessage('');
     }
