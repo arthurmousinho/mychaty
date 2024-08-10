@@ -10,7 +10,7 @@ interface ChatCardProps {
 export function UserCard(props: ChatCardProps) {
     return (
         <Link to={''} className="flex items-center gap-4 p-4 hover:bg-slate-100 rounded">
-            <img src={defaultAvatar} className="w-[50px] rounded-full" />
+            <img src='https://ui.shadcn.com/avatars/02.png' className="w-[50px] rounded-full" />
             <header>
                 <h3 className="font-medium">
                     {props.name}

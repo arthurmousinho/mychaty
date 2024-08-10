@@ -27,6 +27,7 @@
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.407.0",
     "react": "^18.3.1",
+    "react-confetti-explosion": "^2.1.2",
     "react-cookie": "^7.1.4",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.1",

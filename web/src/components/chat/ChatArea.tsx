@@ -103,7 +103,7 @@ export function ChatArea() {
                 />
             </header>
             <div className="p-4 flex-1 overflow-y-auto">
-                <div className="flex flex-col space-y-4" style={{ overflowY: 'auto', maxHeight: '100%' }}>
+                <div className="flex flex-col space-y-4">
                     {
                         messages?.map(msg => (
                             <ChatMessage 

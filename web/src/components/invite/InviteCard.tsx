@@ -5,6 +5,9 @@ import { Card, CardContent, CardHeader } from "../ui/card";
 import defaultAvatar from '../../../assets/default-user-avatar.png'
 import { Invite, useInvite } from "@/hooks/useInvite";
 import { Badge } from "../ui/badge";
+import { useState } from "react";
+
+import ConfettiExplosion from 'react-confetti-explosion';
 
 interface InviteCardProps {
     invite: Invite;
@@ -18,10 +21,17 @@ export function InviteCard(props: InviteCardProps) {
 
     const { acceptInvite, denyInvite } = useInvite();
 
+    const [ isExploding, setIsExploding ] = useState(false);
+
     function handleAcceptInvite() {
+        setIsExploding(false)
         if (props.onAcceptFn && props.status === 'RECEIVED') {
+            setIsExploding(true)
             acceptInvite(props.invite);
-            props.onAcceptFn(props.invite.id);
+            setTimeout(() => {
+                if (!props.onAcceptFn) return;
+                props.onAcceptFn(props.invite.id);
+            }, 1000)
         }
     }
 
@@ -44,14 +54,28 @@ export function InviteCard(props: InviteCardProps) {
                 {
                     props.status === 'RECEIVED' && (
                         <CardContent className="flex flex-row items-center gap-4 justify-center w-full">
-                            <Button 
-                                className="flex gap-2 items-center text-green-500 border-green-500 hover:bg-green-500 hover:text-slate-50 flex-1" 
-                                variant={'outline'}
-                                onClick={handleAcceptInvite}
-                            >
-                                <Check size={20} />
-                                Accept
-                            </Button>
+                            <div className="flex-1 relative flex justify-center items-center">
+                                <Button 
+                                    className="flex gap-2 items-center text-green-500 border-green-500 hover:bg-green-500 hover:text-slate-50 w-full border z-10" 
+                                    variant={'outline'}
+                                    onClick={handleAcceptInvite}
+                                >
+                                    <Check size={20} />
+                                    Accept
+                                </Button>
+                                {
+                                    isExploding && 
+                                    <div className="absolute">
+                                        <ConfettiExplosion 
+                                            force={0.4}
+                                            duration={2200}
+                                            particleCount={50}
+                                            width={400}
+                                            className="z-0"
+                                        />
+                                    </div>
+                                }
+                            </div>
                             <Button 
                                 className="flex gap-2 items-center text-red-500 border-red-500 hover:bg-red-500 hover:text-slate-50 flex-1" 
                                 variant={'outline'}
