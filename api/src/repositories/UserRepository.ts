@@ -18,7 +18,8 @@ export class UserRepository {
             data: {
                 name: user.name,
                 email: user.email,
-                password: user.password
+                password: user.password,
+                avatar: user.avatar
             }
         });
         return newUser;

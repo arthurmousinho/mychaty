@@ -3,12 +3,28 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useUser } from "@/hooks/useUser";
 import { Heading } from "../text/Heading";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+
+const avatars = [
+    'https://ui.shadcn.com/avatars/01.png',
+    'https://ui.shadcn.com/avatars/02.png',
+    'https://ui.shadcn.com/avatars/03.png',
+    'https://ui.shadcn.com/avatars/04.png',
+    'https://ui.shadcn.com/avatars/05.png',
+]
 
 export function SignUpForm() {
 
     const [ name, setName ] = useState('');
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
+    const [ avatar, setAvatar ] = useState(avatars[0]);
 
     const { signUp } = useUser();
 
@@ -25,7 +41,8 @@ export function SignUpForm() {
         const user = {
             name,
             email, 
-            password
+            password,
+            avatar
         }
 
         await signUp(user as any);
@@ -50,6 +67,23 @@ export function SignUpForm() {
                     onChange={event => setName(event.target.value)}
                     required
                 />
+                <Select onValueChange={value => setAvatar(value)}>
+                    <SelectTrigger>
+                        <SelectValue placeholder="your avatar" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {
+                            avatars.map((url, index) => (
+                                <SelectItem value={url} className="cursor-pointer">
+                                    <div className="flex items-center gap-4 flex-row w-full h-full">
+                                        <img src={url} alt={url} className="w-[30px] rounded-full" />
+                                        <span>Avatar {index + 1}</span>
+                                    </div>
+                                </SelectItem>
+                            ))
+                        }
+                    </SelectContent>
+                </Select>
                 <Input 
                     type="email" 
                     placeholder="your best email" 

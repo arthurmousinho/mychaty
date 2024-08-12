@@ -12,6 +12,7 @@ model User {
   email     String   @unique
   name      String   @unique
   password  String
+  avatar    String @default("")
   createdAt DateTime @default(now())
 
   status UserStatus @default(ONLINE)

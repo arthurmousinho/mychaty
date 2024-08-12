@@ -2,7 +2,6 @@ import { Check, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader } from "../ui/card";
 
-import defaultAvatar from '../../../assets/default-user-avatar.png'
 import { Invite, useInvite } from "@/hooks/useInvite";
 import { Badge } from "../ui/badge";
 import { useState } from "react";
@@ -46,7 +45,7 @@ export function InviteCard(props: InviteCardProps) {
         return (
             <Card className="flex flex-col items-start">
                  <CardHeader className="flex flex-row items-center gap-2">
-                    <img src={defaultAvatar} className="w-[50px] rounded-full"/>
+                    <img src={props.invite.from.avatar} className="w-[50px] rounded-full"/>
                     <strong className="text-muted-foreground">
                         { props.invite.from.name }
                     </strong>
@@ -96,7 +95,7 @@ export function InviteCard(props: InviteCardProps) {
             <Card className="flex flex-col items-start">
                  <CardHeader className="w-full flex flex-row items-center justify-between">
                     <header className="flex flex-row items-center gap-2">
-                        <img src={defaultAvatar} className="w-[50px] rounded-full"/>
+                        <img src={props.invite.to.avatar} className="w-[50px] rounded-full"/>
                         <strong className="text-muted-foreground">
                             { props.invite.to.name }
                         </strong>

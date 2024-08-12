@@ -97,6 +97,7 @@ export function Chats() {
                                     <UserCard 
                                         name={chat.users[0].name} 
                                         online={chat.users[0].status === 'ONLINE'} 
+                                        avatar={chat.users[0].avatar}
                                     />
                                 </Card>
                             )

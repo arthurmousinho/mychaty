@@ -7,6 +7,7 @@ export interface Token {
   email: string;
   sub: string;
   exp: number;
+  avatar: string;
 }
 
 export class JwtService {
@@ -16,6 +17,7 @@ export class JwtService {
       {
         name: user.name,
         email: user.email,
+        avatar: user.avatar
       },
       {
         sub: user.id,

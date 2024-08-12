@@ -6,6 +6,7 @@ export interface Token {
     email: string;
     sub: string;
     exp: number;
+    avatar: string;
 }
 
 export function useToken() {

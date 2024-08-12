@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader } from "../ui/card";
-import defaultAvatar from '../../../assets/default-user-avatar.png'
 import { User, useUser } from "@/hooks/useUser";
 import { Button } from "../ui/button";
 import { Trash } from "lucide-react";
@@ -22,7 +21,7 @@ export function FriendCard(props: FriendCardProps) {
     return (
         <Card className="flex flex-col items-start">
             <CardHeader className="flex flex-row items-center gap-2">
-                <img src={defaultAvatar} className="w-[50px] rounded-full"/>
+                <img src={props.user.avatar} className="w-[50px] rounded-full"/>
                 <strong className="text-muted-foreground">
                     { props.user.name }
                 </strong>

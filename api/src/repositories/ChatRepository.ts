@@ -72,7 +72,8 @@ export class ChatRepository {
                     select: {
                         id: true,
                         name: true,
-                        status: true
+                        status: true,
+                        avatar: true,
                     }
                 }
             }

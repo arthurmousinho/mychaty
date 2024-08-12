@@ -37,6 +37,7 @@ export class InviteRepository {
                 from: {
                     select: {
                         name: true,
+                        avatar: true,
                     }
                 }
             },
@@ -56,6 +57,7 @@ export class InviteRepository {
                 to: {
                     select: {
                         name: true,
+                        avatar: true,
                     }
                 }
             },

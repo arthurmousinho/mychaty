@@ -100,6 +100,7 @@ export function ChatArea() {
                 <UserCard 
                     name={friend?.name || ''}
                     online={friend?.status === 'ONLINE'}
+                    avatar={friend?.avatar || ''}
                 />
             </header>
             <div className="p-4 flex-1 overflow-y-auto">

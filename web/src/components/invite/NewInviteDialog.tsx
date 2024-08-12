@@ -50,6 +50,7 @@ export function NewInviteDialog(props: NewInviteDialogProps) {
                                     <UserCard 
                                         name={user.name}
                                         online={user.status === 'ONLINE'}
+                                        avatar={user.avatar}
                                     />
                                 </div>
                             ))
