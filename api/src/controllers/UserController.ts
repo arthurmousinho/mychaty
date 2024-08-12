@@ -2,6 +2,7 @@ import { User } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { UserService } from "../services/UserService";
 import { JwtService } from "../utils/security/JwtService";
+import { GenericError } from "../utils/errors/GenericError";
 
 export class UserController {
 
@@ -28,7 +29,8 @@ export class UserController {
             const token = await this.userService.signInUser(email, password);
             reply.status(200).send({ token });
         } catch (error: any) {
-            reply.status(401).send(error);
+            if (error  instanceof GenericError) reply.status(error.code).send(error);
+            reply.status(500).send(error);
         }
     }
 
@@ -38,7 +40,8 @@ export class UserController {
             const newUser = await this.userService.signUpUser(body);
             reply.status(200).send(newUser);
         } catch (error: any) {
-            reply.status(400).send(error);
+            if (error  instanceof GenericError) reply.status(error.code).send(error);
+            reply.status(500).send(error);
         }
     }
 
@@ -51,7 +54,7 @@ export class UserController {
             const usersFound = await this.userService.searchUserForInvite(currentUserId, name);
             reply.status(200).send(usersFound);
         } catch (error) {
-            reply.status(400).send(error);
+            reply.status(404).send(error);
         }
     }
 
@@ -62,7 +65,7 @@ export class UserController {
             const userFriends = await this.userService.getUserFriendsById(userId);
             reply.status(200).send(userFriends);
         } catch (error) {
-            reply.status(400).send(error);
+            reply.status(404).send(error);
         }
     }
 
@@ -72,8 +75,10 @@ export class UserController {
             const userId = token.sub;
             const user = await this.userService.getUserById(userId);
             reply.status(200).send(user);
-        } catch (error) {
-            reply.status(400).send(error);
+        } catch (error: any) {
+            if (error  instanceof GenericError) reply.status(error.code).send(error);
+
+            reply.status(500).send(error);
         }
     }
 
