@@ -1,4 +1,5 @@
 import { ChatRepository } from "../repositories/ChatRepository";
+import { ChatNotFoundError } from "../utils/errors/chat/ChatNotFoundError";
 
 export class ChatService {
 
@@ -24,26 +25,21 @@ export class ChatService {
         return newChat;
     }
 
-    public async addUserToChat(chatId: string, userId: string) {
-        const chatExists = await this.chatRepostitory.getById(chatId);
-        if (!chatExists) throw new Error('Chat not found');
+    public async getChatById(chatId: string) {
+        const chat = await this.chatRepostitory.getById(chatId);
+        if (!chat) throw new ChatNotFoundError();
 
+        return chat;
+    }
+
+    public async addUserToChat(chatId: string, userId: string) {
+        await this.getChatById(chatId);
         await this.chatRepostitory.addUserToChat(chatId, userId);
     }
 
     public async deleteChat(chatId: string) {
-        const chatExists = await this.chatRepostitory.getById(chatId);
-        if (!chatExists) throw new Error('Chat not found');
-
+        await this.getChatById(chatId);
         await this.chatRepostitory.deleteById(chatId);
-    } 
-
-    public async getChatById(chatId: string) {
-        const chatExists = await this.chatRepostitory.getById(chatId);
-        if (!chatExists) throw new Error('Chat not found');
-
-        const chat = await this.chatRepostitory.getById(chatId);
-        return chat;
     }
 
     public async deleteAllUserChats(userId: string) {

@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { JwtService } from "../utils/security/JwtService"; 
 import { ChatService } from "../services/ChatService";
+import { GenericError } from "../utils/errors/GenericError";
 
 export class ChatController {
 
@@ -32,6 +33,7 @@ export class ChatController {
             const chat = await this.chatService.getChatById(chatId);
             reply.status(200).send(chat);
         } catch (error) {
+            if (error instanceof GenericError) reply.status(error.code).send(error);
             reply.status(400).send(error);
         }
     }
