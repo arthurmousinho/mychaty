@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { Invite } from "../models/Invite";
 import { InviteService } from "../services/InviteService";
 import { JwtService } from "../utils/security/JwtService";
+import { GenericError } from "../utils/errors/GenericError";
 
 export class InviteController {
 
@@ -34,7 +35,8 @@ export class InviteController {
 
             reply.status(201).send(newInvite);
         } catch (error) {
-            reply.status(400).send(error);
+            if (error  instanceof GenericError) reply.status(error.code).send(error);
+            reply.status(500).send(error);
         }
     }
 
@@ -46,7 +48,8 @@ export class InviteController {
             const receivedInvites = await this.inviteService.listReceivedInvites(userId);
             reply.status(200).send(receivedInvites);
         } catch (error) {
-            reply.send(400).send(error);
+            if (error  instanceof GenericError) reply.status(error.code).send(error);
+            reply.status(500).send(error);
         }
     }
 
@@ -58,7 +61,8 @@ export class InviteController {
             const sentInvites = await this.inviteService.listSentInvites(userId);
             reply.status(200).send(sentInvites);
         } catch (error) {
-            reply.status(400).send(error);
+            if (error  instanceof GenericError) reply.status(error.code).send(error);
+            reply.status(500).send(error);
         }
     }
 
@@ -71,7 +75,8 @@ export class InviteController {
             await this.inviteService.acceptInvite({ ...body, userFromId: userId });
             reply.status(200).send();
         } catch (error) {
-            reply.status(400).send(error);
+            if (error  instanceof GenericError) reply.status(error.code).send(error);
+            reply.status(500).send(error);
         }
     }
 
@@ -84,7 +89,8 @@ export class InviteController {
             await this.inviteService.denyInvite({ ...body, userFromId: userId });
             reply.status(200).send();
         } catch (error) {
-            reply.status(400).send(error);
+            if (error  instanceof GenericError) reply.status(error.code).send(error);
+            reply.status(500).send(error);
         }
     }
 

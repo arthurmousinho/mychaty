@@ -117,4 +117,23 @@ export class InviteRepository {
         });
     }
 
+    public async getInviteBetweenUsers(user1Id: string, user2Id: string) {
+        const invite = await prisma.invite.findFirst({
+            where: {
+                OR: [
+                    {
+                        userFromId: user1Id,
+                        userToId: user2Id,
+                    },
+                    {
+                        userFromId: user2Id,
+                        userToId: user1Id,
+                    },
+                ],
+            },
+        });
+
+        return invite;
+    }
+
 }

@@ -77,7 +77,6 @@ export class UserController {
             reply.status(200).send(user);
         } catch (error: any) {
             if (error  instanceof GenericError) reply.status(error.code).send(error);
-
             reply.status(500).send(error);
         }
     }
