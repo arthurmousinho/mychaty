@@ -15,7 +15,7 @@ export function Guard({ children }: GuardProps) {
             {
                 hasToken() 
                 ? children 
-                : <Navigate to={'/wellcome'} />
+                : <Navigate to={'/'} />
             }
         </>
     )

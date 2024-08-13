@@ -1,9 +1,8 @@
 
 import { Button } from "@/components/ui/button";
-import { BellRing, Code, Github, GithubIcon, HomeIcon, Linkedin, MessageSquare, MessageSquareDot, Rocket, UserRound, UserRoundCheck, UserRoundPlus, UsersRound } from "lucide-react";
+import { BellRing, GithubIcon, Linkedin, MessageSquare, MessageSquareDot, UserRound, UserRoundCheck, UserRoundPlus, UsersRound } from "lucide-react";
 
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
-import { Logo } from "@/components/global/Logo";
 import { Link } from "react-scroll";
 
 import heroImage from "../../assets/login-hero.svg";
@@ -31,6 +30,7 @@ import viteLogo from '../../assets/techs/vitejs.svg';
 import tailwindLogo from '../../assets/techs/tailwind-css-2.svg';
 import shadcnLogo from '../../assets/techs/shadcn-ui.png';
 import { AuthDialog } from "@/components/auth/AuthDialog";
+import { HomeHeader } from "@/components/home/HomeHeader";
 
 const logos = [
     { 
@@ -132,46 +132,7 @@ const features = [
 export function Home() {
     return (
         <main className="Home w-full overflow-x-hidden overflow-y-hidden flex flex-col justify-center items-center space-y-10 mb-10">
-            <header className="max-w-[1200px] w-full flex flex-row items-center justify-between pt-4 fixed top-0 bg-white py-2">
-                <Logo />
-                <Card className="flex flex-row items-center gap-4 p-1">
-                    <Link to="Home" smooth={true} duration={500}>
-                        <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
-                            <HomeIcon size={20} />
-                            Home
-                        </Button>
-                    </Link>
-                    <Link to="Features" smooth={true} duration={500}>
-                        <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
-                            <Rocket size={20} />
-                            Features
-                        </Button>
-                    </Link>
-                    <Link to="Tech Stack" smooth={true} duration={500}>
-                        <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
-                            <Code size={20} />
-                            Tech Stack
-                        </Button>
-                    </Link>
-                    <Link to="Developers" target="_blank" smooth={true} duration={500}>
-                        <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
-                            <UsersRound size={20} />
-                            Developers
-                        </Button>
-                    </Link>
-                    <a href="https://github.com/arthurmousinho/mychaty" target="_blank">
-                        <Button variant={'ghost'} className="flex items-center gap-2 text-primary hover:bg-primary hover:text-slate-50 transition-colors">
-                            <Github size={20} />
-                            Github
-                        </Button>
-                    </a>
-                </Card>
-                <AuthDialog>
-                    <Button>
-                        Sign In
-                    </Button>
-                </AuthDialog>
-            </header>
+            <HomeHeader />
             <section className="max-w-[1200px] w-full flex flex-row justify-between items-center">
                 <header className="flex flex-col gap-4 max-w-[587px]">
                     <h1 className="text-5xl font-bold text-slate-900">
