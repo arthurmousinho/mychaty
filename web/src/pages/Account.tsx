@@ -15,12 +15,22 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { Heading } from "@/components/text/Heading";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const avatars = [
+    'https://ui.shadcn.com/avatars/01.png',
+    'https://ui.shadcn.com/avatars/02.png',
+    'https://ui.shadcn.com/avatars/03.png',
+    'https://ui.shadcn.com/avatars/04.png',
+    'https://ui.shadcn.com/avatars/05.png',
+]
 
 export function Account() {
 
     const [ user, setUser ] = useState<User>();
     const [ name, setName ] = useState('');
     const [ email, setEmail ] = useState('');
+    const [ avatar, setAvatar ] = useState('');
 
     const { getLoggedUser, updateUser, deleteUser } = useUser();
     const { toast } = useToast();
@@ -31,15 +41,17 @@ export function Account() {
         setUser(userInfos);
         setName(userInfos.name);
         setEmail(userInfos.email);
+        setAvatar(userInfos.avatar);
     }
 
     async function handleEditUser(event: FormEvent) {
         event.preventDefault();
         if (name.trim() !== '' && email.trim() !== '') {
-            const userUpdated = await updateUser(name, email);
+            const userUpdated = await updateUser(name, email, avatar);
             userUpdated && setUser(userUpdated);
             userUpdated && setName(userUpdated.name);
             userUpdated && setEmail(userUpdated.email);
+            userUpdated && setAvatar(userUpdated.avatar);
             return;
         } 
         toast({
@@ -81,6 +93,26 @@ export function Account() {
                         defaultValue={user?.email}
                         onChange={event => setEmail(event.target.value)}
                     />
+                    <Select 
+                        onValueChange={value => setAvatar(value)} 
+                        value={avatar}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="your avatar" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {
+                                avatars.map((url, index) => (
+                                    <SelectItem value={url} className="cursor-pointer">
+                                        <div className="flex items-center gap-4 flex-row w-full h-full">
+                                            <img src={url} alt={url} className="w-[30px] rounded-full" />
+                                            <span>Avatar {index + 1}</span>
+                                        </div>
+                                    </SelectItem>
+                                ))
+                            }
+                        </SelectContent>
+                    </Select>
                     <Button 
                         className="w-full" 
                         type="submit"

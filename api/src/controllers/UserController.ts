@@ -86,9 +86,9 @@ export class UserController {
         try {
             const token = await this.jwtService.decode(request);
             const id = token.sub;
-            const { name, email } = request.body as { email: string, name: string }
+            const { name, email, avatar } = request.body as { email: string, name: string, avatar: string };
 
-            const userUpdated = await this.userService.updateUser({ id, name, email });
+            const userUpdated = await this.userService.updateUser({ id, name, email, avatar });
             reply.status(204).send(userUpdated);
         } catch (error) {
             reply.status(400).send(error);

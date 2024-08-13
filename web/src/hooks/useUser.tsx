@@ -110,12 +110,12 @@ export function useUser() {
         }
     }
 
-    async function updateUser(name: string, email: string) {
+    async function updateUser(name: string, email: string, avatar: string) {
         try {
             const token = getToken();
             const response = await axios.put(
                 ENDPOINT,
-                { name, email },
+                { name, email, avatar },
                 {
                     headers: {
                         Authorization: `Bearer ${token}`

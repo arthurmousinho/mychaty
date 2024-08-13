@@ -18,7 +18,7 @@ export const ROUTER = createBrowserRouter([
         path: '/',
         element: <Guard> <Layout /> </Guard>,
         children: [
-            { path: '/', element: <Navigate to={'/wellcome'} /> },
+            { path: '/', element: <Navigate to={'/'} /> },
             { 
                 path: '/chats', 
                 element: <Chats />,

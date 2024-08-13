@@ -130,7 +130,7 @@ export class UserService {
         return userUpdated;
     }
 
-    public async updateUser(params: { id: string, name: string, email: string }) {
+    public async updateUser(params: { id: string, name: string, email: string, avatar: string }) {
         await this.getUserById(params.id);
         
         const userUpdated = await this.userRepository.updateUser(params);
