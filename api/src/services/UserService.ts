@@ -8,6 +8,7 @@ import { InviteRepository } from "../repositories/InviteRepository";
 import { UserNotFoundError } from "../utils/errors/user/UserNotFoundError";
 import { InvalidCredentialsError } from "../utils/errors/user/InvalidCredentialsError";
 import { EmailAlreadyInUseError } from "../utils/errors/user/EmailAlreadyInUseError";
+import { NameAlreadyInUseError } from "../utils/errors/user/NameAlreadyInUseError";
 
 export class UserService {
 
@@ -43,6 +44,9 @@ export class UserService {
     public async signUpUser(user: User) {
         const emailAlreadyInUse = await this.userRepository.getByEmail(user.email);
         if (emailAlreadyInUse) throw new EmailAlreadyInUseError();
+
+        const nameAlreadyInUse = await this.getUserByName(user.name);
+        if (nameAlreadyInUse) throw new NameAlreadyInUseError();
 
         const hashPassword = this.hashService.hashPassword(user.password);
         const newUser = await this.userRepository.create({
