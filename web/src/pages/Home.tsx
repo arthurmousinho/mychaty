@@ -1,15 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { 
-    BellRing, 
-    GithubIcon, 
-    Linkedin, 
-    MessageSquareDot, 
-    UserRound, 
-    UserRoundCheck, 
-    UserRoundPlus, 
-    UsersRound 
-} from "lucide-react";
+import { GithubIcon, Linkedin } from "lucide-react";
 
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { Link } from "react-scroll";
@@ -38,6 +29,7 @@ import tailwindLogo from '../../assets/techs/tailwind-css-2.svg';
 import shadcnLogo from '../../assets/techs/shadcn-ui.png';
 import { HomeHeader } from "@/components/home/HomeHeader";
 import { HomeHero } from "@/components/home/HomeHero";
+import { HomeFeatures } from "@/components/home/HomeFeatures";
 
 const logos = [
     { 
@@ -102,71 +94,13 @@ const logos = [
     }
 ];
 
-const features = [
-    {
-        icon: <MessageSquareDot className="text-primary"/>,
-        title: 'Real-Time Messaging',
-        description: 'Instantly connect and communicate with your friends through real-time messaging. Whether you\'re coordinating plans or just catching up.'
-    },
-    {
-        icon: <UserRoundPlus className="text-primary"/>,
-        title: 'Invite your Friends',
-        description: 'Easily expand your network by inviting friends to join the platform. Share unique invite links and get your friends onboard quickly to start chatting and connecting.'
-    },
-    {
-        icon: <UsersRound className="text-primary"/>,
-        title: 'Manage Your Friends',
-        description: 'Take control of your social circle with our comprehensive friend management tools. Organize, categorize.'
-    },
-    {
-        icon: <UserRoundCheck className="text-primary"/>,
-        title: 'Manage Your Invites',
-        description: 'Keep track of the invitations you’ve sent and received. Accept or decline invites, and manage your pending connections easily.'
-    },
-    {
-        icon: <UserRound className="text-primary"/>,
-        title: 'Manage Your Account',
-        description: 'Customize and manage your account settings. Update your profile, change your password, and control your privacy preferences all in one place.'
-    },
-    {
-        icon: <BellRing className="text-primary"/>,
-        title: 'Messages Notifications',
-        description: 'Stay informed with real-time notifications for new messages. Never miss an important conversation or update with customizable alerts.'
-    }
-];
-
 export function Home() {
     return (
         <main className="Home w-full overflow-x-hidden overflow-y-hidden flex flex-col justify-center items-center space-y-10 mb-10">
             <HomeHeader />
             <HomeHero />
             <div className="space-y-16">
-                <section className="Features max-w-[1200px] w-full flex flex-col gap-4">
-                    <header>
-                        <h2 className="text-4xl font-bold text-slate-900">
-                            Features
-                        </h2>
-                    </header>
-                    <div className="grid grid-cols-3 gap-4">
-                        {
-                            features.map((feature, index) => (
-                                <Card key={index} className="user-select-none hover:bg-slate-50">
-                                    <CardHeader className="flex items-center gap-2 flex-row font-semibold">
-                                        {feature.icon}
-                                        <h3 style={{marginTop: 0}}>
-                                            {feature.title}
-                                        </h3>
-                                    </CardHeader>
-                                    <CardFooter>
-                                        <span className="text-sm text-muted-foreground leading-relaxed">
-                                            {feature.description}
-                                        </span>
-                                    </CardFooter>
-                                </Card>
-                            ))
-                        }
-                    </div>
-                </section>
+                <HomeFeatures />
                 <section className="max-w-[1200px] w-full flex flex-col gap-4">
                     <header>
                         <h2 className="Tech Stack text-4xl font-bold text-slate-900">
