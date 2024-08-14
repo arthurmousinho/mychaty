@@ -23,7 +23,7 @@ export function HomeHeader() {
     ];
 
     return (
-        <header className="w-[95vw] max-w-[1200px] flex flex-row items-center justify-between pt-4 fixed top-0 bg-white py-2">
+        <header className="w-[90vw] max-w-[1200px] flex flex-row items-center justify-between pt-4 fixed top-0 bg-white py-2">
             <div className="flex items-center gap-4">
                 <Menubar className="w-full h-full md:hidden block">
                     <MenubarMenu>

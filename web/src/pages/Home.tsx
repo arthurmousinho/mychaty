@@ -1,11 +1,18 @@
 
 import { Button } from "@/components/ui/button";
-import { BellRing, GithubIcon, Linkedin, MessageSquare, MessageSquareDot, UserRound, UserRoundCheck, UserRoundPlus, UsersRound } from "lucide-react";
+import { 
+    BellRing, 
+    GithubIcon, 
+    Linkedin, 
+    MessageSquareDot, 
+    UserRound, 
+    UserRoundCheck, 
+    UserRoundPlus, 
+    UsersRound 
+} from "lucide-react";
 
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { Link } from "react-scroll";
-
-import heroImage from "../../assets/login-hero.svg";
 
 import {
     Carousel,
@@ -29,8 +36,8 @@ import socketIoLogo from '../../assets/techs/socket-io-1.svg';
 import viteLogo from '../../assets/techs/vitejs.svg';
 import tailwindLogo from '../../assets/techs/tailwind-css-2.svg';
 import shadcnLogo from '../../assets/techs/shadcn-ui.png';
-import { AuthDialog } from "@/components/auth/AuthDialog";
 import { HomeHeader } from "@/components/home/HomeHeader";
+import { HomeHero } from "@/components/home/HomeHero";
 
 const logos = [
     { 
@@ -95,7 +102,6 @@ const logos = [
     }
 ];
 
-
 const features = [
     {
         icon: <MessageSquareDot className="text-primary"/>,
@@ -133,25 +139,7 @@ export function Home() {
     return (
         <main className="Home w-full overflow-x-hidden overflow-y-hidden flex flex-col justify-center items-center space-y-10 mb-10">
             <HomeHeader />
-            <section className="max-w-[1200px] w-full flex flex-row justify-between items-center">
-                <header className="flex flex-col gap-4 max-w-[587px]">
-                    <h1 className="text-5xl font-bold text-slate-900">
-                        Your easiest real-time chatting app
-                    </h1>
-                    <span className="text-base text-muted-foreground">
-                        Connect and communicate seamlessly with our easy-to-use chat platform. Whether you're sharing ideas or just catching up, we make communication effortless and efficient.
-                    </span>
-                    <footer>
-                        <AuthDialog>
-                            <Button className="flex items-center gap-2">
-                                Start chatting
-                                <MessageSquare size={20} />
-                            </Button>
-                        </AuthDialog>
-                    </footer>
-                </header>
-                <img src={heroImage} className="w-[50%]" alt="Hero Image" />
-            </section>
+            <HomeHero />
             <div className="space-y-16">
                 <section className="Features max-w-[1200px] w-full flex flex-col gap-4">
                     <header>
