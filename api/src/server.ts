@@ -9,6 +9,7 @@ import { Server } from "socket.io";
 import { SocketIoServer } from "./utils/types/SocketIoServer";
 import { SocketRoutes } from "./routes/SocketRoutes";
 import { ChatRoutes } from "./routes/ChatRoutes";
+import { seed } from "./utils/scripts/seed";
 
 export class MyChatyServer {
 
@@ -55,6 +56,7 @@ export class MyChatyServer {
             }
         ).then(() => {
             console.log(`Server running: http://localhost:${this.PORT}/`);
+            seed();
         })
     }
 

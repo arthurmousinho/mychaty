@@ -94,7 +94,11 @@ docker compose up -d
 npm run dev
 ```
 
-5. Database Vizualization (optional)
+5. Login using a mock user (optional)
+- ✉️ Email: john.smith@example.com
+- 🔒 Password: johnSmith123
+
+6. Database Vizualization (optional)
 ```bash
 npx prisma studio
 ```
