@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: postgresql_mychaty
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: mychaty
+      POSTGRES_USER: admin  
+      POSTGRES_PASSWORD: admin
+    ports:
+      - 6332:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data  
+
+volumes:
+  postgres-data:

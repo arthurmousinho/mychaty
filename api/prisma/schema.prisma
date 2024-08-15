@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String   @unique
+  password  String
+  avatar    String @default("")
+  createdAt DateTime @default(now())
+
+  status UserStatus @default(ONLINE)
+
+  invitesSent     Invite[] @relation("InvitesSent")
+  invitesReceived Invite[] @relation("InvitesReceived")
+
+  friends  User[] @relation("Friendship")
+  friendOf User[] @relation("Friendship") // TODO: Find a way to remove this
+
+  Message Message[]
+  Chat    Chat[]
+  chatId  String?
+}
+
+model Chat {
+  id        String    @id @unique @default(uuid())
+  createdAt DateTime  @default(now())
+  users     User[]
+  messages  Message[]
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  content   String
+
+  senderId String
+  Chat     Chat?   @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  chatId   String?
+}
+
+model Invite {
+  id String @id @default(uuid())
+
+  from User @relation("InvitesSent", fields: [userFromId], references: [id], onDelete: Cascade)
+  to   User @relation("InvitesReceived", fields: [userToId], references: [id], onDelete: Cascade)
+
+  status InviteStatus @default(PENDING)
+
+  userFromId String
+  userToId   String
+  createdAt  DateTime @default(now())
+
+  @@unique([userFromId, userToId])
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  DENIED
+}
+
+enum UserStatus {
+  ONLINE
+  OFFLINE
+}
