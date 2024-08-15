@@ -17,13 +17,13 @@ const features = [
     {
         icon: <UserRoundPlus className="text-primary"/>,
         title: 'Invite your Friends',
-        description: 'Easily expand your network by inviting friends to join the platform. Share unique invite links and get your friends onboard quickly to start chatting and connecting.'
+        description: 'Easily expand your network by inviting friends to chat. Share your username to get your friends onboard quickly to start chatting and connecting.'
     },
     {
         icon: <UsersRound className="text-primary"/>,
         title: 'Manage Your Friends',
-        description: 'Take control of your social circle with our comprehensive friend management tools. Organize, categorize.'
-    },
+        description: 'Take control of your social circle with our comprehensive friend management tools. Remove friends at any time.'
+    },    
     {
         icon: <UserRoundCheck className="text-primary"/>,
         title: 'Manage Your Invites',
@@ -32,12 +32,12 @@ const features = [
     {
         icon: <UserRound className="text-primary"/>,
         title: 'Manage Your Account',
-        description: 'Customize and manage your account settings. Update your profile, change your password, and control your privacy preferences all in one place.'
+        description: 'Customize and manage your account settings. Update your profile or delete your account in one place.'
     },
     {
         icon: <BellRing className="text-primary"/>,
         title: 'Messages Notifications',
-        description: 'Stay informed with real-time notifications for new messages. Never miss an important conversation or update with customizable alerts.'
+        description: 'Stay informed with real-time notifications for new messages. Never miss an important conversation or update.'
     }
 ];
 

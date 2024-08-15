@@ -7,7 +7,8 @@ export function HomeDevelopers() {
     return (
         <section className="Developers max-w-[1200px] w-[90vw] flex flex-col gap-4">
             <header>
-                <h2 className="text-2xl md:text-4xl font-bold text-slate-900">
+                <h2 className="text-2xl
+                 md:text-4xl font-bold text-slate-900">
                     Developers
                 </h2>
             </header>
@@ -24,7 +25,7 @@ export function HomeDevelopers() {
                                 Arthur Mousinho
                             </h3>
                             <span className="text-sm text-muted-foreground">
-                                FullStack Developer
+                                Software Engineer
                             </span>
                         </header>
                     </CardHeader>

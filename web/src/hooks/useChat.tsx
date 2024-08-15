@@ -77,14 +77,15 @@ export function useChat() {
     }
 
     function onReceiveMessage(message: Message) {
-        console.log('opa')
-
         const currentUserWhoSentIt = getTokenInfos().sub === message.senderId;
         if (currentUserWhoSentIt) return;
 
         const isTheCurrentChat = window.location.pathname === `/chats/${message.chatId}`;
         if (isTheCurrentChat) return;
         
+        const userTo = message.Chat?.users.filter(user => user.id !== message.senderId)[0];
+        if (userTo?.status === 'OFFLINE') return;
+
         toast({
             title: `📩 ${message.sender?.name}`,
             variant: 'default',

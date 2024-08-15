@@ -40,7 +40,7 @@ export class UserRepository {
     }
 
     public async getByName(name: string) {
-        const users = await prisma.user.findMany({
+        const users = await prisma.user.findFirst({
             where: {
                 name: {
                     contains: name,

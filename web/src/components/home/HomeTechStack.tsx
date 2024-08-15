@@ -20,8 +20,8 @@ const logos = [
     { 
         logo: dockerLogo, 
         title: 'Docker', 
-        description: 'Used to containerize the chat application, ensuring consistent environments for development, testing, and deployment.' 
-    },
+        description: 'Used to containerize the PostgreSQL database, ensuring consistent environments for development and testing' 
+    },    
     { 
         logo: typescriptLogo, 
         title: 'TypeScript', 
@@ -35,13 +35,13 @@ const logos = [
     { 
         logo: gitLogo, 
         title: 'Git', 
-        description: 'Utilized for version control, allowing the team to track changes, collaborate effectively, and maintain the project\'s codebase.' 
+        description: 'Utilized for version control, enabling comprehensive tracking of all changes and maintaining the project\'s codebase with precision.' 
     },
     { 
         logo: nodeLogo, 
         title: 'Node.js', 
-        description: 'Powered the server-side logic of the chat application, enabling real-time data processing and handling concurrent connections efficiently.' 
-    },
+        description: 'Powered the server-side logic of the chat application, enabling real-time data processing and seamless communication between clients and server.' 
+    },    
     { 
         logo: postgresLogo, 
         title: 'PostgreSQL', 
